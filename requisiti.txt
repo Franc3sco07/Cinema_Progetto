@@ -1,4 +1,9 @@
-requsiti funzionali
+Gestionale Cinema
+
+Prestigiacomo Giorgio
+Ippolito Francesco
+
+- requsiti funzionali
 
 utente :
 	registazione e login
@@ -6,42 +11,45 @@ utente :
 		scelta posti
 		scelta metodo pagamento
 	inserimento e modifica metodi di pagamento
-	visualizzare e modifica prenotazoni efettuate
+	visualizzare e modifica prenotazoni effettuate
 	visualizzazione catalogo proiezioni (attuali e future)
-	ordinare cibi e bevende (forse)      <-----
-	eliminare account
-	modificare credenziali
+	gestione account:
+		eliminare account
+		modificare credenziali
+
 admin:
+	login
 	modificare e inserire proiezioni
 	visualizzare e inserire offerte
-	visualizzare orari dipendenti(forse)
 	visualizzare ordini giornalieri
 	visualizzare numero di visioni di una proiezione giornalmente
 	registrare e eliminare dipendenti
 	visualizzare presenza dipendenti
 	visualizzare resoconto giornaliero
+
 dipendenti:
 	inserimento utenti fisici (assegnamento del posto)
 	visione elenco prenotati:
 		posti disponibili
 		utenti prenotati ma con pagamento alla cassa
-	validare tramite codice la presenza di utenti con biglietto eletronico
+	validare tramite codice la presenza di utenti con biglietto elettronico
 	modificare posti assegnati da lui stesso (errori)
-	vilulizzare elenco oridi di cibo e bevande (forse)
-	login per iniziare a lavorare 
+	login:
+		registrare presenza dipendente 
 
-requisiti non funzionali:
+- requisiti non funzionali:
 
 	non è possibile per un utente prenotarsi 15 minuti prima della proiezione
-	è possibile richiedere cibi o bevande solo prima del fine primo tempo(1/2 film) (forse)
-	non è possibile registrarsi con due email identiche
-	un dipendente non puo modificare i posti prenotati da utenti
-	non si posso prenonere posti per sale piene
-	se non c'è metodo di pagamento registrato, l'utente non potra pagare online
-	l'admin non puo rimuvore un dipendente se è in orario lavorativo
-	le proiezioni non possono accavalarsi l'una con le altre
 	un utente non puo richiedere il rimborso 15 minuti prima che il film è iniziato
-	?se una proezione con utenti prenotati cambia, essi riceveranno una e-mail di notifica(magari una notifica sul sito, non possiamo gestire invio email), il cambio deve essere efettuato almeno un giorno prima
-	il sistema terra conto delle operazioni effettuate dai dipendenti
-	il metodo di pagamneto scelto deve essere unico
-
+	non è possibile registrarsi con due email identiche
+	non è possibile prenonere posti per sale piene
+	un dipendente non puo modificare i posti prenotati da utenti
+	un utente non potrà eliminare il proprio account se ha una prenotazione attiva
+	se non c'è un metodo di pagamento registrato, l'utente non potra pagare online
+	l'admin non puo rimuovere un dipendente se è in orario lavorativo
+	le proiezioni nella stessa sala non possono accavalarsi l'una con le altre
+	avvertenze notifica via email se vengono apportare modifiche sulle proiezioni
+	la modifica dell'orario di una proiezione dovrà essere effettuato almeno 24 ore prima
+	il sistema terrà conto delle operazioni effettuate dai dipendenti
+	il metodo di pagamento scelto deve essere unico
+	
