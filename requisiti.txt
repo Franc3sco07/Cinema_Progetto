@@ -8,13 +8,11 @@ Il sistema sarà utilizzato da utenti, admin e dipendenti.
 
 - requisiti funzionali
 
-Ogni biglietto avrà un codice identificativo
-
 L'utente potrà effettuare le seguenti operazioni:
-	registrazione e login
-	prenotazione proiezione film:
-		scelta posti
-		scelta metodo di pagamento:
+	registrare e login
+	prenotare proiezione film:
+		scegliere posti
+		scegliere metodo di pagamento:
 			tramite carta di credito registrata
 			tramite pagamento in contanti
 	inserire e modificare metodi di pagamento
@@ -25,14 +23,14 @@ L'utente potrà effettuare le seguenti operazioni:
 		eliminare l'account
 		modificare le credenziali
 		aggiungere o modificare metodi di pagamento
-	Al momento dell'acquisto del biglietti all'utente verrà assegnato un codice indentificativo del biglietto
+	Con l'acquisto del biglietto, l'utente entrerà in possesso di un biglietto elettronico da mostrare ai dipendenti per poter accedere alla proiezione
 
 L'admin potrà effettuare le seguenti operazioni:
 	login
 	gestire il proprio account
 	visualizzare e modificare cataloghi film
 	visualizzare il numero di biglietti venduti per singola proiezione o film
-	registrare ed eliminare i dipendenti
+	registrare o cancellare i dipendenti
 	per ogni dipendente visualizzare il resoconto giornaliero:
 		numero di biglietti venduti
 		questo permettà all'admin di fare valutazioni per eventuali modifiche sul personale
@@ -53,18 +51,18 @@ Il dipendente potrà effettuare le seguenti operazioni:
 
 - requisiti non funzionali:
 
-	per un utente non sarà possibile effettuare una prenotazione online 15 minuti prima dall'inizio della proiezione
-	un utente non potrà richiedere il rimborso 15 minuti prima dall'inizio della proiezione
-	un utente non potrà registrarsi con due email uguali
-	un utente non potrà prenotare un biglietto per una sala piena
-	un utente non potrà eliminare il proprio account se ha una prenotazione attiva
-	un utente non potrà pagare online, se non c'è un metodo di pagamento registrato
+	l'utente non sarà possibile effettuare una prenotazione online 15 minuti prima dall'inizio della proiezione
+	l'utente non potrà richiedere il rimborso 15 minuti prima dall'inizio della proiezione
+	l'utente non potrà registrarsi con due email uguali
+	l'utente non potrà prenotare un biglietto per una sala piena
+	l'utente non potrà eliminare il proprio account se ha una prenotazione attiva
+	l'utente non potrà pagare online, se non c'è un metodo di pagamento registrato
 	l'utente verrà avvisato dal sistema se è stata effettuata una modifica ad una proiezione in cui è prenotato
 	il metodo di pagamento scelto dall'utente dovrà essere unico
-	un dipendente non potrà modificare i posti prenotati da utenti
-	un dipendente non potrà vendere un biglietto per una proiezione se la sala è piena
+	il dipendente non potrà modificare i posti prenotati da utenti
+	il dipendente non potrà vendere un biglietto per una proiezione se la sala è piena
 	l'admin potrà modificare l'orario di una proiezione fino a 24 ore prima dell'inizio di essa
-	due o più proiezioni nella stessa sala non possono avvenire simultaneamente
+	non possono avvenire simultaneamente due o più proiezioni nella stessa sala
 	il sistema terrà conto delle operazioni effettuate dai dipendenti
 
 	descrizione biglietto:
