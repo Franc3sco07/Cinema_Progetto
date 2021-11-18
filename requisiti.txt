@@ -9,7 +9,7 @@ Il sistema sarà utilizzato da utenti, admin e dipendenti.
 - requisiti funzionali
 
 L'utente potrà effettuare le seguenti operazioni:
-	registrare e login
+	effetuare la registrazione e login
 	prenotare proiezione film:
 		scegliere posti
 		scegliere metodo di pagamento:
