@@ -1,6 +1,12 @@
 Utente:
 IDUtente, nome, cognome, e-mail, numeroCellulare, codiceFiscale, passwordUtente
 
+Amministratore:
+IDAmministratore, nome, cognome, e-mail, numeroCellulare, codiceFiscale, passwordAmministratore
+
+Dipendente:
+IDDipendente, nome, cognome, e-mail, numeroCellulare, codiceFiscale, passwordDipendente
+
 CartaDiCredito
 IDCarta, codiceCarta , IDUtente
 
@@ -31,9 +37,3 @@ metodo -> pagamentoContanti - pagamentoOnline
 
 IDGeneratore chi ha generato il biglietto
 IDGeneratore -> IDUtente(generato online), IDDipendente(generato dal dipendente) -> distinguibile con U+IDUtente e D+IDDipendente
-
-Amministratore:
-IDAmministratore, nome, cognome, e-mail, numeroCellulare, codiceFiscale, passwordAmministratore
-
-Dipendente:
-IDDipendente, nome, cognome, e-mail, numeroCellulare, codiceFiscale, passwordDipendente
