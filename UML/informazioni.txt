@@ -1,3 +1,6 @@
+Il csv (database) sarà suddiviso in questo modo:
+
+--------------------------------------------------------------------------------------------
 Utente:
 IDUtente, nome, cognome, e-mail, numeroCellulare, codiceFiscale, passwordUtente
 
@@ -37,3 +40,6 @@ metodo -> pagamentoContanti - pagamentoOnline
 
 IDGeneratore chi ha generato il biglietto
 IDGeneratore -> IDUtente(generato online), IDDipendente(generato dal dipendente) -> distinguibile con U+IDUtente e D+IDDipendente
+
+--------------------------------------------------------------------------------------------
+
