@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="JNDS6XYEOu_RVq2JpHm3" name="Page-1">
-        <mxGraphModel dx="2568" dy="1746" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="2751" dy="1861" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -1189,18 +1189,18 @@
                     <mxGeometry x="1020" y="770" width="230" height="150.5" as="geometry"/>
                 </mxCell>
                 <mxCell id="396" value="Design pattern:&lt;br&gt;Memento&lt;br&gt;&lt;br&gt;Modifiche dei dipendenti da parte amministratore.&lt;br&gt;&lt;br&gt;modifica dati personali di ogni utente, dip, amm.&lt;br&gt;&lt;br&gt;inserimento nuovi film&lt;br&gt;prenotazioni&lt;br&gt;" style="shape=note2;boundedLbl=1;whiteSpace=wrap;html=1;size=25;verticalAlign=top;align=center;" parent="1" vertex="1">
-                    <mxGeometry x="910" y="1186" width="240" height="224" as="geometry"/>
+                    <mxGeometry x="910" y="1186" width="240" height="214" as="geometry"/>
                 </mxCell>
-                <mxCell id="397" value="Design pattern:&lt;br&gt;Observer&lt;br&gt;&lt;br&gt;delineare una classe&amp;nbsp;&lt;br&gt;gestire i vari panelli&lt;br&gt;es: dall'area prenotazioni all'area personale" style="shape=note2;boundedLbl=1;whiteSpace=wrap;html=1;size=25;verticalAlign=top;align=center;" parent="1" vertex="1">
-                    <mxGeometry x="1200" y="1186" width="280" height="224" as="geometry"/>
+                <mxCell id="397" value="Design pattern:&lt;br&gt;Observer&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&amp;nbsp;Mediator&lt;br&gt;&lt;br&gt;delineare una classe&amp;nbsp;&lt;br&gt;per gestire i vari panelli&lt;br&gt;es: dall'area prenotazioni all'area personale" style="shape=note2;boundedLbl=1;whiteSpace=wrap;html=1;size=25;verticalAlign=top;align=center;" parent="1" vertex="1">
+                    <mxGeometry x="1200" y="1186" width="280" height="214" as="geometry"/>
                 </mxCell>
-                <mxCell id="398" value="Design pattern:&lt;br&gt;Command&lt;br&gt;" style="shape=note2;boundedLbl=1;whiteSpace=wrap;html=1;size=25;verticalAlign=top;align=center;" parent="1" vertex="1">
+                <mxCell id="398" value="Design pattern:&lt;br&gt;Command&lt;br&gt;&lt;br&gt;per la gestione delle azione dei button" style="shape=note2;boundedLbl=1;whiteSpace=wrap;html=1;size=25;verticalAlign=top;align=center;" parent="1" vertex="1">
                     <mxGeometry x="910" y="1437.75" width="240" height="150.5" as="geometry"/>
                 </mxCell>
-                <mxCell id="399" value="Design pattern:&lt;br&gt;Composite - Facade&lt;br&gt;&lt;br&gt;frameUtente&lt;br&gt;frameDip&lt;br&gt;frameAmministratore" style="shape=note2;boundedLbl=1;whiteSpace=wrap;html=1;size=25;verticalAlign=top;align=center;" vertex="1" parent="1">
+                <mxCell id="399" value="Design pattern:&lt;br&gt;Composite - Facade&lt;br&gt;&lt;br&gt;frameUtente&lt;br&gt;frameDip&lt;br&gt;frameAmministratore" style="shape=note2;boundedLbl=1;whiteSpace=wrap;html=1;size=25;verticalAlign=top;align=center;" parent="1" vertex="1">
                     <mxGeometry x="1020" y="937.75" width="230" height="150.5" as="geometry"/>
                 </mxCell>
-                <mxCell id="400" value="Design pattern:&lt;br&gt;flyweight" style="shape=note2;boundedLbl=1;whiteSpace=wrap;html=1;size=25;verticalAlign=top;align=center;" vertex="1" parent="1">
+                <mxCell id="400" value="Design pattern:&lt;br&gt;flyweight" style="shape=note2;boundedLbl=1;whiteSpace=wrap;html=1;size=25;verticalAlign=top;align=center;" parent="1" vertex="1">
                     <mxGeometry x="1280" y="765.75" width="230" height="150.5" as="geometry"/>
                 </mxCell>
             </root>

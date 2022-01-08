@@ -44,3 +44,4 @@ IDGeneratore -> IDUtente(generato online), IDDipendente(generato dal dipendente)
 --------------------------------------------------------------------------------------------
 
 *Apportare modifica integrando dipendente e amministratore in utente
+eventualmente gestire con pattern chain of responsability
