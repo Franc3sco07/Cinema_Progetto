@@ -29,11 +29,11 @@ IDsala, numeroPosti, disposizionePosti
 
 disposizionePosti -> una matrice
 
-Biglietto:
-IDBiglietto, IDGeneratore, IDProiezione, postoAssegnato, IDtransazione
+Biglietto: #Prenotazione
+IDBiglietto, IDGeneratore, IDFilm, IDProiezione, IDtransazione, postoAssegnato
 
 Transazione:
-IDtransazione, metodo, data, importo, IDCarta
+IDtransazione, metodo, IDFilm, data, importo, IDCarta
 
 postoAssegnato -> posizione della matrice
 metodo -> pagamentoContanti - pagamentoOnline
