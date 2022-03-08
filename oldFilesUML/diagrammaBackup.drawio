@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="JNDS6XYEOu_RVq2JpHm3" name="Page-1">
-        <mxGraphModel dx="2714" dy="1620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="2952" dy="1820" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -1185,7 +1185,7 @@
                         <Array as="points"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="394" value="Design pattern:&lt;br&gt;Decoretor ??&lt;br&gt;&lt;br&gt;DatiPersonali&lt;br&gt;generalizzazione Dipendente Utente Amministratore" style="shape=note2;boundedLbl=1;whiteSpace=wrap;html=1;size=25;verticalAlign=top;align=center;" parent="1" vertex="1">
+                <mxCell id="394" value="Design pattern:&lt;br&gt;Decorator ??&lt;br&gt;&lt;br&gt;DatiPersonali&lt;br&gt;generalizzazione Dipendente Utente Amministratore" style="shape=note2;boundedLbl=1;whiteSpace=wrap;html=1;size=25;verticalAlign=top;align=center;" parent="1" vertex="1">
                     <mxGeometry x="1020" y="770" width="230" height="150.5" as="geometry"/>
                 </mxCell>
                 <mxCell id="396" value="Design pattern:&lt;br&gt;Memento&lt;br&gt;&lt;br&gt;Modifiche dei dipendenti da parte amministratore.&lt;br&gt;&lt;br&gt;modifica dati personali di ogni utente, dip, amm.&lt;br&gt;&lt;br&gt;inserimento nuovi film&lt;br&gt;prenotazioni&lt;br&gt;" style="shape=note2;boundedLbl=1;whiteSpace=wrap;html=1;size=25;verticalAlign=top;align=center;" parent="1" vertex="1">
@@ -1197,13 +1197,13 @@
                 <mxCell id="399" value="Design pattern:&lt;br&gt;Facade&lt;br&gt;&lt;br&gt;frameUtente&lt;br&gt;frameDip&lt;br&gt;frameAmministratore&lt;br&gt;&lt;br&gt;Serve a nascondere la complessità di un sottositema al client&amp;nbsp;" style="shape=note2;boundedLbl=1;whiteSpace=wrap;html=1;size=25;verticalAlign=top;align=center;" parent="1" vertex="1">
                     <mxGeometry x="1020" y="947.75" width="230" height="172.25" as="geometry"/>
                 </mxCell>
-                <mxCell id="401" value="Pattern creazionali" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                <mxCell id="401" value="Pattern creazionali" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="1410" y="-320" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="402" value="Pattern strutturali" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                <mxCell id="402" value="Pattern strutturali" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="1280" y="770" width="150" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="403" value="Pattern comportamentali" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                <mxCell id="403" value="Pattern comportamentali" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="1200" y="1456" width="145" height="30" as="geometry"/>
                 </mxCell>
             </root>
