@@ -10,9 +10,6 @@ IDAmministratore, nome, cognome, e-mail, numeroCellulare, codiceFiscale, passwor
 Dipendente:
 IDDipendente, nome, cognome, e-mail, numeroCellulare, codiceFiscale, passwordDipendente
 
-CartaDiCredito
-IDCarta, codiceCarta , IDUtente
-
 Film:
 IDFilm, nome, immagine, info, prezzoBase
 
@@ -33,7 +30,7 @@ Biglietto: #Prenotazione
 IDBiglietto, IDGeneratore, IDFilm, IDProiezione, IDtransazione, postoAssegnato
 
 Transazione:
-IDtransazione, metodo, IDFilm, data, importo, IDCarta
+IDtransazione, metodo, IDFilm, data, importo
 
 postoAssegnato -> posizione della matrice
 metodo -> pagamentoContanti - pagamentoOnline
