@@ -11,9 +11,7 @@ public class ControllerTransazione {
         return null;
     }
 
-    public Collection getTransazioniByFilmID(String IDfilm){
-        return null;
-    }
+    public Collection getTransazioniByFilmID(String IDfilm){ return null; }
 
     public String deleteTransazione (String IDtransazione){
         return null;

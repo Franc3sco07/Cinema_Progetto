@@ -5,9 +5,7 @@ import progetto.model.Utente;
 public class ControllerUtente {
     private final String tableName = "Utente";
 
-    public Utente getUtenteByID(String ID){
-        return null;
-    }
+    public Utente getUtenteByID(String ID){ return null; }
 
     public String insertUtente(Utente nuovoUtente){
         return null;
