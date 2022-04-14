@@ -39,8 +39,9 @@ public class ControllerFilm {
         return null;
     }
 
-    public String deleteFilmByID(String IDfilm){
-        return null;
+    public String deleteFilmByID(String IDfilm) {
+
+        return Gestione_db.deleteRow(IDfilm, tableName);
     }
 
     private String modifyFilm(Film filmModificato){

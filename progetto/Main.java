@@ -17,5 +17,12 @@ public class Main {
             System.out.println(iterator.next());
         }
 
+        System.out.println(f.deleteFilmByID("202"));
+
+        film = f.getAllFilms();
+        for (Iterator<Film> iterator = film.iterator(); iterator.hasNext(); ){
+            System.out.println(iterator.next());
+        }
+
     }
 }

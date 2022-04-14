@@ -1,37 +1,56 @@
 package progetto.database;
 
+import progetto.functions.GestioneFile;
+import progetto.model.Film;
+
 import java.io.*;
 import java.util.*;
 
 public class Gestione_db {
-    private String path = ".\\progetto\\database\\";
+    private static final String relativePath = ".\\progetto\\database\\";
 
-    public BufferedReader getTable(String tableName) {
+    public static BufferedReader getTable(String tableName) {
+        return GestioneFile.openFile(relativePath+tableName);
+    }
+
+    public static String deleteRow(String ID, String tableName ) {
 
         try{
-            FileReader w = new FileReader(path + tableName);
-            BufferedReader in = new BufferedReader(w);
+            BufferedReader file = GestioneFile.openFile(relativePath+tableName);
 
-            // w.close(); // questo lo puoi sistemare con un try with resource
-            // in.close();
+            ArrayList<String> info = new ArrayList<>();
 
-            return in;
-        }
-        catch (FileNotFoundException e){}
-        catch (IOException e){}
+            boolean trovato = false;
 
+            String l;
+            while ((l = file.readLine()) != null) {
+                String[] dati = l.split(",");
+
+                if(!dati[0].equals(ID)){
+                    info.add(l);
+                    System.out.println(l);
+                } else {
+                    trovato = true;
+                }
+            }
+            if (trovato){
+                return GestioneFile.writeFile(relativePath+tableName, info);
+            } else {
+                return "errore, ID non trovato";
+            }
+
+        } catch (IOException e){}
+
+        return "errore durante la lettura";
+
+
+    }
+
+    public static String modifyRow(String ID, String tableName, List<String> modifyElement ){
         return null;
     }
 
-    public String deleteRow(String ID, String tableName ){
-        return null;
-    }
-
-    public String modifyRow(String ID, String tableName, List<String> modifyElement ){
-        return null;
-    }
-
-    public String insertRow(String tableName, List<String> insertElement){
+    public static String insertRow(String tableName, List<String> insertElement){
         return null;
     }
 
