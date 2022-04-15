@@ -46,6 +46,7 @@ public class Gestione_db {
 
     }
 
+    // probabilmente possiamo passare direttamente una striga invece della lista
     public static String modifyRow(String ID, String tableName, List<String> modifyElement ){
         return null;
     }

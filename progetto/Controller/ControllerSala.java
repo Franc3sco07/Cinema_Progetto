@@ -5,7 +5,7 @@ import progetto.model.Sala;
 import java.util.Collection;
 
 public class ControllerSala {
-    private final String tableName = "Sala";
+    private final String tableName = "Sala.csv";
 
     public Sala getSalaByID(String IDsala){
         return null;

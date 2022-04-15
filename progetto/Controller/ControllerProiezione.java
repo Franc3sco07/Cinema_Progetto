@@ -1,12 +1,13 @@
 package progetto.Controller;
 
+import progetto.database.Gestione_db;
 import progetto.model.Proiezione;
 
 import java.util.Collection;
 import java.util.Date;
 
 public class ControllerProiezione {
-    private final String tableName = "Proiezione";
+    private final String tableName = "Proiezione.csv";
 
     public Collection getProiezioneByIDFilm(String IDfilm){
         return null;
@@ -21,7 +22,7 @@ public class ControllerProiezione {
     }
 
     public String deleteProiezione(String IDproiezione){
-        return null;
+        return Gestione_db.deleteRow(IDproiezione, tableName);
     }
 
     public String modifyProiezione(Proiezione proiezioneModificata){
