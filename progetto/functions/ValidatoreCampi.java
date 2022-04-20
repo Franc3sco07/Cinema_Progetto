@@ -59,7 +59,7 @@ public class ValidatoreCampi {
         return true;
     }
 
-    public static boolean isNumeric1(String strNum) {
+    public static boolean isNumeric(String strNum) {
         if (strNum == null) {
             return false;
         }
@@ -81,12 +81,6 @@ public class ValidatoreCampi {
             return true;
         }
     */
-    public static boolean isNumeric(int j) {
-        if ( j== 0) {
-            return false;
-        }
-        return true;
-    }
 }
 
 

@@ -8,8 +8,8 @@ import java.util.Iterator;
 
 public class GestioneFile {
 
-    public static BufferedReader openFile(String path){
-        try{
+    public static BufferedReader openFile(String path) {
+        try {
             FileReader w = new FileReader(path);
             BufferedReader in = new BufferedReader(w);
 
@@ -17,34 +17,61 @@ public class GestioneFile {
             // in.close();
 
             return in;
-        } catch (IOException e){}
+        } catch (IOException e) {
+        }
 
         return null;
     }
 
-    public static String writeFile(String path, ArrayList<String> dati){
-        try{
+    public static String writeFile(String path, ArrayList<String> dati) {
+        try {
             FileWriter w = new FileWriter(path);
             BufferedWriter in = new BufferedWriter(w);
 
             for (Iterator<String> iterator = dati.iterator(); iterator.hasNext(); ) {
                 String line = iterator.next();
 
-                if (iterator.hasNext()){
-                    in.write( line );
+                if (iterator.hasNext()) {
+                    in.write(line);
                     in.newLine();
                 } else {
-                    in.write( line );
+                    in.write(line);
                 }
             }
 
             in.close();
             return "ok";
 
-        } catch (IOException e){}
+        } catch (IOException e) {
+        }
 
         return "errore in scrittura";
     }
+
+    public static Boolean readExceptID(String ID, String path, ArrayList<String> dati) {
+        try {
+            BufferedReader file = GestioneFile.openFile(path);
+
+            boolean trovato = false;
+
+            String l;
+            while ((l = file.readLine()) != null) {
+                String[] line = l.split(",");
+
+                if (!line[0].equals(ID)) {
+                    dati.add(l);
+                    System.out.println(l);
+                } else {
+                    trovato = true;
+                }
+            }
+            return trovato;
+        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
+        }
+        return false;
+    }
+
 }
 
 

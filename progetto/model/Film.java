@@ -13,13 +13,11 @@ public class Film {
 
     @Override
     public String toString() {
-        return "Film{" +
-                "id='" + id + '\'' +
-                ", nome='" + nome + '\'' +
-                ", locandina='" + locandina + '\'' +
-                ", info='" + info + '\'' +
-                ", prezzo='" + prezzo + '\'' +
-                '}';
+        return id + ',' + nome + ',' + locandina + ',' + info + ',' + prezzo;
+    }
+
+    public String getId() {
+        return id;
     }
 }
 

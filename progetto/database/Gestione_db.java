@@ -1,6 +1,7 @@
 package progetto.database;
 
 import progetto.functions.GestioneFile;
+import progetto.functions.ValidatoreCampi;
 import progetto.model.Film;
 
 import java.io.*;
@@ -15,44 +16,75 @@ public class Gestione_db {
 
     public static String deleteRow(String ID, String tableName ) {
 
-        try{
+        ArrayList<String> dati = new ArrayList<>();
+
+        if (GestioneFile.readExceptID(ID, relativePath+tableName, dati)){
+            return GestioneFile.writeFile(relativePath+tableName, dati);
+        } else {
+            return "errore nella cancellazione dell'elemento";
+        }
+
+    }
+
+    public static String modifyRow(String ID, String tableName, String modifyElement ){
+            ArrayList<String> dati = new ArrayList<>();
+
+            if (GestioneFile.readExceptID(ID, relativePath+tableName, dati)){
+                dati.add(modifyElement);
+                return GestioneFile.writeFile(relativePath+tableName, dati);
+            } else {
+                return "errore nella modifica dell'elemento";
+            }
+    }
+
+    public static String insertRow(String tableName, String insertElement){
+        try {
             BufferedReader file = GestioneFile.openFile(relativePath+tableName);
 
-            ArrayList<String> info = new ArrayList<>();
-
-            boolean trovato = false;
+            ArrayList<String> dati = new ArrayList<>();
+            int MaxID = 0;
 
             String l;
             while ((l = file.readLine()) != null) {
-                String[] dati = l.split(",");
+                String[] line = l.split(",");
+                dati.add(l);
 
-                if(!dati[0].equals(ID)){
-                    info.add(l);
-                    System.out.println(l);
-                } else {
-                    trovato = true;
+                if (ValidatoreCampi.isNumeric(line[0]) && Integer.parseInt(line[0]) > MaxID){
+                    MaxID = Integer.parseInt(line[0]);
                 }
+
             }
-            if (trovato){
-                return GestioneFile.writeFile(relativePath+tableName, info);
-            } else {
-                return "errore, ID non trovato";
-            }
+            dati.add( (MaxID+1) + "," + insertElement );
 
-        } catch (IOException e){}
+            return GestioneFile.writeFile(relativePath+tableName, dati);
 
-        return "errore durante la lettura";
+        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
+        }
 
 
+        return "errore nell'inserimento del nuovo elemento";
     }
 
-    // probabilmente possiamo passare direttamente una striga invece della lista
-    public static String modifyRow(String ID, String tableName, List<String> modifyElement ){
-        return null;
+    public static String getRow(String tableName, String ID) {
+        try {
+            BufferedReader file = GestioneFile.openFile(relativePath+tableName);
+
+            String l;
+            while ((l = file.readLine()) != null) {
+                String[] line = l.split(",");
+
+                if ( line[0].equals(ID)){
+                    return l;
+                }
+
+            } return "errore elemento non trovato";
+
+        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
+        }
+        return "errore apertura file";
     }
 
-    public static String insertRow(String tableName, List<String> insertElement){
-        return null;
-    }
 
 }
