@@ -1,8 +1,10 @@
 package progetto.Controller;
 
 import progetto.database.Gestione_db;
+import progetto.functions.ValidatoreCampi;
 import progetto.model.Proiezione;
 
+import java.text.ParseException;
 import java.util.Collection;
 import java.util.Date;
 
@@ -17,8 +19,8 @@ public class ControllerProiezione {
         return null;
     }
 
-    public String insertProiezione(Proiezione proiezione){
-        return null;
+    public String insertProiezione(String proiezione){
+        return Gestione_db.insertRow(tableName,proiezione);
     }
 
     public String deleteProiezione(String IDproiezione){
@@ -26,7 +28,25 @@ public class ControllerProiezione {
     }
 
     public String modifyProiezione(Proiezione proiezioneModificata){
-        return null;
+        return Gestione_db.modifyRow(proiezioneModificata.getId(), tableName, proiezioneModificata.toString() );
+    }
+
+    public Proiezione stringToProiezione (String proiezione){
+        String[] proizioneDati = proiezione.split(",");
+        Date d = null;
+        return new Proiezione(proizioneDati[0],
+                proizioneDati[1],
+                proizioneDati[2],
+                proizioneDati[3],
+                d,
+                proizioneDati[5],
+                proizioneDati[6]);
+        try {
+            d = ValidatoreCampi.DATEFORMAT.parse(proizioneDati[4]);
+        } catch (ParseException e) {
+            return  null;
+        }
+
     }
 
 }

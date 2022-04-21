@@ -11,7 +11,7 @@ public class Transazione {
         this.idFilm = idFilm;
         this.idPrenotazione = idPrenotazione;
         this.data = data;
-        this.importo= importo
+        this.importo= importo;
     }
 
     public String getIdTransazione() {

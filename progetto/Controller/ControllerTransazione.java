@@ -48,7 +48,7 @@ public class ControllerTransazione {
 
         try {
             Date d = ValidatoreCampi.DATEFORMAT.parse(datiTransazione[3]);
-            return new Transazione(datiTransazione[0],datiTransazione[1],datiTransazione[2],d,datiTransazione[4])
+            return new Transazione(datiTransazione[0],datiTransazione[1],datiTransazione[2],d,datiTransazione[4]);
         } catch (ParseException e) {
             return null;
         }

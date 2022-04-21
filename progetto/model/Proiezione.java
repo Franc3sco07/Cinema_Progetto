@@ -9,7 +9,7 @@ public class Proiezione {
     private int postiLiberi;
     private Date data;
 
-    public Proiezione(String id, String idFilm, String idSala, String prezzo, int[][] postiAttualiOccupati, int postiLiberi, Date data) {
+    public Proiezione(String id, String idFilm, String idSala, String prezzo,Date data, int[][] postiAttualiOccupati, int postiLiberi ) {
         this.id = id;
         this.idFilm = idFilm;
         this.idSala = idSala;
@@ -19,16 +19,19 @@ public class Proiezione {
         this.data = data;
     }
 
+    public String getId() {
+        return id;
+    }
+
     @Override
     public String toString() {
-        return "Proiezione{" +
-                "id='" + id + '\'' +
-                ", idFilm='" + idFilm + '\'' +
-                ", idSala='" + idSala + '\'' +
-                ", prezzo='" + prezzo + '\'' +
-                ", postiAttualiOccupati=" + Arrays.toString(postiAttualiOccupati) +
-                ", postiLiberi=" + postiLiberi +
-                ", data=" + data +
-                '}';
+        return
+                "" + id +
+                "," + idFilm +
+                ","+ idSala +
+                ",'" + prezzo +
+                "," + data +
+                "," + Arrays.toString(postiAttualiOccupati) +
+                "," + postiLiberi;
     }
 }
