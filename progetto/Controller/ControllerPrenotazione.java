@@ -20,16 +20,15 @@ public class ControllerPrenotazione {
         return null;
     }
 
-    public String insertPrenotazione(Prenotazione prenotazione){
-        return null;
+    public String insertPrenotazione(String prenotazione){
+        return Gestione_db.insertRow(tableName, prenotazione);
     }
 
     public String deletePrenotazione(String IDprenotazione){
-
         return Gestione_db.deleteRow(IDprenotazione, tableName);
     }
 
     public String modifyPrenotazione(Prenotazione prenotazioneModificata){
-        return null;
+        return Gestione_db.modifyRow(prenotazioneModificata.getId(), tableName, prenotazioneModificata.toString() );
     }
 }
