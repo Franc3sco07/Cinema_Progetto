@@ -3,23 +3,27 @@ package progetto.model;
 import java.util.Date;
 
 public class Transazione {
-    private String idTransazione, idFilm, idPrenotazione;
+    private String idTransazione, idFilm, idPrenotazione,importo;
     private Date data;
 
-    public Transazione(String idTransazione, String idFilm, String idPrenotazione, Date data) {
+    public Transazione(String idTransazione, String idPrenotazione,String idFilm, Date data,String importo) {
         this.idTransazione = idTransazione;
         this.idFilm = idFilm;
         this.idPrenotazione = idPrenotazione;
         this.data = data;
+        this.importo= importo
+    }
+
+    public String getIdTransazione() {
+        return idTransazione;
     }
 
     @Override
     public String toString() {
-        return "Transazione{" +
-                "idTransazione='" + idTransazione + '\'' +
-                ", idFilm='" + idFilm + '\'' +
-                ", idPrenotazione='" + idPrenotazione + '\'' +
-                ", data=" + data +
-                '}';
+        return  idTransazione +
+                "," + idPrenotazione +
+                "," + idFilm+
+                "," + data +
+                "," + importo;
     }
 }

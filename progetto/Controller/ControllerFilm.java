@@ -13,11 +13,10 @@ public class ControllerFilm {
     private final String tableName = "Film.csv";
 
     public Collection<Film> getAllFilms(){
-        Gestione_db db = new Gestione_db();
 
         ArrayList<Film> films = new ArrayList<Film>();
 
-        BufferedReader in = db.getTable(tableName);
+        BufferedReader in = Gestione_db.getTable(tableName);
         try {
             String l;
             while ((l = in.readLine()) != null) {

@@ -1,8 +1,11 @@
 package progetto.functions;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 public class ValidatoreCampi {
 
-
+    public static DateFormat DATEFORMAT = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
     public  boolean isValidEmail(String email) {
         //dopo la @ non puoi inserire numeri
         if (!email.toLowerCase().matches("((\\w+)(\\.{0,1}))+@{1}(([a-zA-z])+(\\.))+[a-zA-z]{2,3}")) {
