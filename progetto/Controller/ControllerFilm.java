@@ -21,8 +21,7 @@ public class ControllerFilm {
         try {
             String l;
             while ((l = in.readLine()) != null) {
-                String[] datiFilm = l.split(",");
-                films.add(new Film(datiFilm[0], datiFilm[1], datiFilm[2], datiFilm[3], datiFilm[4]));
+                films.add(stringToFilm( l ));
             }
         }
         catch (FileNotFoundException e){}
@@ -36,7 +35,7 @@ public class ControllerFilm {
 
         String[] datiFilm = stringaFilm.split(",");
         if (datiFilm.length > 1) {
-            return new Film(datiFilm[0], datiFilm[1], datiFilm[2], datiFilm[3], datiFilm[4]);
+            return stringToFilm( stringaFilm );
         }
 
         return null;
@@ -50,7 +49,10 @@ public class ControllerFilm {
         return Gestione_db.deleteRow(IDfilm, tableName);
     }
 
-    public String modifyFilm(Film filmModificato){
-        return Gestione_db.modifyRow(filmModificato.getId(), tableName, filmModificato.toString() );
+    public String modifyFilm(Film filmModificato){ return Gestione_db.modifyRow(filmModificato.getId(), tableName, filmModificato.toString() ); }
+
+    private Film stringToFilm(String filmString){
+        String[] datiFilm = filmString.split(",");
+        return new Film(datiFilm[0], datiFilm[1], datiFilm[2], datiFilm[3], datiFilm[4]);
     }
 }

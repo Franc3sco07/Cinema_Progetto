@@ -2,7 +2,6 @@ package progetto.database;
 
 import progetto.functions.GestioneFile;
 import progetto.functions.ValidatoreCampi;
-import progetto.model.Film;
 
 import java.io.*;
 import java.util.*;
@@ -11,7 +10,15 @@ public class Gestione_db {
     private static final String relativePath = ".\\progetto\\database\\";
 
     public static BufferedReader getTable(String tableName) {
-        return GestioneFile.openFile(relativePath+tableName);
+        try{
+            BufferedReader f = GestioneFile.openFile(relativePath+tableName);
+            f.readLine(); // non memorizziamo la prima riga
+            return f;
+        }
+        catch (FileNotFoundException e) {}
+        catch (IOException e) { }
+
+        return null;
     }
 
     public static String deleteRow(String ID, String tableName ) {
