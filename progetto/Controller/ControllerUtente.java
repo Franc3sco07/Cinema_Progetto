@@ -6,10 +6,18 @@ import progetto.model.Utente;
 public class ControllerUtente {
     private final String tableName = "Utente.csv";
 
-    public Utente getUtenteByID(String ID){ return null; }
+    public Utente getUtenteByID(String IDUtente){
+        String stringaUtente = Gestione_db.getRow(tableName, IDUtente);
 
-    public String insertUtente(Utente nuovoUtente){
+        String[] datiFilm = stringaUtente.split(",");
+        if (datiFilm.length > 1) {
+            return stringToUtente( stringaUtente );
+        }
         return null;
+    }
+
+    public String insertUtente(String nuovoUtente){
+        return Gestione_db.insertRow(tableName, nuovoUtente);
     }
 
     public String deleteUtenteByID(String IDutente){
@@ -17,7 +25,12 @@ public class ControllerUtente {
     }
 
     public String modifyUtente(Utente utenteModificato){
-        return null;
+        return Gestione_db.modifyRow(utenteModificato.getId(), tableName, utenteModificato.toString() );
+    }
+
+    private Utente stringToUtente(String utenteString){
+        String[] datiUtente = utenteString.split(",");
+        return new Utente(datiUtente[0], datiUtente[1], datiUtente[2], datiUtente[3], datiUtente[4], datiUtente[5], datiUtente[6]);
     }
 
     private String checkEmail(String email){

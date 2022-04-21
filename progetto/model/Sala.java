@@ -15,10 +15,6 @@ public class Sala {
 
     @Override
     public String toString() {
-        return "Sala{" +
-                "id='" + id + '\'' +
-                ", numeroPosti=" + numeroPosti +
-                ", disposizionePosti=" + Arrays.toString(disposizionePosti) +
-                '}';
+        return id + ',' + numeroPosti + ',' + Arrays.toString(disposizionePosti) ;
     }
 }

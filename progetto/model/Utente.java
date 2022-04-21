@@ -16,14 +16,10 @@ public class Utente {
 
     @Override
     public String toString() {
-        return "Utente{" +
-                "id='" + id + '\'' +
-                ", nome='" + nome + '\'' +
-                ", cognome='" + cognome + '\'' +
-                ", numeroCellulare='" + numeroCellulare + '\'' +
-                ", email='" + email + '\'' +
-                ", codiceFiscale='" + codiceFiscale + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+        return id + ',' + nome + ',' + cognome + ',' + email + ',' + numeroCellulare + ',' + codiceFiscale + ',' + password ;
+    }
+
+    public String getId() {
+        return id;
     }
 }
