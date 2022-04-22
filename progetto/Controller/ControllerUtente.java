@@ -3,6 +3,12 @@ package progetto.Controller;
 import progetto.database.Gestione_db;
 import progetto.model.Utente;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+
 public class ControllerUtente {
     private final String tableName = "Utente.csv";
 
@@ -33,8 +39,27 @@ public class ControllerUtente {
         return new Utente(datiUtente[0], datiUtente[1], datiUtente[2], datiUtente[3], datiUtente[4], datiUtente[5], datiUtente[6]);
     }
 
-    private String checkEmail(String email){
-        return null;
+    // checkEmail no duplicate email
+    public boolean checkEmail(String email){
+        ArrayList<Utente> utenti = new ArrayList<>();
+
+        BufferedReader in = Gestione_db.getTable(tableName);
+        try {
+            String l;
+            while ((l = in.readLine()) != null) {
+                utenti.add(stringToUtente( l ));
+            }
+        }
+        catch (FileNotFoundException e){}
+        catch (IOException e){}
+
+        for(Iterator<Utente> iterator = utenti.iterator(); iterator.hasNext();){
+            //System.out.println(iterator.next());
+            if (email.equals(iterator.next().getEmail())) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }

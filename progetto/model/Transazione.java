@@ -26,4 +26,8 @@ public class Transazione {
                 "," + data +
                 "," + importo;
     }
+
+    public String getIdFilm() {
+        return idFilm;
+    }
 }

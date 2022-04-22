@@ -34,4 +34,12 @@ public class Proiezione {
                 "," + Arrays.toString(postiAttualiOccupati) +
                 "," + postiLiberi;
     }
+
+    public String getIdFilm() {
+        return idFilm;
+    }
+
+    public Date getData() {
+        return data;
+    }
 }

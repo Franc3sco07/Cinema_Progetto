@@ -17,4 +17,16 @@ public class Prenotazione {
     public String toString() { return id + ',' + idGeneratore + ',' + idProiezione + ',' + idFilm + ',' + idTransazione + "," + postoAssegnato; }
 
     public String getId() { return id; }
+
+    public String getIdGeneratore() {
+        return idGeneratore;
+    }
+
+    public String getIdFilm() {
+        return idFilm;
+    }
+
+    public String getIdProiezione() {
+        return idProiezione;
+    }
 }
