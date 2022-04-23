@@ -1,6 +1,6 @@
 package progetto.model;
 
-import java.util.Arrays;
+import progetto.functions.TraduttoreMatrice;
 
 public class Sala {
     private String id;
@@ -15,6 +15,6 @@ public class Sala {
 
     @Override
     public String toString() {
-        return id + ',' + numeroPosti + ',' + Arrays.toString(disposizionePosti) ;
+        return id + ',' + numeroPosti + ',' + TraduttoreMatrice.matriceToString(disposizionePosti) ;
     }
 }

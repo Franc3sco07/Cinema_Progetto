@@ -1,6 +1,7 @@
 package progetto.model;
 
-import java.util.Arrays;
+import progetto.functions.TraduttoreMatrice;
+
 import java.util.Date;
 
 public class Proiezione {
@@ -9,7 +10,7 @@ public class Proiezione {
     private int postiLiberi;
     private Date data;
 
-    public Proiezione(String id, String idFilm, String idSala, String prezzo,Date data, int[][] postiAttualiOccupati, int postiLiberi ) {
+    public Proiezione( String id, String idFilm, String idSala, String prezzo, Date data, int postiLiberi, int[][] postiAttualiOccupati ) {
         this.id = id;
         this.idFilm = idFilm;
         this.idSala = idSala;
@@ -31,8 +32,8 @@ public class Proiezione {
                 ","+ idSala +
                 ",'" + prezzo +
                 "," + data +
-                "," + Arrays.toString(postiAttualiOccupati) +
-                "," + postiLiberi;
+                "," + postiLiberi +
+                "," + TraduttoreMatrice.matriceToString(postiAttualiOccupati) ;
     }
 
     public String getIdFilm() {

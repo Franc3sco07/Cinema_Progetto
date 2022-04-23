@@ -14,7 +14,7 @@ public class Prenotazione {
     }
 
     @Override
-    public String toString() { return id + ',' + idGeneratore + ',' + idProiezione + ',' + idFilm + ',' + idTransazione + "," + postoAssegnato; }
+    public String toString() { return id + ',' + idGeneratore + ',' + idProiezione + ',' + idFilm + ',' + idTransazione + ',' + postoAssegnato; }
 
     public String getId() { return id; }
 

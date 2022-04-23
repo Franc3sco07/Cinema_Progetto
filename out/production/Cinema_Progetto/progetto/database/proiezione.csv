@@ -1,1 +1,1 @@
-IDProiezione, IDFilm, prezzo, data, IDsala, postiLiberi, disposizionePosti;
+IDProiezione, IDFilm, IDsala, prezzo, data, postiLiberi, disposizionePosti

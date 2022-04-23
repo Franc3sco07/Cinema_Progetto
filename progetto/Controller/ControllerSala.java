@@ -1,7 +1,7 @@
 package progetto.Controller;
 
 import progetto.database.Gestione_db;
-import progetto.model.Film;
+import progetto.functions.TraduttoreMatrice;
 import progetto.model.Sala;
 
 import java.io.BufferedReader;
@@ -43,7 +43,7 @@ public class ControllerSala {
 
     private Sala stringToSala(String salaString){
         String[] datiSala = salaString.split(",");
-        return new Sala(datiSala[0], datiSala[1], datiSala[2]);
+        return new Sala(datiSala[0], Integer.parseInt(datiSala[1].trim()), TraduttoreMatrice.stringToMatrice(datiSala[2]));
     }
 
 }

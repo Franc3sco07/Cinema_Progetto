@@ -1,8 +1,8 @@
 package progetto.Controller;
 
 import progetto.database.Gestione_db;
+import progetto.functions.TraduttoreMatrice;
 import progetto.functions.ValidatoreCampi;
-import progetto.model.Film;
 import progetto.model.Proiezione;
 
 import java.io.BufferedReader;
@@ -88,15 +88,16 @@ public class ControllerProiezione {
     public Proiezione stringToProiezione (String proiezione){
         String[] proizioneDati = proiezione.split(",");
         Date d = null;
-        return new Proiezione(proizioneDati[0],
-                proizioneDati[1],
-                proizioneDati[2],
-                proizioneDati[3],
-                d,
-                proizioneDati[5],
-                proizioneDati[6]);
+
         try {
             d = ValidatoreCampi.DATEFORMAT.parse(proizioneDati[4]);
+            return new Proiezione(proizioneDati[0],
+                    proizioneDati[1],
+                    proizioneDati[2],
+                    proizioneDati[3],
+                    d,
+                    Integer.parseInt(proizioneDati[5].trim()),
+                    TraduttoreMatrice.stringToMatrice(proizioneDati[6]));
         } catch (ParseException e) {
             return  null;
         }

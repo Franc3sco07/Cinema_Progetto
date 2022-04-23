@@ -11,14 +11,14 @@ import java.util.Iterator;
 public class ControllerPrenotazione {
     private final String tableName = "Prenotazione.csv";
 
-    public Collection getPrenotazioniByIDUtente(String IDutente){
+    public Collection<Prenotazione> getPrenotazioniByIDgeneratore(String IDutente){
         ArrayList<Prenotazione> prenotazioni = new ArrayList<>();
 
         BufferedReader in = Gestione_db.getTable(tableName);
         try {
             String l;
             while ((l = in.readLine()) != null) {
-                prenotazioni.add(stringToPrenotazione( l ));
+                prenotazioni.add(stringToPrenotazione(l));
             }
         }
         catch (FileNotFoundException e){}
@@ -31,7 +31,7 @@ public class ControllerPrenotazione {
         for(Iterator<Prenotazione> iterator = prenotazioni.iterator(); iterator.hasNext();){
             //System.out.println(iterator.next());
             prenotazioniTemp = iterator.next();
-            if (IDutente.equals(prenotazioniTemp.getIdGeneratore())) {
+            if (IDutente.trim().equals(prenotazioniTemp.getIdGeneratore().trim())) {
                 prenotazioniByIDUtente.add(prenotazioniTemp);
             }
         }
@@ -39,7 +39,7 @@ public class ControllerPrenotazione {
         return prenotazioniByIDUtente;
     }
 
-    public Collection getPrenotazioniByIDFilm(String IDfilm){
+    public Collection<Prenotazione> getPrenotazioniByIDFilm(String IDfilm){
         ArrayList<Prenotazione> prenotazioni = new ArrayList<>();
 
         BufferedReader in = Gestione_db.getTable(tableName);
@@ -59,7 +59,7 @@ public class ControllerPrenotazione {
         for(Iterator<Prenotazione> iterator = prenotazioni.iterator(); iterator.hasNext();){
             //System.out.println(iterator.next());
             prenotazioniTemp = iterator.next();
-            if (IDfilm.equals(prenotazioniTemp.getIdFilm())) {
+            if (IDfilm.trim().equals(prenotazioniTemp.getIdFilm().trim())) {
                 prenotazioniByIDFilm.add(prenotazioniTemp);
             }
         }
@@ -67,7 +67,7 @@ public class ControllerPrenotazione {
         return prenotazioniByIDFilm;
     }
 
-    public Collection getPrenotazioneByIDProiezione(String IDProiezione){
+    public Collection<Prenotazione> getPrenotazioneByIDProiezione(String IDProiezione){
         ArrayList<Prenotazione> prenotazioni = new ArrayList<>();
 
         BufferedReader in = Gestione_db.getTable(tableName);
@@ -87,7 +87,7 @@ public class ControllerPrenotazione {
         for(Iterator<Prenotazione> iterator = prenotazioni.iterator(); iterator.hasNext();){
             //System.out.println(iterator.next());
             prenotazioniTemp = iterator.next();
-            if (IDProiezione.equals(prenotazioniTemp.getIdProiezione())) {
+            if (IDProiezione.trim().equals(prenotazioniTemp.getIdProiezione().trim())) {
                 prenotazioniByIDProiezione.add(prenotazioniTemp);
             }
         }
