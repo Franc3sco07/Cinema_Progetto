@@ -17,7 +17,7 @@ import java.util.Iterator;
 public class ControllerProiezione {
     private final String tableName = "Proiezione.csv";
 
-    public Collection getProiezioneByIDFilm(String IDfilm){
+    public Collection<Proiezione> getProiezioneByIDFilm(String IDfilm){
         ArrayList<Proiezione> proiezioni = new ArrayList<>();
 
         BufferedReader in = Gestione_db.getTable(tableName);
@@ -82,7 +82,7 @@ public class ControllerProiezione {
     }
 
     public String modifyProiezione(Proiezione proiezioneModificata){
-        return Gestione_db.modifyRow(proiezioneModificata.getId(), tableName, proiezioneModificata.toString() );
+        return Gestione_db.modifyRow(proiezioneModificata.getId(), tableName, proiezioneModificata.toString());
     }
 
     public Proiezione stringToProiezione (String proiezione){
@@ -99,7 +99,8 @@ public class ControllerProiezione {
                     Integer.parseInt(proizioneDati[5].trim()),
                     TraduttoreMatrice.stringToMatrice(proizioneDati[6]));
         } catch (ParseException e) {
-            return  null;
+            System.out.println("Errore ParseException");
+            return null;
         }
 
     }

@@ -60,7 +60,7 @@ public class GestioneFile {
 
                 if (!line[0].equals(ID)) {
                     dati.add(l);
-                    System.out.println(l);
+                    //System.out.println(l);
                 } else {
                     trovato = true;
                 }

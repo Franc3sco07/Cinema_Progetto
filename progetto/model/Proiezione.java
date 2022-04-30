@@ -21,7 +21,7 @@ public class Proiezione {
     }
 
     public String getId() {
-        return id;
+        return id.trim();
     }
 
     @Override
@@ -37,7 +37,7 @@ public class Proiezione {
     }
 
     public String getIdFilm() {
-        return idFilm;
+        return idFilm.trim();
     }
 
     public Date getData() {

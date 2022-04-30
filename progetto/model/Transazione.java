@@ -28,6 +28,6 @@ public class Transazione {
     }
 
     public String getIdFilm() {
-        return idFilm;
+        return idFilm.trim();
     }
 }

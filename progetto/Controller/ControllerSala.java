@@ -24,7 +24,7 @@ public class ControllerSala {
         return null;
     }
 
-    public Collection getAllSala(){
+    public Collection<Sala> getAllSala(){
 
         ArrayList<Sala> sale = new ArrayList<Sala>();
 

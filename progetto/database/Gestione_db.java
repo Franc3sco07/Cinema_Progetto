@@ -38,10 +38,12 @@ public class Gestione_db {
 
             if (GestioneFile.readExceptID(ID, relativePath+tableName, dati)){
                 dati.add(modifyElement);
+
                 return GestioneFile.writeFile(relativePath+tableName, dati);
             } else {
                 return "errore nella modifica dell'elemento";
             }
+
     }
 
     public static String insertRow(String tableName, String insertElement){

@@ -1,12 +1,12 @@
 package progetto;
 
-import progetto.Controller.ControllerFilm;
-import progetto.Controller.ControllerPrenotazione;
+import progetto.Controller.*;
 import progetto.functions.TraduttoreMatrice;
-import progetto.model.Film;
-import progetto.model.Prenotazione;
+import progetto.functions.ValidatoreCampi;
+import progetto.model.*;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -81,23 +81,73 @@ public class Main {
         System.out.println(f.modifyPrenotazione(newPrenotazione));
     }
 
-
-
-
-
     public static void testControllerUtente(){
+        ControllerUtente f = new ControllerUtente();
+        Collection<Utente> utenti;
+
+        Utente giorgio;
+        giorgio = f.getUtenteByID("2121");
+        System.out.println("Utente selezionato: "+ giorgio);
+
+        String utenteNew = "Luca, Nuovo, fra.98@dsada.ut, 3214213211, PPEWJDLSA21930U, banana";
+        System.out.println("inserimento utente: "+ f.insertUtente(utenteNew));
+
+        System.out.println("Utente eliminato: " + f.deleteUtenteByID("2125"));
+
+        Utente nuovoUtente = new Utente("2123","Domenico", "Modificato", "fra.98@dsada.ut", "3214213211", "PPEWJDLSA21930U", "banana");
+        System.out.println("modificato:" + f.modifyUtente(nuovoUtente));
+
+
+        System.out.println("checkEmail");
+        System.out.println("checkEmail verifica presenza: " + f.checkEmail("fra.98@dsada.ut"));
+
+        System.out.println("2checkEmail verifica assenza: " + f.checkEmail("fra.52@hotmail.ut"));
 
     }
-    public static void testControllerProiezione(){
 
+    public static void testControllerProiezione() throws ParseException {
+        ControllerProiezione f = new ControllerProiezione();
+        Collection<Proiezione> proiezioni;
+
+        proiezioni = f.getProiezioneByIDFilm("2123");
+        System.out.println("proiezioni: " + proiezioni);
+
+
+        proiezioni = f.getProiezioneByDate(ValidatoreCampi.DATEFORMAT.parse("22-02-2022 12:12:31"));
+        System.out.println("proiezioni: " + proiezioni);
+
+        String proiezioneIns = "2123, 2, 21.5, 22-02-2022 12:12:31, 21, 21: 12; 22: 12;";
+        System.out.println("proiezione inserita: " +f.insertProiezione(proiezioneIns));
+
+
+        System.out.println("eliminato: " + f.deleteProiezione("2121"));
+
+        Proiezione prova = new Proiezione("21321","2123", "2", "21.5", ValidatoreCampi.DATEFORMAT.parse("22-02-2022 12:12:31"), 21, TraduttoreMatrice.stringToMatrice("21: 12; 22: 12;"));
+        System.out.println("modificato: " + f.modifyProiezione(prova));
     }
+
     public static void testControllerTransazione(){
+        ControllerTransazione f = new ControllerTransazione();
+        Collection<Transazione> transazioni;
+
+        transazioni = f.getAllTransazioni();
+        System.out.println("Tutte le transazioni: " + transazioni);
+
+        transazioni = f.getTransazioniByFilmID("2134");
+        System.out.println("getByFilmID: " + transazioni);
+
+        System.out.println("eliminata: " + f.deleteTransazione("2122"));
+
+        String transIns = "2252121, 2134, 22-02-2022 12:12:31, 21.2";
+        System.out.println("inserimento " + f.insertTransazione(transIns));
+
 
     }
 
 
-    public static void main(String[] args) throws IOException {
-        //**** verifica trim()
-        testControllerFIlm();
+    public static void main(String[] args) throws IOException, ParseException {
+        testControllerTransazione();
     }
+
+
 }
