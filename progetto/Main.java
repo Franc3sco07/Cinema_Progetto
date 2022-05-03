@@ -138,7 +138,7 @@ public class Main {
 
         System.out.println("eliminata: " + f.deleteTransazione("2122"));
 
-        String transIns = "2252121, 2134, 22-02-2022 12:12:31, 21.2";
+        String transIns = "2, 2134, 22-02-2022 12:12:31, 21.2";
         System.out.println("inserimento " + f.insertTransazione(transIns));
 
 
