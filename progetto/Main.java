@@ -89,12 +89,12 @@ public class Main {
         giorgio = f.getUtenteByID("2121");
         System.out.println("Utente selezionato: "+ giorgio);
 
-        String utenteNew = "Luca, Nuovo, fra.98@dsada.ut, 3214213211, PPEWJDLSA21930U, banana";
+        String utenteNew = "A, Luca, Nuovo, fra.98@dsada.ut, 3214213211, PPEWJDLSA21930U, banana";
         System.out.println("inserimento utente: "+ f.insertUtente(utenteNew));
 
         System.out.println("Utente eliminato: " + f.deleteUtenteByID("2125"));
 
-        Utente nuovoUtente = new Utente("2123","Domenico", "Modificato", "fra.98@dsada.ut", "3214213211", "PPEWJDLSA21930U", "banana");
+        Utente nuovoUtente = new Utente("2123","A","Domenico", "Modificato", "3214213211","fra.98@dsada.ut", "PPEWJDLSA21930U", "banana");
         System.out.println("modificato:" + f.modifyUtente(nuovoUtente));
 
 
@@ -102,6 +102,9 @@ public class Main {
         System.out.println("checkEmail verifica presenza: " + f.checkEmail("fra.98@dsada.ut"));
 
         System.out.println("2checkEmail verifica assenza: " + f.checkEmail("fra.52@hotmail.ut"));
+
+        System.out.println("verifica pass e email: " + f.login("fra.98@dsada.ut", "banana" ));
+
 
     }
 
@@ -146,7 +149,7 @@ public class Main {
 
 
     public static void main(String[] args) throws IOException, ParseException {
-        testControllerTransazione();
+        testControllerUtente();
     }
 
 

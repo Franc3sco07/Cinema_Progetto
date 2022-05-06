@@ -2,10 +2,11 @@ package progetto.model;
 
 public class Utente {
 
-    private String id, nome, cognome, numeroCellulare, email, codiceFiscale, password ;
+    private String id, tipo, nome, cognome, numeroCellulare, email, codiceFiscale, password ;
 
-    public Utente(String id, String nome, String cognome, String numeroCellulare, String email, String codiceFiscale, String password) {
+    public Utente(String id, String tipo, String nome, String cognome, String email, String numeroCellulare, String codiceFiscale, String password) {
         this.id = id;
+        this.tipo = tipo;
         this.nome = nome;
         this.cognome = cognome;
         this.numeroCellulare = numeroCellulare;
@@ -16,14 +17,18 @@ public class Utente {
 
     @Override
     public String toString() {
-        return id + ',' + nome + ',' + cognome + ',' + email + ',' + numeroCellulare + ',' + codiceFiscale + ',' + password ;
+        return id + ',' + tipo + ',' + nome + ',' + cognome + ',' + email + ',' + numeroCellulare + ',' + codiceFiscale + ',' + password ;
     }
 
     public String getId() {
-        return id;
+        return id.trim();
     }
 
     public String getEmail() {
-        return email;
+        return email.trim();
+    }
+
+    public String getPassword() {
+        return password.trim();
     }
 }

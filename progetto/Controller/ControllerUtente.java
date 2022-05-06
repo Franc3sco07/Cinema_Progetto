@@ -22,6 +22,25 @@ public class ControllerUtente {
         return null;
     }
 
+    public Utente login(String email, String password){
+        BufferedReader in = Gestione_db.getTable(tableName);
+        Utente utente;
+
+        try {
+            String l;
+            while ((l = in.readLine()) != null) {
+                utente = stringToUtente(l);
+                if( utente.getEmail().equals(email) && utente.getPassword().equals(password)){
+                    return utente;
+                }
+            }
+        }
+        catch (FileNotFoundException e){}
+        catch (IOException e){}
+
+        return null;
+    }
+
     public String insertUtente(String nuovoUtente){
         return Gestione_db.insertRow(tableName, nuovoUtente);
     }
@@ -36,7 +55,7 @@ public class ControllerUtente {
 
     private Utente stringToUtente(String utenteString){
         String[] datiUtente = utenteString.split(",");
-        return new Utente(datiUtente[0], datiUtente[1], datiUtente[2], datiUtente[3], datiUtente[4], datiUtente[5], datiUtente[6]);
+        return new Utente(datiUtente[0], datiUtente[1], datiUtente[2], datiUtente[3], datiUtente[4], datiUtente[5], datiUtente[6], datiUtente[7]);
     }
 
     // checkEmail no duplicate email

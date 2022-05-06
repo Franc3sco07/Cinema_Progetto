@@ -4,11 +4,11 @@ public class Film {
     private String id, nome, locandina, info, prezzo;
 
     public Film(String id, String nome, String locandina, String info, String prezzo) {
-        this.id = id.trim();
-        this.nome = nome.trim();
-        this.locandina = locandina.trim();
-        this.info = info.trim();
-        this.prezzo = prezzo.trim();
+        this.id = id;
+        this.nome = nome;
+        this.locandina = locandina;
+        this.info = info;
+        this.prezzo = prezzo;
     }
 
     @Override
@@ -17,7 +17,7 @@ public class Film {
     }
 
     public String getId() {
-        return id;
+        return id.trim();
     }
 }
 
