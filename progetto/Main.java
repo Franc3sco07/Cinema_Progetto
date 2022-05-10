@@ -4,6 +4,7 @@ import progetto.Controller.*;
 import progetto.functions.TraduttoreMatrice;
 import progetto.functions.ValidatoreCampi;
 import progetto.model.*;
+import progetto.state.Context;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -13,6 +14,8 @@ import java.util.Collection;
 import java.util.Iterator;
 
 public class Main {
+    public static Context context = new Context();
+
     public static void testControllerFIlm(){
         ControllerFilm f = new ControllerFilm();
         Collection<Film> film = f.getAllFilms();

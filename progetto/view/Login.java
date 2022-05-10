@@ -1,6 +1,9 @@
 package progetto.view;
 
 import progetto.Controller.ControllerUtente;
+import progetto.Main;
+import progetto.state.LoginState;
+import progetto.state.RegistrazioneState;
 
 public class Login extends javax.swing.JPanel {
 
@@ -39,7 +42,9 @@ public class Login extends javax.swing.JPanel {
         jButton1.setText("Registrazione");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                GUI.aggiornaPannello(new Registrazione());
+                //GUI.aggiornaPannello(new Registrazione());
+                RegistrazioneState l = new RegistrazioneState();
+                l.doAction(Main.context);
             }
         });
 

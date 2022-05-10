@@ -1,5 +1,8 @@
 package progetto.view;
 
+import progetto.Main;
+import progetto.state.LoginState;
+
 /**
  *
  * @author franc
@@ -83,7 +86,9 @@ public class Registrazione extends javax.swing.JPanel {
         jButton2.setText("Indietro");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                GUI.aggiornaPannello(new Login());
+                //GUI.aggiornaPannello(new Login());
+                LoginState l = new LoginState();
+                l.doAction(Main.context);
             }
         });
 

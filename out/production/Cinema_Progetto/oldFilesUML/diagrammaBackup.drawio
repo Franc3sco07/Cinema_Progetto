@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="JNDS6XYEOu_RVq2JpHm3" name="Page-1">
-        <mxGraphModel dx="2952" dy="1820" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="2801" dy="1702" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -1191,7 +1191,7 @@
                 <mxCell id="396" value="Design pattern:&lt;br&gt;Memento&lt;br&gt;&lt;br&gt;Modifiche dei dipendenti da parte amministratore.&lt;br&gt;&lt;br&gt;modifica dati personali di ogni utente, dip, amm.&lt;br&gt;&lt;br&gt;inserimento nuovi film&lt;br&gt;prenotazioni&lt;br&gt;" style="shape=note2;boundedLbl=1;whiteSpace=wrap;html=1;size=25;verticalAlign=top;align=center;" parent="1" vertex="1">
                     <mxGeometry x="910" y="1186" width="240" height="214" as="geometry"/>
                 </mxCell>
-                <mxCell id="397" value="Design pattern:&lt;br&gt;Observer&lt;br&gt;&lt;br&gt;gestione Jbutton interfaccia&lt;br&gt;&lt;br&gt;&lt;br&gt;&amp;nbsp;Mediator&lt;br&gt;&lt;br&gt;delineare una classe&amp;nbsp;&lt;br&gt;per gestire i vari panelli&lt;br&gt;es: dall'area prenotazioni all'area personale&lt;br&gt;&lt;br&gt;Frame -&amp;gt; Medietor -&amp;gt; Panel ?" style="shape=note2;boundedLbl=1;whiteSpace=wrap;html=1;size=25;verticalAlign=top;align=center;" parent="1" vertex="1">
+                <mxCell id="397" value="Design pattern:&lt;br&gt;Observer&lt;br&gt;&lt;br&gt;gestione Jbutton interfaccia&lt;br&gt;&lt;br&gt;&lt;br&gt;State al posto del Mediator&lt;br&gt;&lt;br&gt;delineare una classe&amp;nbsp;&lt;br&gt;per gestire i vari panelli&lt;br&gt;es: dall'area prenotazioni all'area personale&lt;br&gt;&lt;br&gt;Frame -&amp;gt; Medietor -&amp;gt; Panel ?" style="shape=note2;boundedLbl=1;whiteSpace=wrap;html=1;size=25;verticalAlign=top;align=center;" parent="1" vertex="1">
                     <mxGeometry x="1200" y="1186" width="280" height="234" as="geometry"/>
                 </mxCell>
                 <mxCell id="399" value="Design pattern:&lt;br&gt;Facade&lt;br&gt;&lt;br&gt;frameUtente&lt;br&gt;frameDip&lt;br&gt;frameAmministratore&lt;br&gt;&lt;br&gt;Serve a nascondere la complessità di un sottositema al client&amp;nbsp;" style="shape=note2;boundedLbl=1;whiteSpace=wrap;html=1;size=25;verticalAlign=top;align=center;" parent="1" vertex="1">
