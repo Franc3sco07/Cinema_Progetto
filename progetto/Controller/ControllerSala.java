@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class ControllerSala {
-    private final String tableName = "Sala.csv";
+    private final String tableName = "sala.csv";
 
     public Sala getSalaByID(String IDsala){
         String stringaSala = Gestione_db.getRow(tableName, IDsala);

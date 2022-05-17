@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 public class ControllerPrenotazione {
-    private final String tableName = "Prenotazione.csv";
+    private final String tableName = "prenotazione.csv";
 
     public Collection<Prenotazione> getPrenotazioniByIDgeneratore(String IDutente){
         ArrayList<Prenotazione> prenotazioni = new ArrayList<>();

@@ -7,7 +7,7 @@ import java.io.*;
 import java.util.*;
 
 public class Gestione_db {
-    private static final String relativePath = ".\\progetto\\database\\";
+    private static final String relativePath = "progetto/database/";
 
     public static BufferedReader getTable(String tableName) {
         try{

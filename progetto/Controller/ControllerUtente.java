@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class ControllerUtente {
-    private final String tableName = "Utente.csv";
+    private final String tableName = "utente.csv";
 
     public Utente getUtenteByID(String IDUtente){
         String stringaUtente = Gestione_db.getRow(tableName, IDUtente);

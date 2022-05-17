@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.Iterator;
 
 public class ControllerProiezione {
-    private final String tableName = "Proiezione.csv";
+    private final String tableName = "proiezione.csv";
 
     public Collection<Proiezione> getProiezioneByIDFilm(String IDfilm){
         ArrayList<Proiezione> proiezioni = new ArrayList<>();

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class ControllerFilm {
-    private final String tableName = "Film.csv";
+    private final String tableName = "film.csv";
 
     public Collection<Film> getAllFilms(){
 
