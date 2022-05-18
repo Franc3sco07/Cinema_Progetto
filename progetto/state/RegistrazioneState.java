@@ -1,7 +1,6 @@
 package progetto.state;
 
 import progetto.view.GUI;
-import progetto.view.Login;
 import progetto.view.Registrazione;
 
 public class RegistrazioneState implements State{
