@@ -1,7 +1,9 @@
 package progetto.view;
 
 import progetto.Controller.ControllerUtente;
+import progetto.model.Film;
 import progetto.Main;
+import progetto.state.FilmState;
 import progetto.state.LoginState;
 import progetto.state.RegistrazioneState;
 
@@ -43,8 +45,7 @@ public class Login extends javax.swing.JPanel {
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 //GUI.aggiornaPannello(new Registrazione());
-                RegistrazioneState l = new RegistrazioneState();
-                l.doAction(Main.context);
+                new RegistrazioneState().doAction(Main.context);
             }
         });
 
@@ -54,7 +55,9 @@ public class Login extends javax.swing.JPanel {
                 //System.out.println(jTextField1.getText());
                 //jButton2ActionPerformed(evt);
                 ControllerUtente utente = new ControllerUtente();
-                System.out.println(utente.login( jTextField1.getText(), jTextField2.getText() ));
+                if (utente.login( jTextField1.getText(), jTextField2.getText() ) != null ){
+                    new FilmState().doAction(Main.context);
+                }
             }
         });
 
