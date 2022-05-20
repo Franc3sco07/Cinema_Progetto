@@ -4,16 +4,19 @@
  */
 package progetto.elementiGrafici;
 
+import java.awt.*;
+
 /**
  *
  * @author francesco
  */
 public class FilmSingolo extends javax.swing.JPanel {
-
+    private String id;
     /**
      * Creates new form FilmSingolo
      */
-    public FilmSingolo() {
+    public FilmSingolo(String id) {
+        this.id = id ;
         initComponents();
     }
 
@@ -30,7 +33,7 @@ public class FilmSingolo extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
 
-        jLabel1.setText("Descrizione Film");
+        jLabel1.setText("Descrizione Film: "  + id);
 
         jLabel2.setText("Immagine");
 
