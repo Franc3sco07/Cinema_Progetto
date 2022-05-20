@@ -4,9 +4,12 @@
  * and open the template in the editor.
  */
 package progetto.view;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import javax.swing.*;
+
 import progetto.elementiGrafici.FilmSingolo;
+
+import java.awt.*;
+
 /**
  *
  * @author franc
@@ -28,16 +31,15 @@ public class Film extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
-        jScrollPane1 = new javax.swing.JScrollPane();
-
-        jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
-        for(int i = 0; i < 3 ; i++){
-            JPanel j = new FilmSingolo();
-            j.setVisible(true);
-            jScrollPane1.add(j);
+        JPanel infoPannello = new JPanel();
+        infoPannello.setLayout(new BoxLayout(infoPannello, BoxLayout.Y_AXIS));
+        for(int i = 0; i < 6 ; i++){
+            JPanel j = new FilmSingolo("" +i);
+            infoPannello.add(j);
+            j.setOpaque(false);
         }
+        jScrollPane1 = new javax.swing.JScrollPane(infoPannello);
+        jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
