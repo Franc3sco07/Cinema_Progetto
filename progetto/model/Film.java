@@ -19,6 +19,14 @@ public class Film {
     public String getId() {
         return id.trim();
     }
+
+    public String getLocandina() {
+        return locandina;
+    }
+
+    public String getInfo() {
+        return info;
+    }
 }
 
 
