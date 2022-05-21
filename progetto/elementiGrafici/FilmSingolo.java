@@ -4,19 +4,35 @@
  */
 package progetto.elementiGrafici;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
 
 /**
  *
  * @author francesco
  */
 public class FilmSingolo extends javax.swing.JPanel {
-    private String id;
+    private String descrizione, idFilm;
+    ImageIcon logoFilm ;
+    private final String imagePath = "progetto/elementiGrafici/";
     /**
+     *
      * Creates new form FilmSingolo
      */
-    public FilmSingolo(String id) {
-        this.id = id ;
+    public FilmSingolo(String descrizione, String immagine, String idFilm) {
+        this.descrizione = descrizione ;
+        this.idFilm = idFilm;
+        BufferedImage img = null;
+        try {
+            img = ImageIO.read(new File(imagePath + immagine.trim()));
+        } catch (IOException e) {
+        }
+        this.logoFilm = new ImageIcon(img);
         initComponents();
     }
 
@@ -33,9 +49,9 @@ public class FilmSingolo extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
 
-        jLabel1.setText("Descrizione Film: "  + id);
+        jLabel1.setText(descrizione);// descrizione film
 
-        jLabel2.setText("Immagine");
+        jLabel2.setIcon(logoFilm); // lacandina film
 
         jButton1.setText("Proiezioni");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -49,7 +65,7 @@ public class FilmSingolo extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(28, 28, 28)
+                .addGap(20, 20, 20)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
