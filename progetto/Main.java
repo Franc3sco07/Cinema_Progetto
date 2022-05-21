@@ -8,10 +8,7 @@ import progetto.state.Context;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.*;
 
 public class Main {
     public static Context context = new Context();
@@ -39,6 +36,11 @@ public class Main {
         for (Iterator<Film> iterator = film.iterator(); iterator.hasNext(); ){
             System.out.println(iterator.next());
         }
+
+        ArrayList<String> ids = new ArrayList<>();
+        ids.add("203");
+        ids.add("201");
+        System.out.println("Lista di film con gli id 203 , 201: "+ f.getAllFilmsByIdList(ids) );
     }
 
     public static void testControllerSala(){
@@ -130,6 +132,9 @@ public class Main {
 
         Proiezione prova = new Proiezione("21321","2123", "2", "21.5", ValidatoreCampi.DATEFORMAT.parse("22-02-2022 12:12:31"), 21, TraduttoreMatrice.stringToMatrice("21: 12; 22: 12;"));
         System.out.println("modificato: " + f.modifyProiezione(prova));
+        Date oggi = new Date();
+        Collection<String> idList = f.getAllIdFilmAfterDate(oggi);
+        System.out.println("Lista di film disponibili: "+idList);
     }
 
     public static void testControllerTransazione(){
@@ -152,7 +157,9 @@ public class Main {
 
 
     public static void main(String[] args) throws IOException, ParseException {
-        testControllerUtente();
+        //testControllerUtente();
+        testControllerProiezione();
+        testControllerFIlm();
     }
 
 
