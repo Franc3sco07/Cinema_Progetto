@@ -1,14 +1,16 @@
 package progetto.view;
 
 import progetto.Controller.ControllerUtente;
-import progetto.model.Film;
 import progetto.Main;
 import progetto.state.FilmState;
-import progetto.state.LoginState;
 import progetto.state.RegistrazioneState;
 
-public class Login extends javax.swing.JPanel {
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+public class Login extends javax.swing.JPanel {
+    private String emailString = "Inserisci e-mail";
+    private String passString = "Inserisci password";
     public Login() {
         initComponents();
     }
@@ -23,19 +25,39 @@ public class Login extends javax.swing.JPanel {
     private void initComponents() {
 
         jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        passwordField = new javax.swing.JPasswordField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
-        jTextField1.setText("Inserisci e-mail");
+        jTextField1.setText(emailString);
+        jTextField1.setEditable(true);
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
             }
         });
+        jTextField1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(jTextField1.getText().equals(emailString)){
+                    jTextField1.setText("");
+                }
 
-        jTextField2.setText("Inserisci password");
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+            }
+        });
+
+        passwordField.setText(passString);
+        passwordField.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(passwordField.getPassword().equals(passString)){
+                    passwordField.setText("");
+                }
+
+            }
+        });
+
+        passwordField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField2ActionPerformed(evt);
             }
@@ -55,7 +77,7 @@ public class Login extends javax.swing.JPanel {
                 //System.out.println(jTextField1.getText());
                 //jButton2ActionPerformed(evt);
                 ControllerUtente utente = new ControllerUtente();
-                if (utente.login( jTextField1.getText(), jTextField2.getText() ) != null ){
+                if (utente.login( jTextField1.getText(), passwordField.getText() ) != null ){
                     new FilmState().doAction(Main.context);
                 }
             }
@@ -69,7 +91,7 @@ public class Login extends javax.swing.JPanel {
                 .addGap(103, 103, 103)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jTextField2)
+                        .addComponent(passwordField)
                         .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(30, 30, 30)
@@ -84,7 +106,7 @@ public class Login extends javax.swing.JPanel {
                 .addGap(84, 84, 84)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(40, 40, 40)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -114,6 +136,7 @@ public class Login extends javax.swing.JPanel {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JPasswordField passwordField;
+
     // End of variables declaration//GEN-END:variables
 }

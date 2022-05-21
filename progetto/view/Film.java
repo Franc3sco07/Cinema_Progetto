@@ -6,9 +6,16 @@
 package progetto.view;
 import javax.swing.*;
 
+import progetto.Controller.ControllerFilm;
+import progetto.Controller.ControllerProiezione;
 import progetto.elementiGrafici.FilmSingolo;
+import progetto.elementiGrafici.FilmVuoto;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Iterator;
 
 /**
  *
@@ -33,11 +40,28 @@ public class Film extends javax.swing.JPanel {
     private void initComponents() {
         JPanel infoPannello = new JPanel();
         infoPannello.setLayout(new BoxLayout(infoPannello, BoxLayout.Y_AXIS));
-        for(int i = 0; i < 6 ; i++){
-            JPanel j = new FilmSingolo("" +i);
+        Date oggi = new Date();
+        Collection<String> idFilm = new ControllerProiezione().getAllIdFilmAfterDate(oggi);
+        System.out.println("id Disponibili: "+idFilm);
+        Collection<progetto.model.Film> filmDisponibili = new ControllerFilm().getAllFilmsByIdList(idFilm);
+        System.out.println("Film Disponibili: "+filmDisponibili);
+        progetto.model.Film tmpFilm;
+        int i = 0;
+        for (Iterator<progetto.model.Film> iterator = filmDisponibili.iterator(); iterator.hasNext(); ){
+            tmpFilm = iterator.next();
+            System.out.println(tmpFilm);
+            JPanel j = new FilmSingolo(tmpFilm.getInfo(),tmpFilm.getLocandina(),tmpFilm.getId());
             infoPannello.add(j);
             j.setOpaque(false);
+            i++;
         }
+        for (;i<4;i++){
+            JPanel j = new FilmVuoto();
+            infoPannello.add(j);
+        }
+
+
+
         jScrollPane1 = new javax.swing.JScrollPane(infoPannello);
         jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
