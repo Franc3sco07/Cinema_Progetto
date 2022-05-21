@@ -29,6 +29,25 @@ public class ControllerFilm {
         return films;
     }
 
+    public Collection<Film> getAllFilmsByIdList (Collection<String> idFilms){
+        ArrayList<Film> films = new ArrayList<Film>();
+        BufferedReader in = Gestione_db.getTable(tableName);
+        Film tmp;
+        try {
+            String l;
+            while ((l = in.readLine()) != null) {
+                tmp = stringToFilm(l);
+                if (idFilms.contains(tmp.getId())){
+                    films.add(tmp);
+                }
+
+            }
+        }
+        catch (FileNotFoundException e){}
+        catch (IOException e){}
+        return films;
+    }
+
     public Film getFilmByID(String IDfilm){
         String stringaFilm = Gestione_db.getRow(tableName, IDfilm);
 

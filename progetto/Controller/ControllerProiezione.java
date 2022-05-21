@@ -9,10 +9,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Iterator;
+import java.util.*;
 
 public class ControllerProiezione {
     private final String tableName = "proiezione.csv";
@@ -45,7 +42,7 @@ public class ControllerProiezione {
         return proiezioniByIDFilm;
     }
 
-    public Collection getProiezioneByDate(Date data){
+    public Collection<Proiezione> getProiezioneByDate(Date data){
         ArrayList<Proiezione> proiezioni = new ArrayList<>();
 
         BufferedReader in = Gestione_db.getTable(tableName);
@@ -72,6 +69,26 @@ public class ControllerProiezione {
 
         return proiezioniByDate;
     }
+
+    public Collection<String> getAllIdFilmAfterDate(Date data){
+        HashSet<String> filmSetId= new HashSet<>();
+        BufferedReader in = Gestione_db.getTable(tableName);
+        Proiezione tmp;
+        try {
+            String l;
+            while ((l = in.readLine()) != null) {
+                tmp = stringToProiezione( l );
+                if(tmp.getData().after(data)) {
+                    filmSetId.add(tmp.getIdFilm());
+                }
+            }
+        }
+        catch (FileNotFoundException e){}
+        catch (IOException e){}
+        return filmSetId;
+
+    }
+
 
     public String insertProiezione(String proiezione){
         return Gestione_db.insertRow(tableName,proiezione);
