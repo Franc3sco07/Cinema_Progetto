@@ -53,6 +53,7 @@ public class Film extends javax.swing.JPanel {
             j.setOpaque(false);
             i++;
         }
+
         for (;i<4;i++){
             JPanel j = new FilmVuoto();
             infoPannello.add(j);

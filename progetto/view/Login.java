@@ -10,8 +10,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class Login extends javax.swing.JPanel {
-    private String emailString = "Inserisci e-mail";
-    private String passString = "Inserisci password";
+    private String emailString = "test"; //ricordarsi di sostituire
+    private String passString = "test";
     public Login() {
         initComponents();
     }

@@ -40,6 +40,10 @@ public class Proiezione {
         return idFilm.trim();
     }
 
+    public String getIdSala() {
+        return idSala;
+    }
+
     public Date getData() {
         return data;
     }

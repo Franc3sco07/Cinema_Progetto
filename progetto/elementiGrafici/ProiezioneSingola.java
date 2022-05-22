@@ -34,9 +34,9 @@ public class ProiezioneSingola extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
 
-        jLabel1.setText("Data e ora");
+        jLabel1.setText("Data: "+datiProiezione.getData());
 
-        jLabel2.setText("Nome sala");
+        jLabel2.setText("Sala: "+datiProiezione.getIdSala());
 
         jButton1.setText("Prenota");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -50,9 +50,9 @@ public class ProiezioneSingola extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addGap(12, 12, 12)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
+                .addGap(20, 20, 20)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addComponent(jButton1)

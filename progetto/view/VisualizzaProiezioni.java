@@ -3,7 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.cinema;
+package progetto.view;
+
+import progetto.Controller.ControllerProiezione;
+import progetto.Main;
+import progetto.Session;
+import progetto.elementiGrafici.ProiezioneSingola;
+import progetto.model.Proiezione;
+import progetto.state.FilmState;
+
+import javax.swing.*;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Iterator;
 
 /**
  *
@@ -27,13 +39,25 @@ public class VisualizzaProiezioni extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
+        JPanel infoPannello = new JPanel();
+        infoPannello.setLayout(new BoxLayout(infoPannello, BoxLayout.Y_AXIS));
+        Date oggi = new Date();
+        Collection<Proiezione> listaProiezione = new ControllerProiezione().getAllProiezioneByIdFilmAfterDate(Session.getSessioneCorrente().getIdRiferimentoFilm(),oggi);
+        Proiezione tmpProiezione;
+        for (Iterator<Proiezione> iterator = listaProiezione.iterator(); iterator.hasNext(); ){
+            tmpProiezione = iterator.next();
+            JPanel j = new ProiezioneSingola(tmpProiezione);
+            infoPannello.add(j);
+            j.setOpaque(false);
+        }
+        jScrollPane1 = new javax.swing.JScrollPane(infoPannello);
+        jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         jButton1 = new javax.swing.JButton();
 
         jButton1.setText("Indietro");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                new FilmState().doAction(Main.context);
             }
         });
 
