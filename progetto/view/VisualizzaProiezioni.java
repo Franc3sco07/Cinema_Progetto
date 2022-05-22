@@ -3,18 +3,33 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.cinema;
+package progetto.view;
+
+import progetto.Controller.ControllerProiezione;
+import progetto.Session;
+import progetto.elementiGrafici.FilmSingolo;
+import progetto.elementiGrafici.ProiezioneSingola;
+import progetto.model.Film;
+import progetto.model.Prenotazione;
+import progetto.model.Proiezione;
+
+import javax.swing.*;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Iterator;
 
 /**
  *
  * @author franc
  */
-public class VisualizzaPrenotazioni extends javax.swing.JPanel {
+public class VisualizzaProiezioni extends javax.swing.JPanel {
 
     /**
      * Creates new form VisualizzaPrenotazioni
      */
-    public VisualizzaPrenotazioni() {
+    public VisualizzaProiezioni() {
+
+
         initComponents();
     }
 
@@ -26,8 +41,19 @@ public class VisualizzaPrenotazioni extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
-        jScrollPane1 = new javax.swing.JScrollPane();
+        JPanel infoPannello = new JPanel();
+        infoPannello.setLayout(new BoxLayout(infoPannello, BoxLayout.Y_AXIS));
+        Date oggi = new Date();
+        Collection<Proiezione> listaProiezione = new ControllerProiezione().getAllProiezioneByIdFilmAfterDate(Session.getSessioneCorrente().getIdRiferimentoFilm(),oggi);
+        Proiezione tmpProiezione;
+        for (Iterator<Proiezione> iterator = listaProiezione.iterator(); iterator.hasNext(); ){
+            tmpProiezione = iterator.next();
+            JPanel j = new ProiezioneSingola(tmpProiezione);
+            infoPannello.add(j);
+            j.setOpaque(false);
+        }
+        jScrollPane1 = new javax.swing.JScrollPane(infoPannello);
+        jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

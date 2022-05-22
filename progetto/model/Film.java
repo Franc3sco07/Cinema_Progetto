@@ -27,6 +27,14 @@ public class Film {
     public String getInfo() {
         return info;
     }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getPrezzo() {
+        return prezzo;
+    }
 }
 
 

@@ -2,6 +2,7 @@ package progetto.view;
 
 import progetto.Controller.ControllerUtente;
 import progetto.Main;
+import progetto.Session;
 import progetto.state.FilmState;
 import progetto.state.RegistrazioneState;
 
@@ -76,8 +77,7 @@ public class Login extends javax.swing.JPanel {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 //System.out.println(jTextField1.getText());
                 //jButton2ActionPerformed(evt);
-                ControllerUtente utente = new ControllerUtente();
-                if (utente.login( jTextField1.getText(), passwordField.getText() ) != null ){
+                if(Session.logIn(jTextField1.getText(),new String(passwordField.getPassword()) )!= null) {
                     new FilmState().doAction(Main.context);
                 }
             }

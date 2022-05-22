@@ -2,18 +2,39 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package com.mycompany.cinema;
+package progetto.elementiGrafici;
+
+
+import progetto.Main;
+import progetto.Session;
+import progetto.model.Film;
+import progetto.state.ProiezioneState;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 /**
  *
  * @author francesco
  */
 public class FilmSingolo extends javax.swing.JPanel {
-
+    private Film datiFilm;
+    ImageIcon logoFilm ;
+    private final String imagePath = "progetto/elementiGrafici/";
     /**
      * Creates new form FilmSingolo
      */
-    public FilmSingolo() {
+    public FilmSingolo(Film datiFilm) {
+        BufferedImage img = null;
+        this.datiFilm= datiFilm;
+        try {
+            img = ImageIO.read(new File(imagePath + datiFilm.getLocandina().trim()));
+        } catch (IOException e) {
+        }
+        this.logoFilm = new ImageIcon(img);
         initComponents();
     }
 
@@ -31,18 +52,19 @@ public class FilmSingolo extends javax.swing.JPanel {
         jButton1 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
 
-        jLabel1.setText("Descrizione Film");
+        jLabel1.setText(datiFilm.getNome()+"\n"+datiFilm.getInfo());
 
-        jLabel2.setText("Immagine");
+        jLabel2.setIcon(logoFilm);
 
         jButton1.setText("Proiezioni");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                Session.getSessioneCorrente().setIdRiferimentoFilm(datiFilm.getId());
+                new ProiezioneState().doAction(Main.context);
             }
         });
 
-        jLabel3.setText("Prezzo");
+        jLabel3.setText("prezzo: "+datiFilm.getPrezzo()+"€");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

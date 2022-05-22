@@ -70,6 +70,24 @@ public class ControllerProiezione {
         return proiezioniByDate;
     }
 
+    public Collection<Proiezione> getAllProiezioneByIdFilmAfterDate(String idFilm, Date data){
+        ArrayList<Proiezione> proiezioni = new ArrayList<>();
+        BufferedReader in = Gestione_db.getTable(tableName);
+        Proiezione tmp;
+        try {
+            String l;
+
+            while ((l = in.readLine()) != null) {
+                tmp = stringToProiezione(l);
+                if(tmp.getIdFilm().equals(idFilm) && tmp.getData().before(data)){
+                    proiezioni.add(tmp);
+                }
+            }
+        } catch (IOException e) {
+        }
+        return proiezioni;
+    }
+
     public Collection<String> getAllIdFilmAfterDate(Date data){
         HashSet<String> filmSetId= new HashSet<>();
         BufferedReader in = Gestione_db.getTable(tableName);

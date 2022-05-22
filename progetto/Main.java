@@ -5,6 +5,8 @@ import progetto.functions.TraduttoreMatrice;
 import progetto.functions.ValidatoreCampi;
 import progetto.model.*;
 import progetto.state.Context;
+import progetto.state.LoginState;
+import progetto.view.GUI;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -12,7 +14,7 @@ import java.util.*;
 
 public class Main {
     public static Context context = new Context();
-
+    public static GUI frame ;
     public static void testControllerFIlm(){
         ControllerFilm f = new ControllerFilm();
         Collection<Film> film = f.getAllFilms();
@@ -157,9 +159,10 @@ public class Main {
 
 
     public static void main(String[] args) throws IOException, ParseException {
-        //testControllerUtente();
-        testControllerProiezione();
-        testControllerFIlm();
+        frame = new GUI();
+        //new LoginState().doAction(context);
+        frame.setVisible(true);
+
     }
 
 

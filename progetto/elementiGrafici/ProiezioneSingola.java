@@ -2,18 +2,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package com.mycompany.cinema;
+package progetto.elementiGrafici;
+
+
+import progetto.model.Proiezione;
 
 /**
  *
  * @author francesco
  */
 public class ProiezioneSingola extends javax.swing.JPanel {
-
+    private Proiezione datiProiezione;
     /**
      * Creates new form ProiezioneSingola
      */
-    public ProiezioneSingola() {
+    public ProiezioneSingola(Proiezione datiProizione) {
+        this.datiProiezione = datiProizione;
         initComponents();
     }
 

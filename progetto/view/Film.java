@@ -8,6 +8,7 @@ import javax.swing.*;
 
 import progetto.Controller.ControllerFilm;
 import progetto.Controller.ControllerProiezione;
+import progetto.Session;
 import progetto.elementiGrafici.FilmSingolo;
 import progetto.elementiGrafici.FilmVuoto;
 
@@ -42,15 +43,12 @@ public class Film extends javax.swing.JPanel {
         infoPannello.setLayout(new BoxLayout(infoPannello, BoxLayout.Y_AXIS));
         Date oggi = new Date();
         Collection<String> idFilm = new ControllerProiezione().getAllIdFilmAfterDate(oggi);
-        System.out.println("id Disponibili: "+idFilm);
         Collection<progetto.model.Film> filmDisponibili = new ControllerFilm().getAllFilmsByIdList(idFilm);
-        System.out.println("Film Disponibili: "+filmDisponibili);
         progetto.model.Film tmpFilm;
         int i = 0;
         for (Iterator<progetto.model.Film> iterator = filmDisponibili.iterator(); iterator.hasNext(); ){
             tmpFilm = iterator.next();
-            System.out.println(tmpFilm);
-            JPanel j = new FilmSingolo(tmpFilm.getInfo(),tmpFilm.getLocandina(),tmpFilm.getId());
+            JPanel j = new FilmSingolo(tmpFilm);
             infoPannello.add(j);
             j.setOpaque(false);
             i++;
