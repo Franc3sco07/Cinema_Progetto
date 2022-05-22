@@ -3,20 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package progetto.view;
-
-import progetto.Controller.ControllerProiezione;
-import progetto.Session;
-import progetto.elementiGrafici.FilmSingolo;
-import progetto.elementiGrafici.ProiezioneSingola;
-import progetto.model.Film;
-import progetto.model.Prenotazione;
-import progetto.model.Proiezione;
-
-import javax.swing.*;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Iterator;
+package com.mycompany.cinema;
 
 /**
  *
@@ -25,11 +12,9 @@ import java.util.Iterator;
 public class VisualizzaProiezioni extends javax.swing.JPanel {
 
     /**
-     * Creates new form VisualizzaPrenotazioni
+     * Creates new form VisualizzaProiezioni
      */
     public VisualizzaProiezioni() {
-
-
         initComponents();
     }
 
@@ -41,34 +26,48 @@ public class VisualizzaProiezioni extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        JPanel infoPannello = new JPanel();
-        infoPannello.setLayout(new BoxLayout(infoPannello, BoxLayout.Y_AXIS));
-        Date oggi = new Date();
-        Collection<Proiezione> listaProiezione = new ControllerProiezione().getAllProiezioneByIdFilmAfterDate(Session.getSessioneCorrente().getIdRiferimentoFilm(),oggi);
-        Proiezione tmpProiezione;
-        for (Iterator<Proiezione> iterator = listaProiezione.iterator(); iterator.hasNext(); ){
-            tmpProiezione = iterator.next();
-            JPanel j = new ProiezioneSingola(tmpProiezione);
-            infoPannello.add(j);
-            j.setOpaque(false);
-        }
-        jScrollPane1 = new javax.swing.JScrollPane(infoPannello);
-        jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jButton1 = new javax.swing.JButton();
+
+        jButton1.setText("Indietro");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 753, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 741, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton1)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }
