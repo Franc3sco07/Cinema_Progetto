@@ -160,9 +160,8 @@ public class Main {
 
     public static void main(String[] args) throws IOException, ParseException {
         frame = new GUI();
-        //new LoginState().doAction(context);
+        new LoginState().doAction(context);
         frame.setVisible(true);
-
     }
 
 
