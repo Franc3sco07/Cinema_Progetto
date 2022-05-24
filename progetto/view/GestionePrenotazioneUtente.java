@@ -25,7 +25,7 @@ import java.util.ArrayList;
  */
 public class GestionePrenotazioneUtente extends javax.swing.JPanel {
     private ArrayList postiSelezionati = new ArrayList();
-    private String imgPath = "progetto/elementiGrafici/poltrona.jpg";
+    private String imgPath = "progetto/elementiGrafici/poltrona2.png";
     private Color selezionato = new Color(0,125,0);
     private ImageIcon icon  ;
     /**
