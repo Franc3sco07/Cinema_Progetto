@@ -30,9 +30,9 @@ public class ValidatoreCampi {
         return true;
     }
 
-
+    // codice fiscale tipo: RSSMRA85T10A562S
     public static boolean isValidCodiceFiscale(String codiceFiscale){
-        if (!codiceFiscale.matches("[A-Z0-9]{16}")) {
+        if (!codiceFiscale.matches("^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$")) {
             return false;
         }
         return true;

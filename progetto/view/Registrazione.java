@@ -10,6 +10,8 @@ import progetto.Controller.ControllerUtente;
 import progetto.functions.ValidatoreCampi;
 import progetto.state.LoginState;
 import java.awt.Color;
+
+import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 import java.awt.event.FocusListener;
 import java.awt.event.FocusEvent;
@@ -45,11 +47,11 @@ public class Registrazione extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
+        nomeField = new javax.swing.JTextField();
+        cognomeField = new javax.swing.JTextField();
+        emailField = new javax.swing.JTextField();
+        codiceFiscaleField = new javax.swing.JTextField();
+        numeroCellulareField = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jPasswordField1 = new javax.swing.JPasswordField();
@@ -73,89 +75,89 @@ public class Registrazione extends javax.swing.JPanel {
 
         jLabel7.setText("verifica password");
 
-        jTextField1.setText("");
-        jTextField1.addFocusListener(new FocusListener(){
+        nomeField.setText("");
+        nomeField.addFocusListener(new FocusListener(){
             @Override
             public void focusGained(FocusEvent e) {}
 
             @Override
             public void focusLost(FocusEvent e) {
-                if (ValidatoreCampi.isValidString(jTextField1.getText())){
-                    jTextField1.setBorder(new LineBorder(Color.green,2));
+                if (ValidatoreCampi.isValidString(nomeField.getText())){
+                    nomeField.setBorder(new LineBorder(Color.green,2));
                 } else {
-                    jTextField1.setBorder(new LineBorder(Color.red,2));
+                    nomeField.setBorder(new LineBorder(Color.red,2));
                 }
             }
         });
 
-        jTextField2.setText("");
-        jTextField2.addFocusListener(new FocusListener(){
+        cognomeField.setText("");
+        cognomeField.addFocusListener(new FocusListener(){
             @Override
             public void focusGained(FocusEvent e) {}
 
             @Override
             public void focusLost(FocusEvent e) {
-                if (ValidatoreCampi.isValidString(jTextField2.getText())){
-                    jTextField2.setBorder(new LineBorder(Color.green,2));
+                if (ValidatoreCampi.isValidString(cognomeField.getText())){
+                    cognomeField.setBorder(new LineBorder(Color.green,2));
                 } else {
-                    jTextField2.setBorder(new LineBorder(Color.red,2));
+                    cognomeField.setBorder(new LineBorder(Color.red,2));
                 }
             }
         });
 
-        jTextField3.setText("");
-        jTextField3.addFocusListener(new FocusListener(){
+        emailField.setText("");
+        emailField.addFocusListener(new FocusListener(){
             @Override
             public void focusGained(FocusEvent e) {}
 
             @Override
             public void focusLost(FocusEvent e) {
-                if (ValidatoreCampi.isValidEmail(jTextField3.getText())){
+                if (ValidatoreCampi.isValidEmail(emailField.getText())){
                     ControllerUtente n = new ControllerUtente();
-                    if (n.checkEmail(jTextField3.getText())) {
-                        jTextField3.setBorder(new LineBorder(Color.green,2));
-                        jTextField3.setToolTipText("");
+                    if (n.checkEmail(emailField.getText())) {
+                        emailField.setBorder(new LineBorder(Color.green,2));
+                        emailField.setToolTipText("");
                     } else {
-                        jTextField3.setBorder(new LineBorder(Color.red,2));
-                        jTextField3.setToolTipText("Questa e-mail è già stata registrata");
+                        emailField.setBorder(new LineBorder(Color.red,2));
+                        emailField.setToolTipText("Questa e-mail è già stata registrata");
                     }
                 } else {
-                    jTextField3.setBorder(new LineBorder(Color.red,2));
-                    jTextField3.setToolTipText("Formato e-mail non riconosciuto");
+                    emailField.setBorder(new LineBorder(Color.red,2));
+                    emailField.setToolTipText("Formato e-mail non riconosciuto");
                 }
             }
         });
 
 
 
-        jTextField4.setText(""); // codice fiscale
-        jTextField4.addFocusListener(new FocusListener(){
+        codiceFiscaleField.setText(""); // codice fiscale
+        codiceFiscaleField.addFocusListener(new FocusListener(){
             @Override
             public void focusGained(FocusEvent e) {}
 
             @Override
             public void focusLost(FocusEvent e) {
-                if (ValidatoreCampi.isValidCodiceFiscale(jTextField4.getText())){
-                    jTextField4.setBorder(new LineBorder(Color.green,2));
+                if (ValidatoreCampi.isValidCodiceFiscale(codiceFiscaleField.getText())){
+                    codiceFiscaleField.setBorder(new LineBorder(Color.green,2));
                 } else {
-                    jTextField4.setBorder(new LineBorder(Color.red,2));
+                    codiceFiscaleField.setBorder(new LineBorder(Color.red,2));
                 }
             }
         });
 
 
 
-        jTextField5.setText("");// numero di cellulare
-        jTextField5.addFocusListener(new FocusListener(){
+        numeroCellulareField.setText("");// numero di cellulare
+        numeroCellulareField.addFocusListener(new FocusListener(){
             @Override
             public void focusGained(FocusEvent e) {}
 
             @Override
             public void focusLost(FocusEvent e) {
-                if (ValidatoreCampi.isValidNumberCell(jTextField5.getText())){
-                    jTextField5.setBorder(new LineBorder(Color.green,2));
+                if (ValidatoreCampi.isValidNumberCell(numeroCellulareField.getText())){
+                    numeroCellulareField.setBorder(new LineBorder(Color.green,2));
                 } else {
-                    jTextField5.setBorder(new LineBorder(Color.red,2));
+                    numeroCellulareField.setBorder(new LineBorder(Color.red,2));
                 }
             }
         });
@@ -197,8 +199,19 @@ public class Registrazione extends javax.swing.JPanel {
         jButton1.setText("Registrati");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                if( ((LineBorder)jTextField4.getBorder()).getLineColor() == Color.green ){
-                    System.out.println("campo corretto");
+                if (controllaCampi()){
+                    String nuovoUtente = "U, " 
+                    + nomeField.getText() + ","
+                    + cognomeField.getText() + ","
+                    + emailField.getText() + ","
+                    + numeroCellulareField.getText() + ","
+                    + codiceFiscaleField.getText() + ","
+                    + new String(jPasswordField1.getPassword());
+
+                    new ControllerUtente().insertUtente(nuovoUtente);
+                    
+                    JOptionPane.showMessageDialog(null, "Registrazione effettuata con successo!\n Verrai reindirizzato al login");
+                    new LoginState().doAction(Main.context);
                 }
             }
         });
@@ -240,11 +253,11 @@ public class Registrazione extends javax.swing.JPanel {
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
-                                            .addComponent(jTextField3)
-                                            .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jTextField5)))))
+                                            .addComponent(codiceFiscaleField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+                                            .addComponent(emailField)
+                                            .addComponent(nomeField, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(cognomeField, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(numeroCellulareField)))))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -258,23 +271,23 @@ public class Registrazione extends javax.swing.JPanel {
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(nomeField, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cognomeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(codiceFiscaleField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(numeroCellulareField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
@@ -299,13 +312,40 @@ public class Registrazione extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void cognomeFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cognomeFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_cognomeFieldActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void nomeFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nomeFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_nomeFieldActionPerformed
+
+    private boolean controllaCampi(){
+        if( ((LineBorder)nomeField.getBorder()).getLineColor() != Color.green ){
+            return false;
+        }
+        if( ((LineBorder)cognomeField.getBorder()).getLineColor() != Color.green ){
+            return false;
+        }
+        if( ((LineBorder)emailField.getBorder()).getLineColor() != Color.green ){
+            return false;
+        }
+        if( ((LineBorder)codiceFiscaleField.getBorder()).getLineColor() != Color.green ){
+            return false;
+        }
+        if( ((LineBorder)numeroCellulareField.getBorder()).getLineColor() != Color.green ){
+            return false;
+        }
+        if( ((LineBorder)jPasswordField1.getBorder()).getLineColor() != Color.green ){
+            return false;
+        }
+        if( ((LineBorder)jPasswordField2.getBorder()).getLineColor() != Color.green ){
+            return false;
+        }
+
+
+        return true;
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -322,10 +362,11 @@ public class Registrazione extends javax.swing.JPanel {
     private javax.swing.JPasswordField jPasswordField2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    // End of variables declaration//GEN-END:variables
+    private javax.swing.JTextField nomeField;
+    private javax.swing.JTextField cognomeField;
+    private javax.swing.JTextField emailField;
+    private javax.swing.JTextField codiceFiscaleField;
+    private javax.swing.JTextField numeroCellulareField;
+    // End of variables declaration//GEN-END:variablesù
+
 }
