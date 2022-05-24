@@ -44,6 +44,7 @@ public class VisualizzaProiezioni extends javax.swing.JPanel {
         Date oggi = new Date();
         Collection<Proiezione> listaProiezione = new ControllerProiezione().getAllProiezioneByIdFilmAfterDate(Session.getSessioneCorrente().getIdRiferimentoFilm(),oggi);
         Proiezione tmpProiezione;
+
         for (Iterator<Proiezione> iterator = listaProiezione.iterator(); iterator.hasNext(); ){
             tmpProiezione = iterator.next();
             JPanel j = new ProiezioneSingola(tmpProiezione);
@@ -55,6 +56,7 @@ public class VisualizzaProiezioni extends javax.swing.JPanel {
         jButton1 = new javax.swing.JButton();
 
         jButton1.setText("Indietro");
+        jButton1.setToolTipText("Ritorna ai film");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 new FilmState().doAction(Main.context);

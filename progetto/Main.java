@@ -84,7 +84,7 @@ public class Main {
         System.out.println(f.deletePrenotazione("205"));
 
         System.out.println("modifica prenotazione");
-        Prenotazione newPrenotazione = new Prenotazione("201", "55","5", "21", "13", "14, 21: 12; 22: 12;");
+        Prenotazione newPrenotazione = new Prenotazione("201", "55","5", "21",  "14, 21: 12; 22: 12;");
         System.out.println(f.modifyPrenotazione(newPrenotazione));
     }
 

@@ -14,6 +14,9 @@ import java.util.*;
 public class ControllerProiezione {
     private final String tableName = "proiezione.csv";
 
+    public Proiezione getProezioneByID(String IDProiezione){
+        return stringToProiezione(Gestione_db.getRow( tableName, IDProiezione));
+    }
     public Collection<Proiezione> getProiezioneByIDFilm(String IDfilm){
         ArrayList<Proiezione> proiezioni = new ArrayList<>();
 
@@ -135,6 +138,7 @@ public class ControllerProiezione {
                     TraduttoreMatrice.stringToMatrice(proizioneDati[6]));
         } catch (ParseException e) {
             System.out.println("Errore ParseException");
+            System.out.println(proizioneDati);
             return null;
         }
 

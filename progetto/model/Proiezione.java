@@ -47,4 +47,20 @@ public class Proiezione {
     public Date getData() {
         return data;
     }
+
+    public int[][] getPostiAttualiOccupati() {
+        return postiAttualiOccupati;
+    }
+
+    public void setPostiAttualiOccupati(int[][] postiAttualiOccupati) {
+        this.postiAttualiOccupati = postiAttualiOccupati;
+    }
+
+    public int getPostiLiberi() {
+        return postiLiberi;
+    }
+
+    public void setPostiLiberi(int postiLiberi) {
+        this.postiLiberi = postiLiberi;
+    }
 }

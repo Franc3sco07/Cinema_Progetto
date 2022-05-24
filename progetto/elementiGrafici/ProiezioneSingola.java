@@ -5,7 +5,11 @@
 package progetto.elementiGrafici;
 
 
+import progetto.Main;
+import progetto.Session;
 import progetto.model.Proiezione;
+import progetto.state.PrenotazioneUtenteState;
+import progetto.view.GestionePrenotazioneUtente;
 
 /**
  *
@@ -41,7 +45,8 @@ public class ProiezioneSingola extends javax.swing.JPanel {
         jButton1.setText("Prenota");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                Session.getSessioneCorrente().setIdRiferimentoProiezione(datiProiezione.getId());
+                new PrenotazioneUtenteState().doAction(Main.context);
             }
         });
 

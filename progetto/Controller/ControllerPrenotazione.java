@@ -109,6 +109,6 @@ public class ControllerPrenotazione {
 
     private Prenotazione stringToPrenotazione(String prenotazioneString){
         String[] datiPrenotazione = prenotazioneString.split(",");
-        return new Prenotazione(datiPrenotazione[0], datiPrenotazione[1], datiPrenotazione[2], datiPrenotazione[3], datiPrenotazione[4], datiPrenotazione[5]);
+        return new Prenotazione(datiPrenotazione[0], datiPrenotazione[1], datiPrenotazione[2], datiPrenotazione[3], datiPrenotazione[4]);
     }
 }
