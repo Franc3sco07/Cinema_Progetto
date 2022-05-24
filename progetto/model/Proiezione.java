@@ -1,6 +1,7 @@
 package progetto.model;
 
 import progetto.functions.TraduttoreMatrice;
+import progetto.functions.ValidatoreCampi;
 
 import java.util.Date;
 
@@ -31,7 +32,7 @@ public class Proiezione {
                 "," + idFilm +
                 ","+ idSala +
                 ",'" + prezzo +
-                "," + data +
+                "," + ValidatoreCampi.DATEFORMAT.format(data) +
                 "," + postiLiberi +
                 "," + TraduttoreMatrice.matriceToString(postiAttualiOccupati) ;
     }
