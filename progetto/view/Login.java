@@ -9,6 +9,9 @@ import progetto.state.RegistrazioneState;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import java.awt.event.FocusListener;
+import java.awt.event.FocusEvent;
+
 public class Login extends javax.swing.JPanel {
     private String emailString = "test"; //ricordarsi di sostituire
     private String passString = "test";
@@ -43,25 +46,20 @@ public class Login extends javax.swing.JPanel {
                 if(jTextField1.getText().equals(emailString)){
                     jTextField1.setText("");
                 }
-
             }
         });
 
         passwordField.setText(passString);
-        passwordField.addMouseListener(new MouseAdapter() {
+        passwordField.addFocusListener(new FocusListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                if(passwordField.getPassword().equals(passString)){
+            public void focusGained(FocusEvent e) {
+                if(new String(passwordField.getPassword()).equals(passString)){
                     passwordField.setText("");
                 }
-
             }
-        });
 
-        passwordField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
+            @Override
+            public void focusLost(FocusEvent e) {}
         });
 
         jButton1.setText("Registrazione");
@@ -79,6 +77,8 @@ public class Login extends javax.swing.JPanel {
                 //jButton2ActionPerformed(evt);
                 if(Session.logIn(jTextField1.getText(),new String(passwordField.getPassword()) )!= null) {
                     new FilmState().doAction(Main.context);
+                
+                    Main.frame.showMenu();
                 }
             }
         });

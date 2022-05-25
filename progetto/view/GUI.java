@@ -6,6 +6,7 @@
 package progetto.view;
 
 import progetto.Main;
+import progetto.Session;
 import progetto.state.Context;
 import progetto.state.LoginState;
 
@@ -47,6 +48,7 @@ public class GUI extends javax.swing.JFrame {
         jMenu5 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuLogout = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -67,36 +69,48 @@ public class GUI extends javax.swing.JFrame {
         jMenu1.setText("Film");
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Prenotazioni");
-        jMenuBar1.add(jMenu2);
+        if (Session.getSessioneCorrente().getUtenteLoggato().getTipoUtente().equals("U")){
+            jMenu2.setText("Prenotazioni"); //visibile solo per gli utenti
+            jMenuBar1.add(jMenu2);
+        }
+
+        if (Session.getSessioneCorrente().getUtenteLoggato().getTipoUtente().equals("D")){
+            jMenu4.setText("Gestione Biglietti"); //visibile solo per i dipendenti
+            jMenuBar1.add(jMenu4);
+        }
+
+        if (Session.getSessioneCorrente().getUtenteLoggato().getTipoUtente().equals("A")){
+            jMenu5.setText("Amministrazione"); //visibile solo admin
+            jMenuItem3.setText("Visualizza vendite");
+            jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        jMenuItem3ActionPerformed(evt);
+                    }
+                });
+
+            jMenu5.add(jMenuItem3);
+
+            jMenuItem4.setText("Visualizza dipendenti");
+            jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        jMenuItem4ActionPerformed(evt);
+                    }
+                });
+            
+            jMenu5.add(jMenuItem4);
+            jMenuBar1.add(jMenu5);
+        }
+
 
         jMenu3.setText("Profilo");
         jMenuBar1.add(jMenu3);
 
-        jMenu4.setText("Gestione Biglietti");
-        jMenuBar1.add(jMenu4);
+        jMenuLogout.setText("Logout");
+        jMenuBar1.add(jMenuLogout);
 
-        jMenu5.setText("Amministrazione");
-
-        jMenuItem3.setText("Visualizza vendite");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
-            }
-        });
-        jMenu5.add(jMenuItem3);
-
-        jMenuItem4.setText("Visualizza dipendenti");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
-            }
-        });
-        jMenu5.add(jMenuItem4);
-
-        jMenuBar1.add(jMenu5);
-        jMenuBar1.setVisible(false);
+        jMenuBar1.setVisible(true);
         setJMenuBar(jMenuBar1);
+
     }
 
     public void aggiornaPannello(JPanel n){
@@ -115,6 +129,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuLogout;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

@@ -154,6 +154,8 @@ public class GestionePrenotazioneUtente extends javax.swing.JPanel {
 
                     JOptionPane.showMessageDialog(null, "Prenotazione effettuata con sucesso!\n Verrai reindirizzato al catalogo film");
                     new FilmState().doAction(Main.context);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Seleziona un posto desiderato");
                 }
 
             }
