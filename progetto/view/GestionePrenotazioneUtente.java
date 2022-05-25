@@ -28,6 +28,9 @@ public class GestionePrenotazioneUtente extends javax.swing.JPanel {
     private String imgPath = "progetto/elementiGrafici/poltrona2.png";
     private Color selezionato = new Color(0,125,0);
     private ImageIcon icon  ;
+    private final int panel_lunghezza = 770; // 800
+    private final int panel_altezza = 357; // 450
+
     /**
      * Creates new form postiCinema
      */
@@ -55,25 +58,42 @@ public class GestionePrenotazioneUtente extends javax.swing.JPanel {
         int colonne = posti[0].length;
         icon = new ImageIcon(imgPath);
         Image image = icon.getImage();
-        int lunghezza = 770/(righe);
-        int altezza =  357/(colonne);
+        int lunghezza_img = panel_lunghezza/(colonne);
+        int altezza_img =  panel_altezza/(righe);
 
         Image newIcon;
-        if(lunghezza < altezza){
-            newIcon = image.getScaledInstance(lunghezza, lunghezza,  java.awt.Image.SCALE_SMOOTH);
+        int altezza_gap= 0;
+        int lunghezza_gap =0 ;
+        int lunghezza_finale;
+        int altezza_finale;
+        if(lunghezza_img < altezza_img){
+            lunghezza_finale = lunghezza_img*colonne;
+            altezza_finale = lunghezza_img*righe;
+
+            newIcon = image.getScaledInstance(lunghezza_img, lunghezza_img,  java.awt.Image.SCALE_SMOOTH);
         }else{
-            newIcon = image.getScaledInstance(altezza, altezza,  java.awt.Image.SCALE_SMOOTH);
+            lunghezza_finale = altezza_img*colonne;
+            altezza_finale = altezza_img*righe;
+
+            newIcon = image.getScaledInstance(altezza_img, altezza_img,  java.awt.Image.SCALE_SMOOTH);
         }
+
+
 
         icon = new ImageIcon(newIcon);
         jPanel1 = new javax.swing.JPanel(new GridLayout(righe,colonne));
+        jPanel1.setSize(lunghezza_finale,altezza_finale);
         //JPanel posti = new JPanel(new GridLayout(righe,colonne));
         JButton tmp ;
-
         for(int x=0; x<righe;x++){
             for(int y=0;y<colonne;y++){
-                tmp = new JButton();
-                tmp.setIcon(icon);
+                tmp = new JButton(icon);
+                tmp.setSize(new Dimension(icon.getIconWidth(),icon.getIconHeight()));
+                //tmp.setContentAreaFilled(false); fa diventare il bottone trasparente
+                tmp.setBorder(null);
+                //tmp.setIcon(icon);
+                //tmp.setBorderPainted(false);
+
                 if(posti[x][y] == 0){
                     tmp.setVisible(false);
                 }else if (posti[x][y] == 2){
@@ -83,7 +103,7 @@ public class GestionePrenotazioneUtente extends javax.swing.JPanel {
                 }else{
                     tmp.setVisible(true);
                     tmp.setName(x+":"+y);
-                    tmp.setToolTipText("Seleziona");
+                    tmp.setToolTipText("Seleziona posto "+x+","+y);
                     tmp.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent evt) {
 
@@ -109,6 +129,7 @@ public class GestionePrenotazioneUtente extends javax.swing.JPanel {
                         }
                     });
                 }
+
                 jPanel1.add(tmp);
             }
         }
@@ -146,11 +167,16 @@ public class GestionePrenotazioneUtente extends javax.swing.JPanel {
             }
         });
 
+        JPanel jPanel2 = new JPanel();
+        jPanel2.setSize(panel_lunghezza,panel_altezza);
+        jPanel2.add(jPanel1,CENTER_ALIGNMENT);
+        jPanel2.setVisible(true);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 770, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, panel_lunghezza, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -161,7 +187,7 @@ public class GestionePrenotazioneUtente extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, panel_altezza, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
