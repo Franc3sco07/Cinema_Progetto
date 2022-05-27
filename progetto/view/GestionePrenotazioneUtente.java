@@ -114,7 +114,10 @@ public class GestionePrenotazioneUtente extends javax.swing.JPanel {
                                 int numbers[][] = TraduttoreMatrice.stringToMatrice(name) ;
                                 posti[numbers[0][0]][numbers[0][1]] = 2;
 
-
+                                if(!jButton1.isEnabled()){
+                                    jButton1.setToolTipText(null);
+                                    jButton1.setEnabled(true);
+                                }
                                 source.setBackground(selezionato);
                                 source.setToolTipText("Annulla selezione");
                             }else{
@@ -123,7 +126,13 @@ public class GestionePrenotazioneUtente extends javax.swing.JPanel {
                                 int numbers[][] = TraduttoreMatrice.stringToMatrice(name) ;
                                 posti[numbers[0][0]][numbers[0][1]] = 1;
                                 source.setBackground(null);
-                                source.setToolTipText("Seleziona");
+                                source.setToolTipText("Seleziona posto "+source.getName().replaceAll(":",","));
+
+
+                                if(postiSelezionati.size() < 1){
+                                    jButton1.setToolTipText("Seleziona un posto prima di continuare");
+                                    jButton1.setEnabled(false);
+                                }
                             }
 
                         }
@@ -135,6 +144,8 @@ public class GestionePrenotazioneUtente extends javax.swing.JPanel {
         }
 
         jButton1.setText("Prenota");
+        jButton1.setEnabled(false);
+        jButton1.setToolTipText("Seleziona un posto prima di continuare");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 if(postiSelezionati.size()>0){
@@ -154,9 +165,9 @@ public class GestionePrenotazioneUtente extends javax.swing.JPanel {
 
                     JOptionPane.showMessageDialog(null, "Prenotazione effettuata con sucesso!\n Verrai reindirizzato al catalogo film");
                     new FilmState().doAction(Main.context);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Seleziona un posto desiderato");
-                }
+                } //else {
+                  //  JOptionPane.showMessageDialog(null, "Seleziona un posto desiderato");
+                //}
 
             }
         });

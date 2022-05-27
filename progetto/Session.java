@@ -51,4 +51,9 @@ public class Session {
     public void setIdRiferimentoProiezione(String idRiferimentoProiezione) {
         this.IdRiferimentoProiezione = idRiferimentoProiezione;
     }
+
+    public void logOut (){
+        utenteLoggato = null;
+        sessioneCorrente = null;
+    }
 }
