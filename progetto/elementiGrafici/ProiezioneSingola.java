@@ -7,6 +7,7 @@ package progetto.elementiGrafici;
 
 import progetto.Main;
 import progetto.Session;
+import progetto.functions.ValidatoreCampi;
 import progetto.model.Proiezione;
 import progetto.state.PrenotazioneUtenteState;
 import progetto.view.GestionePrenotazioneUtente;
@@ -38,9 +39,9 @@ public class ProiezioneSingola extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
 
-        jLabel1.setText("Data: "+datiProiezione.getData());
+        jLabel1.setText("Data: "+ ValidatoreCampi.DATEFORMAT.format(datiProiezione.getData())+"     prezzo: "+datiProiezione.getPrezzo()+"€");
 
-        jLabel2.setText("Sala: "+datiProiezione.getIdSala());
+        jLabel2.setText("Sala: "+datiProiezione.getIdSala()+"      posti disponibili: "+datiProiezione.getPostiLiberi());
 
         jButton1.setText("Prenota");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -56,9 +57,9 @@ public class ProiezioneSingola extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(12, 12, 12)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addGap(33, 33, 33))

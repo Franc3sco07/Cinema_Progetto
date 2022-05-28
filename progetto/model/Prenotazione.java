@@ -1,5 +1,7 @@
 package progetto.model;
 
+import progetto.functions.ValidatoreCampi;
+
 import java.util.Date;
 
 public class Prenotazione {
@@ -17,7 +19,7 @@ public class Prenotazione {
     }
 
     @Override
-    public String toString() { return id + ',' + idGeneratore + ',' + idProiezione + ',' + idFilm + ',' + data + "," + prezzo + "," + postoAssegnato; }
+    public String toString() { return id + ',' + idGeneratore + ',' + idProiezione + ',' + idFilm + ',' + ValidatoreCampi.DATEFORMAT.format(data) + "," + prezzo + "," + postoAssegnato; }
 
     public String getId() { return id; }
 
@@ -37,4 +39,11 @@ public class Prenotazione {
         return prezzo;
     }
 
+    public String getPostoAssegnato() {
+        return postoAssegnato;
+    }
+
+    public Date getData() {
+        return data;
+    }
 }

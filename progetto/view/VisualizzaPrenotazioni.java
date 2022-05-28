@@ -5,7 +5,17 @@
 */
 package progetto.view;
 
-import javax.swing.JPanel;
+import progetto.Controller.ControllerPrenotazione;
+import progetto.Session;
+import progetto.elementiGrafici.PrenotazioneSingola;
+import progetto.elementiGrafici.ProiezioneSingola;
+import progetto.model.Prenotazione;
+import progetto.model.Proiezione;
+
+import javax.swing.*;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Iterator;
 
 /**
  *
@@ -30,11 +40,19 @@ public class VisualizzaPrenotazioni extends javax.swing.JPanel {
     private void initComponents() {
 
         JPanel prenotazioni = new JPanel();
-        
+        prenotazioni.setLayout(new BoxLayout(prenotazioni, BoxLayout.Y_AXIS));
 
+        Collection<Prenotazione> listaPrenotazioni = new ControllerPrenotazione().getByIDGeneratoreAfterDate(Session.getSessioneCorrente().getUtenteLoggato().getId(), new Date());
+        Prenotazione tmpPrenotazione;
+        for (Iterator<Prenotazione> iterator = listaPrenotazioni.iterator(); iterator.hasNext(); ){
 
-
-        jScrollPane1 = new javax.swing.JScrollPane();
+            tmpPrenotazione = iterator.next();
+            JPanel j = new PrenotazioneSingola(tmpPrenotazione);
+            prenotazioni.add(j);
+            j.setOpaque(false);
+        }
+        jScrollPane1 = new javax.swing.JScrollPane(prenotazioni);
+        jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

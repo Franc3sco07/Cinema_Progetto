@@ -8,7 +8,9 @@ package progetto.view;
 import progetto.Main;
 import progetto.Session;
 import progetto.state.Context;
+import progetto.state.FilmState;
 import progetto.state.LoginState;
+import progetto.state.PrenotazioniState;
 
 import javax.swing.*;
 import javax.swing.event.MenuEvent;
@@ -69,11 +71,43 @@ public class GUI extends javax.swing.JFrame {
 
         jMenu1 = new javax.swing.JMenu();
         jMenu1.setText("Film");
+        jMenu1.addMenuListener(new MenuListener() {
+            @Override
+            public void menuSelected(MenuEvent e) {
+                new FilmState().doAction(Main.context);
+            }
+
+            @Override
+            public void menuDeselected(MenuEvent e) {
+            }
+
+            @Override
+            public void menuCanceled(MenuEvent e) {
+
+
+            }
+        });
         jMenuBar1.add(jMenu1);
 
         if (Session.getSessioneCorrente().getUtenteLoggato().getTipoUtente().equals("U")){
             jMenu2 = new javax.swing.JMenu();
             jMenu2.setText("Prenotazioni"); //visibile solo per gli utenti
+            jMenu2.addMenuListener(new MenuListener() {
+                @Override
+                public void menuSelected(MenuEvent e) {
+                    new PrenotazioniState().doAction(Main.context);
+                }
+
+                @Override
+                public void menuDeselected(MenuEvent e) {
+
+                }
+
+                @Override
+                public void menuCanceled(MenuEvent e) {
+
+                }
+            });
             jMenuBar1.add(jMenu2);
         }
 
@@ -123,12 +157,10 @@ public class GUI extends javax.swing.JFrame {
 
             @Override
             public void menuDeselected(MenuEvent e) {
-
             }
 
             @Override
             public void menuCanceled(MenuEvent e) {
-
             }
         });
         jMenuBar1.add(jMenuLogout);

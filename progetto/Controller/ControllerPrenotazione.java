@@ -71,7 +71,23 @@ public class ControllerPrenotazione {
     }
 
     public Collection<Prenotazione> getByIDGeneratoreAfterDate(String idGeneratore, Date data){
+        ArrayList<Prenotazione> prenotazioni = new ArrayList<>();
+        Prenotazione tmp;
 
+        BufferedReader in = Gestione_db.getTable(tableName);
+        try {
+            String l;
+            while ((l = in.readLine()) != null) {
+                tmp = stringToPrenotazione(l);
+                if(tmp.getIdGeneratore().equals(idGeneratore) && tmp.getData().before(data)){
+                    prenotazioni.add(tmp);
+                }
+
+            }
+            return prenotazioni;
+        }
+        catch (FileNotFoundException e){}
+        catch (IOException e){}
         return null;
     }
 

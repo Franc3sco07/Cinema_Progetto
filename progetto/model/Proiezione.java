@@ -31,7 +31,7 @@ public class Proiezione {
                 "" + id +
                 "," + idFilm +
                 ","+ idSala +
-                ",'" + prezzo +
+                "," + prezzo +
                 "," + ValidatoreCampi.DATEFORMAT.format(data) +
                 "," + postiLiberi +
                 "," + TraduttoreMatrice.matriceToString(postiAttualiOccupati) ;

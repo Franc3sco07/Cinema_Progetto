@@ -152,7 +152,8 @@ public class GestionePrenotazioneUtente extends javax.swing.JPanel {
                 if(postiSelezionati.size()>0){
                     Proiezione proiezione = new ControllerProiezione().getProezioneByID(Session.getSessioneCorrente().getIdRiferimentoProiezione());
                     float prezzo = Float.parseFloat(proiezione.getPrezzo().trim()) * postiSelezionati.size();
-                    String prezzoTotale = new String(""+prezzo);
+                    String prezzoTotale = new String(""+prezzo).replace(",", "\\.");
+
 
                     //System.out.println(TrasformatoreArrayList.arrayListToStringMat(postiSelezionati));
                     //idGeneratore, idProiezione, idFilm, postoAssegnato
@@ -160,7 +161,7 @@ public class GestionePrenotazioneUtente extends javax.swing.JPanel {
                             + "," + Session.getSessioneCorrente().getIdRiferimentoProiezione()
                             + "," + Session.getSessioneCorrente().getIdRiferimentoFilm()
                             + "," + ValidatoreCampi.DATEFORMAT.format(proiezione.getData())
-                            + "," + prezzoTotale.replace(",", "\\.")
+                            + "," + prezzoTotale
                             + "," + TrasformatoreArrayList.arrayListToStringMat(postiSelezionati);
                     new ControllerPrenotazione().insertPrenotazione(prenotazione);
 

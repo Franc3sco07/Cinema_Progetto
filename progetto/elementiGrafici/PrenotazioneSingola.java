@@ -4,16 +4,27 @@
  */
 package progetto.elementiGrafici;
 
+import progetto.Controller.ControllerFilm;
+import progetto.Controller.ControllerPrenotazione;
+import progetto.Controller.ControllerProiezione;
+import progetto.Main;
+import progetto.functions.TraduttoreMatrice;
+import progetto.functions.ValidatoreCampi;
+import progetto.model.Prenotazione;
+import progetto.model.Proiezione;
+import progetto.state.PrenotazioniState;
+
 /**
  *
  * @author francesco
  */
 public class PrenotazioneSingola extends javax.swing.JPanel {
-
+    private Prenotazione datiPrenotazione;
     /**
      * Creates new form PrenotazioneSingola
      */
-    public PrenotazioneSingola() {
+    public PrenotazioneSingola(Prenotazione datiPrenotazione) {
+        this.datiPrenotazione = datiPrenotazione;
         initComponents();
     }
 
@@ -34,23 +45,34 @@ public class PrenotazioneSingola extends javax.swing.JPanel {
         jLabel6 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        //String nomeFilm = new ControllerFilm().getFilmByID(datiPrenotazione.getIdFilm()).getNome();
+        jLabel1.setText( new ControllerFilm().getFilmByID(datiPrenotazione.getIdFilm()).getNome()); // nome del film
 
-        jLabel1.setText("Nome Film");
+        jLabel2.setText("Sala: "+new ControllerProiezione().getProezioneByID(datiPrenotazione.getIdProiezione()).getIdSala());
 
-        jLabel2.setText("Sala");
+        jLabel3.setText("Data: "+ ValidatoreCampi.DATEFORMAT.format(datiPrenotazione.getData()));
 
-        jLabel3.setText("Data");
+        jLabel4.setText("Posti: "+datiPrenotazione.getPostoAssegnato());
 
-        jLabel4.setText("Posti");
+        jLabel5.setText("Codice: "+datiPrenotazione.getId());
 
-        jLabel5.setText("ID biglietto");
-
-        jLabel6.setText("prezzo");
+        jLabel6.setText("prezzo: "+datiPrenotazione.getPrezzo());
 
         jButton1.setText("cancella");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                new ControllerPrenotazione().deletePrenotazione(datiPrenotazione.getId());
+                Proiezione proizioneModificata = new ControllerProiezione().getProezioneByID(datiPrenotazione.getIdProiezione());
+                int posti [][] = proizioneModificata.getPostiAttualiOccupati();
+                int postiDaLiberare[][] = TraduttoreMatrice.stringToMatrice(datiPrenotazione.getPostoAssegnato());
+                for (int i= 0; i<postiDaLiberare.length;i++){
+                    posti[postiDaLiberare[i][0]][postiDaLiberare[i][1]] = 1;
+                }
+                proizioneModificata.setPostiAttualiOccupati(posti);
+                proizioneModificata.setPostiLiberi(proizioneModificata.getPostiLiberi()+postiDaLiberare.length);
+                new ControllerProiezione().modifyProiezione(proizioneModificata);
+
+                new PrenotazioniState().doAction(Main.context);
             }
         });
 
