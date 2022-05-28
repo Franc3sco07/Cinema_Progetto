@@ -10,6 +10,7 @@ import progetto.Main;
 import progetto.Session;
 import progetto.functions.TraduttoreMatrice;
 import progetto.functions.TrasformatoreArrayList;
+import progetto.functions.ValidatoreCampi;
 import progetto.model.Prenotazione;
 import progetto.model.Proiezione;
 import progetto.state.FilmState;
@@ -149,11 +150,17 @@ public class GestionePrenotazioneUtente extends javax.swing.JPanel {
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 if(postiSelezionati.size()>0){
+                    Proiezione proiezione = new ControllerProiezione().getProezioneByID(Session.getSessioneCorrente().getIdRiferimentoProiezione());
+                    float prezzo = Float.parseFloat(proiezione.getPrezzo().trim()) * postiSelezionati.size();
+                    String prezzoTotale = new String(""+prezzo);
+
                     //System.out.println(TrasformatoreArrayList.arrayListToStringMat(postiSelezionati));
                     //idGeneratore, idProiezione, idFilm, postoAssegnato
                     String prenotazione = Session.getSessioneCorrente().getUtenteLoggato().getId()
                             + "," + Session.getSessioneCorrente().getIdRiferimentoProiezione()
                             + "," + Session.getSessioneCorrente().getIdRiferimentoFilm()
+                            + "," + ValidatoreCampi.DATEFORMAT.format(proiezione.getData())
+                            + "," + prezzoTotale.replace(",", "\\.")
                             + "," + TrasformatoreArrayList.arrayListToStringMat(postiSelezionati);
                     new ControllerPrenotazione().insertPrenotazione(prenotazione);
 

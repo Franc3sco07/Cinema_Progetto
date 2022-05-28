@@ -1,11 +1,14 @@
 package progetto.Controller;
 import progetto.database.Gestione_db;
+import progetto.functions.ValidatoreCampi;
 import progetto.model.Prenotazione;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 
 public class ControllerPrenotazione {
@@ -67,6 +70,11 @@ public class ControllerPrenotazione {
         return prenotazioniByIDFilm;
     }
 
+    public Collection<Prenotazione> getByIDGeneratoreAfterDate(String idGeneratore, Date data){
+
+        return null;
+    }
+
     public Collection<Prenotazione> getPrenotazioneByIDProiezione(String IDProiezione){
         ArrayList<Prenotazione> prenotazioni = new ArrayList<>();
 
@@ -109,6 +117,16 @@ public class ControllerPrenotazione {
 
     private Prenotazione stringToPrenotazione(String prenotazioneString){
         String[] datiPrenotazione = prenotazioneString.split(",");
-        return new Prenotazione(datiPrenotazione[0], datiPrenotazione[1], datiPrenotazione[2], datiPrenotazione[3], datiPrenotazione[4]);
+        Date d = null;
+        try{
+            d = ValidatoreCampi.DATEFORMAT.parse(datiPrenotazione[4]);
+        } catch (ParseException e) {
+            System.out.println("Errore ParseException");
+            System.out.println(datiPrenotazione);
+            return null;
+
+        }
+        
+        return new Prenotazione(datiPrenotazione[0], datiPrenotazione[1], datiPrenotazione[2], datiPrenotazione[3], d, datiPrenotazione[5], datiPrenotazione[6]);
     }
 }

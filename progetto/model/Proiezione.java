@@ -49,6 +49,10 @@ public class Proiezione {
         return data;
     }
 
+    public String getPrezzo() {
+        return prezzo.replace("\\.", ",");
+    }
+
     public int[][] getPostiAttualiOccupati() {
         return postiAttualiOccupati;
     }

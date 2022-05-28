@@ -1,19 +1,23 @@
 package progetto.model;
 
+import java.util.Date;
+
 public class Prenotazione {
-    String id, idGeneratore, idProiezione, idFilm, postoAssegnato;
+    String id, idGeneratore, idProiezione, idFilm, postoAssegnato, prezzo;
+    Date data;
 
-
-    public Prenotazione(String id, String idGeneratore, String idProiezione, String idFilm, String postoAssegnato) {
+    public Prenotazione(String id, String idGeneratore, String idProiezione, String idFilm, Date data, String prezzo, String postoAssegnato) {
         this.id = id;
         this.idGeneratore = idGeneratore;
         this.idProiezione = idProiezione;
         this.idFilm = idFilm;
         this.postoAssegnato = postoAssegnato;
+        this.prezzo = prezzo;
+        this.data = data;
     }
 
     @Override
-    public String toString() { return id + ',' + idGeneratore + ',' + idProiezione + ',' + idFilm + ','  + postoAssegnato; }
+    public String toString() { return id + ',' + idGeneratore + ',' + idProiezione + ',' + idFilm + ',' + data + "," + prezzo + "," + postoAssegnato; }
 
     public String getId() { return id; }
 
@@ -28,4 +32,9 @@ public class Prenotazione {
     public String getIdProiezione() {
         return idProiezione;
     }
+
+    public String getPrezzo(){
+        return prezzo;
+    }
+
 }
