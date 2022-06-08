@@ -56,4 +56,8 @@ public class Session {
         utenteLoggato = null;
         sessioneCorrente = null;
     }
+
+    public void setUtenteLoggato(Utente utenteLoggato) {
+        this.utenteLoggato = utenteLoggato;
+    }
 }

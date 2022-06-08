@@ -6,6 +6,7 @@ import progetto.Session;
 import progetto.state.FilmState;
 import progetto.state.RegistrazioneState;
 
+import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -77,8 +78,9 @@ public class Login extends javax.swing.JPanel {
                 //jButton2ActionPerformed(evt);
                 if(Session.logIn(jTextField1.getText(),new String(passwordField.getPassword()) )!= null) {
                     new FilmState().doAction(Main.context);
-                
                     Main.frame.showMenu();
+                }else{
+                    JOptionPane.showMessageDialog(null,"La combinazione e-mail password è sbagliata");
                 }
             }
         });

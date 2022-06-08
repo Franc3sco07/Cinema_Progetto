@@ -32,8 +32,55 @@ public class Utente {
         return password.trim();
     }
 
-    public String getTipoUtente() {
+    public String getTipo() {
         return tipo.trim();
     }
 
+    public String getNome() {
+        return nome.trim();
+    }
+
+    public String getCognome() {
+        return cognome.trim();
+    }
+
+    public String getNumeroCellulare() {
+        return numeroCellulare.trim();
+    }
+
+    public String getCodiceFiscale() {
+        return codiceFiscale.trim();
+    }
+
+    public void setId(String id) {
+        this.id = id.trim();
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome.trim();
+    }
+
+    public void setCognome(String cognome) {
+        this.cognome = cognome.trim();
+    }
+
+    public void setNumeroCellulare(String numeroCellulare) {
+        this.numeroCellulare = numeroCellulare.trim();
+    }
+
+    public void setEmail(String email) {
+        this.email = email.trim();
+    }
+
+    public void setCodiceFiscale(String codiceFiscale) {
+        this.codiceFiscale = codiceFiscale.trim();
+    }
+
+    public void setPassword(String password) {
+        this.password = password.trim();
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo.trim();
+    }
 }

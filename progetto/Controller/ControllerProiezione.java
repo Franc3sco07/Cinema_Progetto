@@ -62,9 +62,9 @@ public class ControllerProiezione {
         ArrayList<Proiezione> proiezioniByDate = new ArrayList<>();
         Proiezione proiezioneTemp ;
 
-        for(Iterator<Proiezione> iterator = proiezioni.iterator(); iterator.hasNext();){
+        for (Proiezione proiezione : proiezioni) {
             //System.out.println(iterator.next());
-            proiezioneTemp = iterator.next();
+            proiezioneTemp = proiezione;
             if (data.equals(proiezioneTemp.getData())) {
                 proiezioniByDate.add(proiezioneTemp);
             }
