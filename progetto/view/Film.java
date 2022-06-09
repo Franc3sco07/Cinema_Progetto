@@ -39,10 +39,54 @@ public class Film extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        if(Session.getSessioneCorrente().getUtenteLoggato().getTipo().equals("U")){
+            filmUtente();
+        }else{
+            filmDipendente();
+        }
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void filmUtente (){
         JPanel infoPannello = new JPanel();
         infoPannello.setLayout(new BoxLayout(infoPannello, BoxLayout.Y_AXIS));
         Date oggi = new Date();
         Collection<String> idFilm = new ControllerProiezione().getAllIdFilmAfterDate(oggi);
+        Collection<progetto.model.Film> filmDisponibili = new ControllerFilm().getAllFilmsByIdList(idFilm);
+        progetto.model.Film tmpFilm;
+        int i = 0;
+        for (Iterator<progetto.model.Film> iterator = filmDisponibili.iterator(); iterator.hasNext(); ){
+            tmpFilm = iterator.next();
+            JPanel j = new FilmSingolo(tmpFilm);
+            infoPannello.add(j);
+            j.setOpaque(false);
+            i++;
+        }
+
+        for (;i<4;i++){
+            JPanel j = new FilmVuoto();
+            infoPannello.add(j);
+        }
+
+        jScrollPane1 = new javax.swing.JScrollPane(infoPannello);
+        jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 753, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
+        );
+    }
+
+    private void filmDipendente(){
+        JPanel infoPannello = new JPanel();
+        infoPannello.setLayout(new BoxLayout(infoPannello, BoxLayout.Y_AXIS));
+        Date oggi = new Date();
+        Collection<String> idFilm = new ControllerProiezione().getAllIdFilmInADay(oggi);
         Collection<progetto.model.Film> filmDisponibili = new ControllerFilm().getAllFilmsByIdList(idFilm);
         progetto.model.Film tmpFilm;
         int i = 0;
@@ -67,15 +111,14 @@ public class Film extends javax.swing.JPanel {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 753, Short.MAX_VALUE)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 753, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
         );
-    }// </editor-fold>//GEN-END:initComponents
-
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;

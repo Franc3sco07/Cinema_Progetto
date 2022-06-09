@@ -1,15 +1,15 @@
 package progetto.Controller;
 import progetto.database.Gestione_db;
+import progetto.functions.ConfrontaDate;
 import progetto.functions.ValidatoreCampi;
 import progetto.model.Prenotazione;
+import progetto.model.Proiezione;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Iterator;
+import java.util.*;
 
 public class ControllerPrenotazione {
     private final String tableName = "prenotazione.csv";
@@ -79,7 +79,7 @@ public class ControllerPrenotazione {
             String l;
             while ((l = in.readLine()) != null) {
                 tmp = stringToPrenotazione(l);
-                if(tmp.getIdGeneratore().equals(idGeneratore) && tmp.getData().before(data)){
+                if(tmp.getIdGeneratore().equals(idGeneratore) && ConfrontaDate.dateSuccesive(data,tmp.getData())){
                     prenotazioni.add(tmp);
                 }
 
@@ -119,6 +119,50 @@ public class ControllerPrenotazione {
         return prenotazioniByIDProiezione;
     }
 
+    public Collection<String> getIdFilmINSameDay(String idUtente,Date data){
+        HashSet<String> idFilms = new HashSet<>();
+        BufferedReader in = Gestione_db.getTable(tableName);
+        Prenotazione tmp;
+        try {
+            String l;
+            while ((l = in.readLine()) != null) {
+                tmp = stringToPrenotazione(l);
+                if(tmp.getIdGeneratore().equals(idUtente) &&
+                        ConfrontaDate.stessoGiorno(data,tmp.getData()) &&
+                        ConfrontaDate.dateSuccesive(data,tmp.getData())){
+                    idFilms.add(tmp.getIdFilm());
+                }
+            }
+            return idFilms;
+        }
+        catch (FileNotFoundException e){}
+        catch (IOException e){}
+        return null;
+    }
+
+    public Collection<Prenotazione> getPrenotazioniByIDFilmInSameDate(String idUtente,String idFilm, Date data){
+        ArrayList<Prenotazione> proiezioni = new ArrayList<>();
+        BufferedReader in = Gestione_db.getTable(tableName);
+        Prenotazione tmp;
+        try {
+            String l;
+            while ((l = in.readLine()) != null) {
+                tmp = stringToPrenotazione(l);
+                if(tmp.getIdGeneratore().equals(idUtente) &&
+                        tmp.getIdFilm().equals(idFilm)    &&
+                        ConfrontaDate.stessoGiorno(data,tmp.getData()) &&
+                        ConfrontaDate.dateSuccesive(data,tmp.getData())){
+                    proiezioni.add(tmp);
+                }
+            }
+            return proiezioni;
+        }
+        catch (FileNotFoundException e){}
+        catch (IOException e){}
+
+        return null;
+    }
+
     public String insertPrenotazione(String prenotazione){
         return Gestione_db.insertRow(tableName, prenotazione);
     }
@@ -126,6 +170,8 @@ public class ControllerPrenotazione {
     public String deletePrenotazione(String IDprenotazione){
         return Gestione_db.deleteRow(IDprenotazione, tableName);
     }
+
+
 
     public String modifyPrenotazione(Prenotazione prenotazioneModificata){
         return Gestione_db.modifyRow(prenotazioneModificata.getId(), tableName, prenotazioneModificata.toString() );

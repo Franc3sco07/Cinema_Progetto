@@ -9,8 +9,7 @@ import progetto.Main;
 import progetto.Session;
 import progetto.functions.ValidatoreCampi;
 import progetto.model.Proiezione;
-import progetto.state.PrenotazioneUtenteState;
-import progetto.view.GestionePrenotazioneUtente;
+import progetto.state.PrenotazionePostiState;
 
 /**
  *
@@ -47,7 +46,7 @@ public class ProiezioneSingola extends javax.swing.JPanel {
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Session.getSessioneCorrente().setIdRiferimentoProiezione(datiProiezione.getId());
-                new PrenotazioneUtenteState().doAction(Main.context);
+                new PrenotazionePostiState().doAction(Main.context);
             }
         });
 

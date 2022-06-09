@@ -5,10 +5,10 @@
 */
 package progetto.view;
 
+import progetto.Controller.ControllerFilm;
 import progetto.Controller.ControllerPrenotazione;
 import progetto.Session;
-import progetto.elementiGrafici.PrenotazioneSingola;
-import progetto.elementiGrafici.ProiezioneSingola;
+import progetto.elementiGrafici.*;
 import progetto.model.Prenotazione;
 import progetto.model.Proiezione;
 
@@ -38,7 +38,15 @@ public class VisualizzaPrenotazioni extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        if(Session.getSessioneCorrente().getUtenteLoggato().getTipo() == "U"){
+            prenotazioniUtente();
+        }else{
+            prenotazioniDipendente();
+        }
 
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void prenotazioniUtente(){
         JPanel prenotazioni = new JPanel();
         prenotazioni.setLayout(new BoxLayout(prenotazioni, BoxLayout.Y_AXIS));
 
@@ -57,15 +65,53 @@ public class VisualizzaPrenotazioni extends javax.swing.JPanel {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 753, Short.MAX_VALUE)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 753, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
         );
-    }// </editor-fold>//GEN-END:initComponents
+    }
 
+    private void prenotazioniDipendente(){
+        JPanel panelloFilm = new JPanel();
+        panelloFilm.setLayout(new BoxLayout(panelloFilm, BoxLayout.Y_AXIS));
+        String idUtente = Session.getSessioneCorrente().getUtenteLoggato().getId();
+        Collection<String> listaFilm = new ControllerPrenotazione().getIdFilmINSameDay(idUtente,new Date());
+        Collection<progetto.model.Film> filmDisponibili = new ControllerFilm().getAllFilmsByIdList(listaFilm );
+        int i = 0;
+        progetto.model.Film tmpFilm;
+        for (Iterator<progetto.model.Film> iterator = filmDisponibili.iterator(); iterator.hasNext(); ){
+            tmpFilm = iterator.next();
+            JPanel j = new FilmSingoloPrenotazione(tmpFilm);
+            panelloFilm.add(j);
+            j.setOpaque(false);
+            i++;
+        }
+
+        for (;i<4;i++){
+            JPanel j = new FilmVuoto();
+            panelloFilm.add(j);
+        }
+
+        jScrollPane1 = new javax.swing.JScrollPane(panelloFilm);
+        jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 753, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
+        );
+
+
+
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;

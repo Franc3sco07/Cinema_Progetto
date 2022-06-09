@@ -1,6 +1,7 @@
 package progetto.Controller;
 
 import progetto.database.Gestione_db;
+import progetto.functions.ConfrontaDate;
 import progetto.functions.TraduttoreMatrice;
 import progetto.functions.ValidatoreCampi;
 import progetto.model.Proiezione;
@@ -10,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.*;
+import java.time.*;
 
 public class ControllerProiezione {
     private final String tableName = "proiezione.csv";
@@ -45,33 +47,45 @@ public class ControllerProiezione {
         return proiezioniByIDFilm;
     }
 
-    public Collection<Proiezione> getProiezioneByDate(Date data){
+    public Collection<Proiezione> getProiezioneByIDFilmInADay(String IDfilm,Date data){
         ArrayList<Proiezione> proiezioni = new ArrayList<>();
-
         BufferedReader in = Gestione_db.getTable(tableName);
+        Proiezione tmp;
         try {
             String l;
             while ((l = in.readLine()) != null) {
-                proiezioni.add(stringToProiezione( l ));
+                tmp = stringToProiezione(l);
+                if( tmp.getIdFilm().equals(IDfilm) && ConfrontaDate.stessoGiorno(data,tmp.getData()) && ConfrontaDate.dateSuccesive(data,tmp.getData())){
+                    proiezioni.add(tmp);
+                }
             }
+            return proiezioni;
         }
         catch (FileNotFoundException e){}
         catch (IOException e){}
 
-
-        ArrayList<Proiezione> proiezioniByDate = new ArrayList<>();
-        Proiezione proiezioneTemp ;
-
-        for (Proiezione proiezione : proiezioni) {
-            //System.out.println(iterator.next());
-            proiezioneTemp = proiezione;
-            if (data.equals(proiezioneTemp.getData())) {
-                proiezioniByDate.add(proiezioneTemp);
-            }
-        }
-
-        return proiezioniByDate;
+        return null;
     }
+
+    public Collection<String> getAllIdFilmInADay (Date data){
+        HashSet<String> idFilms = new HashSet<>();
+        BufferedReader in = Gestione_db.getTable(tableName);
+        Proiezione tmp;
+        try {
+            String l;
+            while ((l = in.readLine()) != null) {
+                tmp = stringToProiezione(l);
+                if(ConfrontaDate.stessoGiorno(data,tmp.getData()) && ConfrontaDate.dateSuccesive(data,tmp.getData())){
+                    idFilms.add(tmp.getIdFilm());
+                }
+            }
+            return idFilms;
+        }
+        catch (FileNotFoundException e){}
+        catch (IOException e){}
+        return null;
+    }
+
 
     public Collection<Proiezione> getAllProiezioneByIdFilmAfterDate(String idFilm, Date data){
         ArrayList<Proiezione> proiezioni = new ArrayList<>();
@@ -82,7 +96,7 @@ public class ControllerProiezione {
 
             while ((l = in.readLine()) != null) {
                 tmp = stringToProiezione(l);
-                if(tmp.getIdFilm().equals(idFilm) && tmp.getData().before(data)){
+                if(tmp.getIdFilm().equals(idFilm) && ConfrontaDate.dateSuccesive(data,tmp.getData())){
                     proiezioni.add(tmp);
                 }
             }

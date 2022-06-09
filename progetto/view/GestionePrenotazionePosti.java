@@ -24,7 +24,7 @@ import java.util.ArrayList;
  *
  * @author francesco
  */
-public class GestionePrenotazioneUtente extends javax.swing.JPanel {
+public class GestionePrenotazionePosti extends javax.swing.JPanel {
     private ArrayList postiSelezionati = new ArrayList();
     private String imgPath = "progetto/elementiGrafici/poltrona2.png";
     private Color selezionato = new Color(0,125,0);
@@ -35,7 +35,7 @@ public class GestionePrenotazioneUtente extends javax.swing.JPanel {
     /**
      * Creates new form postiCinema
      */
-    public GestionePrenotazioneUtente() {
+    public GestionePrenotazionePosti() {
 
         initComponents();
     }

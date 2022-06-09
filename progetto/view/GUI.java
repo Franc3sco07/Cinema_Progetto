@@ -114,6 +114,7 @@ public class GUI extends javax.swing.JFrame {
         if (Session.getSessioneCorrente().getUtenteLoggato().getTipo().equals("D")){
             gestioneBigliettiMenu = new javax.swing.JMenuItem();
             gestioneBigliettiMenu.setText("Gestione Biglietti"); //visibile solo per i dipendenti
+            gestioneBigliettiMenu.addActionListener(evt-> new PrenotazioniState().doAction(Main.context));
             jMenuBar1.add(gestioneBigliettiMenu);
         }
 

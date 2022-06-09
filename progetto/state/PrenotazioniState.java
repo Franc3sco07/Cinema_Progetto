@@ -2,7 +2,6 @@ package progetto.state;
 
 import progetto.Main;
 import progetto.view.VisualizzaPrenotazioni;
-import progetto.view.VisualizzaProiezioni;
 
 public class PrenotazioniState implements State{
     @Override

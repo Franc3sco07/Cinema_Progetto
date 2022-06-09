@@ -1,6 +1,7 @@
 package progetto;
 
 import progetto.Controller.*;
+import progetto.functions.ConfrontaDate;
 import progetto.functions.TraduttoreMatrice;
 import progetto.functions.ValidatoreCampi;
 import progetto.model.*;
@@ -10,7 +11,9 @@ import progetto.view.GUI;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.time.Instant;
 import java.util.*;
+
 
 public class Main {
     public static Context context = new Context();
@@ -123,7 +126,7 @@ public class Main {
         System.out.println("proiezioni: " + proiezioni);
 
 
-        proiezioni = f.getProiezioneByDate(ValidatoreCampi.DATEFORMAT.parse("22-02-2022 12:12:31"));
+        //proiezioni = f.getProiezioneByDate(ValidatoreCampi.DATEFORMAT.parse("22-02-2022 12:12:31"));
         System.out.println("proiezioni: " + proiezioni);
 
         String proiezioneIns = "2123, 2, 21.5, 22-02-2022 12:12:31, 21, 21: 12; 22: 12;";
@@ -159,9 +162,28 @@ public class Main {
 
 
     public static void main(String[] args) throws IOException, ParseException {
+
         frame = new GUI();
         new LoginState().doAction(context);
         frame.setVisible(true);
     }
+
+    /*
+        Date data1 = ValidatoreCampi.DATEFORMAT.parse("22-02-2022 12:12:31");
+        Date data2 = ValidatoreCampi.DATEFORMAT.parse("22-02-2023 12:12:31");
+        Date data3 = ValidatoreCampi.DATEFORMAT.parse("22-02-2022 15:12:31");
+
+        Instant instant1 = data1.toInstant();
+        Instant instant2 = data2.toInstant();
+        Instant instant3 = data3.toInstant();
+
+
+
+
+        System.out.println("Date differenti: "+ instant1.isBefore(instant2));
+        System.out.println("date uguali: "+instant3.compareTo(instant1));
+        System.out.println("dopo: "+instant2.compareTo(instant1));
+
+    */
 
 }
