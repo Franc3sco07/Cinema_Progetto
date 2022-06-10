@@ -7,10 +7,7 @@ package progetto.view;
 
 import progetto.Main;
 import progetto.Session;
-import progetto.state.FilmState;
-import progetto.state.LoginState;
-import progetto.state.PrenotazioniState;
-import progetto.state.VisualizzaDatiState;
+import progetto.state.*;
 
 import javax.swing.*;
 import javax.swing.event.MenuEvent;
@@ -129,7 +126,7 @@ public class GUI extends javax.swing.JFrame {
             jMenuBar1.add(visualizzaVendite);
 
             visualizzaDipendenti.setText("Visualizza dipendenti");
-            visualizzaDipendenti.addActionListener(evt -> jMenuItem4ActionPerformed(evt));
+            visualizzaDipendenti.addActionListener(evt -> new GestioneDipendentiStante().doAction(Main.context));
 
             jMenuBar1.add(visualizzaDipendenti);
             //jMenuBar1.add(amministrazioneMenu);

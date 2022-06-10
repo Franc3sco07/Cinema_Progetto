@@ -1,12 +1,16 @@
 package progetto.Controller;
 
 import progetto.database.Gestione_db;
+import progetto.functions.ConfrontaDate;
+import progetto.model.Proiezione;
 import progetto.model.Utente;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 
 public class ControllerUtente {
@@ -80,5 +84,25 @@ public class ControllerUtente {
         }
         return true;
     }
+
+    public Collection<Utente> getAllStaff(String idAdmin){
+        HashSet<Utente> staff = new HashSet<>();
+        BufferedReader in = Gestione_db.getTable(tableName);
+        Utente tmp;
+        try {
+            String l;
+            while ((l = in.readLine()) != null) {
+                tmp = stringToUtente(l);
+                if( !tmp.getTipo().equals("U") && !tmp.getId().equals(idAdmin) ){
+                    staff.add(tmp);
+                }
+            }
+            return staff;
+        }
+        catch (FileNotFoundException e){}
+        catch (IOException e){}
+        return null;
+    }
+
 
 }
