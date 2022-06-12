@@ -38,7 +38,7 @@ public class VisualizzaPrenotazioni extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        if(Session.getSessioneCorrente().getUtenteLoggato().getTipo() == "U"){
+        if(Session.getSessioneCorrente().getUtenteLoggato().getTipo().equals("U") ){
             prenotazioniUtente();
         }else{
             prenotazioniDipendente();

@@ -7,9 +7,11 @@ package progetto.view;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
+import progetto.Main;
 import progetto.functions.ConfrontaDate;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -56,7 +58,23 @@ public class InserimentoFilm extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
-        immagineLogo = new javax.swing.JFileChooser();
+        percorso = new javax.swing.JTextField();
+        cerca = new javax.swing.JButton();
+
+        cerca.setText("Apri file");
+        cerca.addActionListener(evt ->{
+            immagineLogo = new javax.swing.JFileChooser();
+            FileNameExtensionFilter filtro = new FileNameExtensionFilter("Image Files", "jpg", "png", "gif", "jpeg");
+            immagineLogo.setFileFilter(filtro);
+            immagineLogo.showOpenDialog(Main.frame);
+            if(immagineLogo.getSelectedFile() != null){
+                percorso.setText(immagineLogo.getSelectedFile().toString());
+            }
+
+        });
+
+
+        //immagineLogo = new javax.swing.JFileChooser();
 
         UtilDateModel modelInizio = new UtilDateModel();
         //model.setDate(2020,10,10);
@@ -70,7 +88,7 @@ public class InserimentoFilm extends javax.swing.JPanel {
         JDatePanelImpl datePanelFine = new JDatePanelImpl(modelFine,new Properties());
 
         JDatePickerImpl datePickerFine= new JDatePickerImpl(datePanelFine,new dateLabelFormatter());
-
+        //immagineLogo.showOpenDialog(this);
 
         datePanelInizio.addActionListener(evt -> {
 
@@ -169,10 +187,17 @@ public class InserimentoFilm extends javax.swing.JPanel {
                             .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(immagineLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(percorso, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        //.addGap(100,100,100)
+
                                     .addComponent(datePickerInizio, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
+
+
                                 .addGap(18, 18, 18)
-                                .addComponent(datePickerFine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(layout.createParallelGroup()
+                                        .addComponent(cerca,javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(datePickerFine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                )))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -206,7 +231,8 @@ public class InserimentoFilm extends javax.swing.JPanel {
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(immagineLogo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(percorso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cerca,javax.swing.GroupLayout.PREFERRED_SIZE,25, javax.swing.GroupLayout.PREFERRED_SIZE ))
                 .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
@@ -267,6 +293,8 @@ public class InserimentoFilm extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JFileChooser immagineLogo;
+    private javax.swing.JTextField percorso;
+    private javax.swing.JButton cerca;
     // End of variables declaration//GEN-END:variables
 }
 

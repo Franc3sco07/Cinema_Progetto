@@ -14,6 +14,8 @@ import progetto.model.Prenotazione;
 import progetto.model.Proiezione;
 import progetto.state.PrenotazioniState;
 
+import javax.swing.*;
+
 /**
  *
  * @author francesco
@@ -61,18 +63,25 @@ public class PrenotazioneSingola extends javax.swing.JPanel {
         jButton1.setText("cancella");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                new ControllerPrenotazione().deletePrenotazione(datiPrenotazione.getId());
-                Proiezione proizioneModificata = new ControllerProiezione().getProezioneByID(datiPrenotazione.getIdProiezione());
-                int posti [][] = proizioneModificata.getPostiAttualiOccupati();
-                int postiDaLiberare[][] = TraduttoreMatrice.stringToMatrice(datiPrenotazione.getPostoAssegnato());
-                for (int i= 0; i<postiDaLiberare.length;i++){
-                    posti[postiDaLiberare[i][0]][postiDaLiberare[i][1]] = 1;
-                }
-                proizioneModificata.setPostiAttualiOccupati(posti);
-                proizioneModificata.setPostiLiberi(proizioneModificata.getPostiLiberi()+postiDaLiberare.length);
-                new ControllerProiezione().modifyProiezione(proizioneModificata);
+                int input = JOptionPane.showConfirmDialog(null,"sei sicuro di voler eliminare la prenotazione?" ,"conferma" ,JOptionPane.YES_NO_OPTION);
+                if(input== 0){
+                    new ControllerPrenotazione().deletePrenotazione(datiPrenotazione.getId());
+                    Proiezione proizioneModificata = new ControllerProiezione().getProezioneByID(datiPrenotazione.getIdProiezione());
+                    int posti [][] = proizioneModificata.getPostiAttualiOccupati();
+                    int postiDaLiberare[][] = TraduttoreMatrice.stringToMatrice(datiPrenotazione.getPostoAssegnato());
+                    for (int i= 0; i<postiDaLiberare.length;i++){
+                        posti[postiDaLiberare[i][0]][postiDaLiberare[i][1]] = 1;
+                    }
+                    proizioneModificata.setPostiAttualiOccupati(posti);
+                    proizioneModificata.setPostiLiberi(proizioneModificata.getPostiLiberi()+postiDaLiberare.length);
+                    new ControllerProiezione().modifyProiezione(proizioneModificata);
 
-                new PrenotazioniState().doAction(Main.context);
+                    new PrenotazioniState().doAction(Main.context);
+                }
+
+
+
+
             }
         });
 
