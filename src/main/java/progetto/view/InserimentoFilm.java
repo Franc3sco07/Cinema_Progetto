@@ -60,7 +60,7 @@ public class InserimentoFilm extends javax.swing.JPanel {
         jLabel6 = new javax.swing.JLabel();
         percorso = new javax.swing.JTextField();
         cerca = new javax.swing.JButton();
-
+        //codice dell' apri file
         cerca.setText("Apri file");
         cerca.addActionListener(evt ->{
             immagineLogo = new javax.swing.JFileChooser();
