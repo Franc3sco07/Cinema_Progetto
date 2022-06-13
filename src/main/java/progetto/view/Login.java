@@ -14,8 +14,8 @@ import java.awt.event.FocusListener;
 import java.awt.event.FocusEvent;
 
 public class Login extends javax.swing.JPanel {
-    private String emailString = "test"; //ricordarsi di sostituire
-    private String passString = "test";
+    private String emailString = "admin"; //ricordarsi di sostituire
+    private String passString = "admin";
     public Login() {
         initComponents();
     }

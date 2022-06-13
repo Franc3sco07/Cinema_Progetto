@@ -2,7 +2,37 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package com.mycompany.cinema;
+package progetto.view;
+
+import org.apache.commons.io.FilenameUtils;
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
+import progetto.Controller.ControllerSala;
+import progetto.functions.ConfrontaDate;
+import progetto.functions.ValidatoreCampi;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Properties;
 
 /**
  *
@@ -26,192 +56,347 @@ public class InserimentoFilm extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jCheckBox4 = new javax.swing.JCheckBox();
-        jLabel5 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        jLabel1 = new JLabel();
+        nomeFilmLabel = new JLabel();
+        jLabel3 = new JLabel();
+        prezzoLabel = new JLabel();
+        nomeFilmTextField = new JTextField();
+        percorso = new JTextField();
+        prezzoTextField = new JTextField();
+        orario = new JCheckBox[4];
+        orario[0] = new JCheckBox();
+        orario[1] = new JCheckBox();
+        orario[2] = new JCheckBox();
+        orario[3] = new JCheckBox();
+        orarioLabel = new JLabel();
+        nomeSala = new JComboBox<>();
+        jLabel6 = new JLabel();
+        jLabel7 = new JLabel();
+        bottoneCerca = new JButton();
+        jLabel8 = new JLabel();
+        jButton2 = new JButton();
+        anteprimaLocandina = new JLabel();
+
+
+
+        //  creazione dei DATE PIKER
+        UtilDateModel modelInizio = new UtilDateModel();
+        //SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+        modelInizio.setSelected(true);
+        JDatePanelImpl datePanelInizio = new JDatePanelImpl(modelInizio,new Properties());
+        UtilDateModel modelFine = new UtilDateModel();
+        modelFine.setSelected(true);
+        JDatePickerImpl datePickerInizio = new JDatePickerImpl(datePanelInizio,new dateLabelFormatter());
+
+        JDatePanelImpl datePanelFine = new JDatePanelImpl(modelFine,new Properties());
+
+        JDatePickerImpl datePickerFine= new JDatePickerImpl(datePanelFine,new dateLabelFormatter());
+
+        datePanelInizio.addActionListener(evt -> {
+
+            if(!ConfrontaDate.dateSuccesive((Date) datePickerInizio.getModel().getValue(),(Date)datePickerFine.getModel().getValue())){
+                LocalDate inizioFilm= ((Date) datePickerInizio.getModel().getValue()).toInstant()
+                        .atZone(ZoneId.systemDefault())
+                        .toLocalDate();
+                modelFine.setDate(inizioFilm.getYear(),inizioFilm.getMonthValue() -1,inizioFilm.getDayOfMonth());
+            }
+
+        });
+
+        datePanelFine.addActionListener(evt -> {
+            if(!ConfrontaDate.dateSuccesive((Date) datePickerInizio.getModel().getValue(),(Date)datePickerFine.getModel().getValue())){
+                LocalDate inizioFilm= ((Date) datePickerInizio.getModel().getValue()).toInstant()
+                        .atZone(ZoneId.systemDefault())
+                        .toLocalDate();
+                modelFine.setDate(inizioFilm.getYear(),inizioFilm.getMonthValue() -1,inizioFilm.getDayOfMonth());
+            }
+
+        });
+        // fine creazione
+        //Definione della sceta file
+        anteprimaLocandina.setIcon(null);
+        anteprimaLocandina.setBorder(BorderFactory.createLineBorder(Color.gray,2));
+        anteprimaLocandina.setText("");
+        bottoneCerca.setText("Cerca");
+        bottoneCerca.addActionListener(evt ->{
+            String path = "";
+            if(Paths.get(percorso.getText()).isAbsolute()){
+                System.out.println("ciao");
+                path = percorso.getText();
+                System.out.println(path);
+                //immagineLogo.setCurrentDirectory(new File(path));
+            }
+            immagineLogo = new JFileChooser(path);
+
+           // FilenameUtils.
+            FileNameExtensionFilter filtro = new FileNameExtensionFilter("Image Files", "jpg", "png", "gif", "jpeg");
+            immagineLogo.setFileFilter(filtro);
+            immagineLogo.showOpenDialog(this.getParent());
+
+            if(immagineLogo.getSelectedFile() != null){
+                percorso.setText(immagineLogo.getSelectedFile().toString());
+                if(immagineLogo.getSelectedFile().isFile()){
+                    try {
+                        BufferedImage locandinaBuffered =  ImageIO.read(new File(immagineLogo.getSelectedFile().toString()));
+                        if(locandinaBuffered != null){
+                            ImageIcon locandinaIcon = new ImageIcon(locandinaBuffered.getScaledInstance(100,100,  java.awt.Image.SCALE_SMOOTH));
+                            anteprimaLocandina.setIcon(locandinaIcon);
+                            percorso.setBorder(null);
+                        }else{
+                            percorso.setBorder(new LineBorder(Color.red,2));
+                            anteprimaLocandina.setIcon(null);
+                        }
+
+                    } catch (IOException e) {
+                    }
+
+                }
+            }
+
+        });
+
+        //fine scelta file
 
         jLabel1.setText("Periodo visione");
 
-        jLabel2.setText("Nome film");
+        nomeFilmLabel.setText("Nome film");
 
-        jTextField1.setText("Data inizio proiezione");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
-
-        jTextField2.setText("Data fine proiezione");
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
 
         jLabel3.setText("Inserisci locandina");
 
-        jLabel4.setText("prezzo");
+        prezzoLabel.setText("prezzo");
 
-        jTextField3.setText("Nome film");
+        nomeFilmTextField.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
 
-        jTextField4.setText("Inserisci locandina");
+            }
 
-        jTextField5.setText("prezzo");
+            @Override
+            public void focusLost(FocusEvent e) {
+                if(nomeFilmTextField.getText().equals("")){
+                    nomeFilmTextField.setBorder(new LineBorder(Color.red,2));
+                }else{
+                    nomeFilmTextField.setBorder(null);
+                }
+            }
+        });
 
-        jCheckBox1.setText("16:30");
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        percorso.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                try {
+                    BufferedImage locandinaBuffered =  ImageIO.read(new File(percorso.getText()));
+                    if (locandinaBuffered!=null){
+                        ImageIcon locandinaIcon = new ImageIcon(locandinaBuffered.getScaledInstance(100,100,  java.awt.Image.SCALE_SMOOTH));
+                        anteprimaLocandina.setIcon(locandinaIcon);
+                        percorso.setBorder(null);
+                    }
+                } catch (IOException ioException) {
+                    percorso.setBorder(new LineBorder(Color.red,2));
+                    anteprimaLocandina.setIcon(null);
+                }
+            }
+        });
+
+        prezzoTextField.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if(ValidatoreCampi.isNumeric(prezzoTextField.getText())){
+                    prezzoTextField.setBorder(null);
+                }else{
+                    prezzoTextField.setBorder(new LineBorder(Color.red,2));
+                }
+
+            }
+        });
+
+        orario[0] .setText("16:30");
+        orario[0] .addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 jCheckBox1ActionPerformed(evt);
             }
         });
 
-        jCheckBox2.setText("18:30");
-        jCheckBox2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        orario[1].setText("18:30");
+        orario[1].addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 jCheckBox2ActionPerformed(evt);
             }
         });
 
-        jCheckBox3.setText("20:30");
+        orario[2].setText("20:30");
 
-        jCheckBox4.setText("22:30");
+        orario[3].setText("22:30");
 
-        jLabel5.setText("Seleziona orari proiezione");
+        orarioLabel.setText("Seleziona orari proiezione");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        String[]  idSale =new ControllerSala().getAllIdSala().toArray(new String[0]);
+        nomeSala.setModel(new DefaultComboBoxModel<>(idSale));
 
         jLabel6.setText("Sala");
 
         jLabel7.setText("fine:");
 
-        jButton1.setText("Cerca");
+
 
         jLabel8.setText("inizio:");
 
         jButton2.setText("Inserisci film");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+        jButton2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                boolean success = true;
+                if(((LineBorder)nomeFilmTextField.getBorder()).getLineColor() == Color.red ){
+                    success = false;
+                }
+                if(((LineBorder)prezzoTextField.getBorder()).getLineColor() == Color.red ){
+                    success = false;
+                }
+                if(((LineBorder)percorso.getBorder()).getLineColor() == Color.red ){
+                    success = false;
+                }
+                ArrayList<String> listaOre = new ArrayList<>();
+                for (int i = 0; i < orario.length; i++) {
+                    if(orario[i].isSelected()){
+                        listaOre.add(orario[i].getText());
+                    }
+                }
+                if(listaOre.size() == 0){
+                    orarioLabel.setBorder(new LineBorder(Color.red,2));
+                    success = false;
+                }else{
+                    orarioLabel.setBorder(null);
+                }
+
+                if(success){
+                    String nomeImmagine =  FilenameUtils.getBaseName(percorso.getText()) + "." + FilenameUtils.getExtension(percorso.getText());
+
+                    String film = nomeFilmTextField.getText() + "," ;
+
+
+                }
+
+
+
+
             }
         });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        GroupLayout layout = new GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(43, 43, 43)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(orarioLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(prezzoLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(28, 28, 28))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 166, GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel8, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)))
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                            .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(datePickerInizio, GroupLayout.PREFERRED_SIZE, 210, GroupLayout.PREFERRED_SIZE)
                                 .addGap(38, 38, 38)
-                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel7, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(datePickerFine, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(percorso, GroupLayout.PREFERRED_SIZE, 347, GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton1)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(layout.createParallelGroup()
+                                        .addComponent(bottoneCerca)
+                                        .addComponent(anteprimaLocandina,100,100,100))
+
+                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                    .addComponent(nomeFilmTextField, GroupLayout.PREFERRED_SIZE, 210, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(prezzoTextField, GroupLayout.PREFERRED_SIZE, 210, GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                            .addComponent(orario[0] , GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6, GroupLayout.PREFERRED_SIZE, 129, GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jCheckBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(orario[1], GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jCheckBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(orario[2], GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jCheckBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(orario[3], GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(nomeSala, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton2, GroupLayout.PREFERRED_SIZE, 171, GroupLayout.PREFERRED_SIZE)))
                         .addGap(36, 36, 36))))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(44, 44, 44)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nomeFilmLabel, GroupLayout.PREFERRED_SIZE, 158, GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(551, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(34, 34, 34)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(nomeFilmTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(datePickerInizio, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(datePickerFine, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7)
                     .addComponent(jLabel8))
                 .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
-                .addGap(34, 34, 34)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jCheckBox2)
-                    .addComponent(jCheckBox3)
-                    .addComponent(jCheckBox4))
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(percorso, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bottoneCerca))
+                    .addGap(17,17,17)
+                .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(anteprimaLocandina,100,100,100)
+                    .addComponent(prezzoLabel)
+                                .addComponent(prezzoTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                .addGap(34,34,34)
+                .addComponent(orarioLabel)
+                //.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(orario[0] )
+                    .addComponent(orario[1])
+                    .addComponent(orario[2])
+                    .addComponent(orario[3]))
                 .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(nomeSala, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
-                    .addComponent(jButton2))
+                    .addComponent(jButton2)))
                 .addGap(23, 23, 23))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(38, 38, 38)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nomeFilmLabel, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(336, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -238,25 +423,44 @@ public class InserimentoFilm extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton bottoneCerca;
     private javax.swing.JButton jButton2;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JCheckBox[] orario;
+    private javax.swing.JComboBox<String> nomeSala;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel nomeFilmLabel;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel prezzoLabel;
+    private javax.swing.JLabel orarioLabel;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField nomeFilmTextField;
+    private javax.swing.JTextField percorso;
+    private javax.swing.JTextField prezzoTextField;
+    private javax.swing.JLabel anteprimaLocandina;
+    private javax.swing.JFileChooser immagineLogo;
     // End of variables declaration//GEN-END:variables
+}
+
+class dateLabelFormatter extends JFormattedTextField.AbstractFormatter {
+
+    private String datePattern = "dd/MM/yyyy";
+    private SimpleDateFormat dateFormatter = new SimpleDateFormat(datePattern);
+
+    @Override
+    public Object stringToValue(String text) throws ParseException {
+        return dateFormatter.parseObject(text);
+    }
+
+    @Override
+    public String valueToString(Object value) throws ParseException {
+        if (value != null) {
+            Calendar cal = (Calendar) value;
+            return dateFormatter.format(cal.getTime());
+        }
+
+        return "";
+    }
+
 }

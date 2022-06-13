@@ -59,7 +59,20 @@ public class ControllerFilm {
         return null;
     }
 
+    public Collection<String> getAllFilmName(){
+        ArrayList<String> films = new ArrayList<>();
+        BufferedReader in = Gestione_db.getTable(tableName);
+        Film tmp;
+        try {
+            String l;
+            while ((l = in.readLine()) != null) {
+                    films.add(stringToFilm(l).getNome());
+                }
 
+            }catch (FileNotFoundException e){}
+        catch (IOException e){}
+        return films;
+    }
 
     public String insertFilm(String film){
         return Gestione_db.insertRow(tableName, film);

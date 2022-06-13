@@ -5,6 +5,17 @@
  */
 package progetto.view;
 
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
+import progetto.Controller.ControllerFilm;
+import progetto.functions.ConfrontaDate;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.Properties;
+
 /**
  *
  * @author franc
@@ -42,7 +53,7 @@ public class VisualizzaVendite extends javax.swing.JPanel {
         jTextField1.setText("jTextField1");
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                
             }
         });
 
@@ -58,24 +69,52 @@ public class VisualizzaVendite extends javax.swing.JPanel {
         });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
+            new Object [][] {},
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Giorno", "Vendite"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
+        //date Piker
+        UtilDateModel modelInizio = new UtilDateModel();
+        //SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+        modelInizio.setSelected(true);
+        JDatePanelImpl datePanelInizio = new JDatePanelImpl(modelInizio,new Properties());
+        UtilDateModel modelFine = new UtilDateModel();
+        modelFine.setSelected(true);
+        datePickerInizio = new JDatePickerImpl(datePanelInizio,new dateLabelFormatter());
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+        JDatePanelImpl datePanelFine = new JDatePanelImpl(modelFine,new Properties());
+
+        datePickerFine= new JDatePickerImpl(datePanelFine,new dateLabelFormatter());
+
+        datePanelInizio.addActionListener(evt -> {
+
+            if(!ConfrontaDate.dateSuccesive((Date) datePickerInizio.getModel().getValue(),(Date)datePickerFine.getModel().getValue())){
+                LocalDate inizioFilm= ((Date) datePickerInizio.getModel().getValue()).toInstant()
+                        .atZone(ZoneId.systemDefault())
+                        .toLocalDate();
+                modelFine.setDate(inizioFilm.getYear(),inizioFilm.getMonthValue() -1,inizioFilm.getDayOfMonth());
             }
+
         });
+
+        datePanelFine.addActionListener(evt -> {
+            if(!ConfrontaDate.dateSuccesive((Date) datePickerInizio.getModel().getValue(),(Date)datePickerFine.getModel().getValue())){
+                LocalDate inizioFilm= ((Date) datePickerInizio.getModel().getValue()).toInstant()
+                        .atZone(ZoneId.systemDefault())
+                        .toLocalDate();
+                modelFine.setDate(inizioFilm.getYear(),inizioFilm.getMonthValue() -1,inizioFilm.getDayOfMonth());
+            }
+
+        });
+        //fine date Piker
+
+
+        String[] nomeFilms = new ControllerFilm().getAllFilmName().toArray(new String[0]);
+
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(nomeFilms));
 
         jLabel3.setText("Film:");
 
@@ -90,11 +129,11 @@ public class VisualizzaVendite extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(datePickerInizio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(36, 36, 36)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(datePickerFine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -118,9 +157,9 @@ public class VisualizzaVendite extends javax.swing.JPanel {
                             .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(datePickerInizio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(datePickerFine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -151,5 +190,8 @@ public class VisualizzaVendite extends javax.swing.JPanel {
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
+    private JDatePickerImpl datePickerInizio;
+    private JDatePickerImpl datePickerFine;
+
     // End of variables declaration//GEN-END:variables
 }

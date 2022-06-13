@@ -24,22 +24,23 @@ public class ControllerSala {
         return null;
     }
 
-    public Collection<Sala> getAllSala(){
+    public Collection<String> getAllIdSala(){
 
-        ArrayList<Sala> sale = new ArrayList<Sala>();
+        ArrayList<String> idSale = new ArrayList<>();
 
         BufferedReader in = Gestione_db.getTable(tableName);
         try {
             String l;
             while ((l = in.readLine()) != null) {
-                sale.add(stringToSala( l ));
+                idSale.add(stringToSala(l).getId());
             }
         }
         catch (FileNotFoundException e){}
         catch (IOException e){}
 
-        return sale;
+        return idSale;
     }
+
 
     private Sala stringToSala(String salaString){
         String[] datiSala = salaString.split(",");

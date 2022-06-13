@@ -17,4 +17,16 @@ public class Sala {
     public String toString() {
         return id + ',' + numeroPosti + ',' + TraduttoreMatrice.matriceToString(disposizionePosti) ;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public int getNumeroPosti() {
+        return numeroPosti;
+    }
+
+    public int[][] getDisposizionePosti() {
+        return disposizionePosti;
+    }
 }
