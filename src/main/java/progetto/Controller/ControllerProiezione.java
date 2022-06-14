@@ -1,7 +1,7 @@
 package progetto.Controller;
 
 import progetto.database.Gestione_db;
-import progetto.functions.ConfrontaDate;
+import progetto.functions.FunzionalitaDate;
 import progetto.functions.TraduttoreMatrice;
 import progetto.functions.ValidatoreCampi;
 import progetto.model.Proiezione;
@@ -11,7 +11,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.*;
-import java.time.*;
 
 public class ControllerProiezione {
     private final String tableName = "proiezione.csv";
@@ -55,7 +54,7 @@ public class ControllerProiezione {
             String l;
             while ((l = in.readLine()) != null) {
                 tmp = stringToProiezione(l);
-                if( tmp.getIdFilm().equals(IDfilm) && ConfrontaDate.stessoGiorno(data,tmp.getData()) && ConfrontaDate.dateSuccesive(data,tmp.getData())){
+                if( tmp.getIdFilm().equals(IDfilm) && FunzionalitaDate.stessoGiorno(data,tmp.getData()) && FunzionalitaDate.dateSuccesive(data,tmp.getData())){
                     proiezioni.add(tmp);
                 }
             }
@@ -75,7 +74,7 @@ public class ControllerProiezione {
             String l;
             while ((l = in.readLine()) != null) {
                 tmp = stringToProiezione(l);
-                if(ConfrontaDate.stessoGiorno(data,tmp.getData()) && ConfrontaDate.dateSuccesive(data,tmp.getData())){
+                if(FunzionalitaDate.stessoGiorno(data,tmp.getData()) && FunzionalitaDate.dateSuccesive(data,tmp.getData())){
                     idFilms.add(tmp.getIdFilm());
                 }
             }
@@ -96,7 +95,7 @@ public class ControllerProiezione {
 
             while ((l = in.readLine()) != null) {
                 tmp = stringToProiezione(l);
-                if(tmp.getIdFilm().equals(idFilm) && ConfrontaDate.dateSuccesive(data,tmp.getData())){
+                if(tmp.getIdFilm().equals(idFilm) && FunzionalitaDate.dateSuccesive(data,tmp.getData())){
                     proiezioni.add(tmp);
                 }
             }

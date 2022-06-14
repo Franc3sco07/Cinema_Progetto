@@ -1,8 +1,6 @@
 package progetto.Controller;
 
 import progetto.database.Gestione_db;
-import progetto.functions.ConfrontaDate;
-import progetto.model.Proiezione;
 import progetto.model.Utente;
 
 import java.io.BufferedReader;

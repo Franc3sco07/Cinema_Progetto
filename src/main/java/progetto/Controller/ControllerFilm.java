@@ -59,14 +59,15 @@ public class ControllerFilm {
         return null;
     }
 
-    public Collection<String> getAllFilmName(){
+    public Collection<String> getAllFilmNameAndId(){
         ArrayList<String> films = new ArrayList<>();
         BufferedReader in = Gestione_db.getTable(tableName);
         Film tmp;
         try {
             String l;
             while ((l = in.readLine()) != null) {
-                    films.add(stringToFilm(l).getNome());
+                    tmp = stringToFilm(l);
+                    films.add(tmp.getId()+", "+tmp.getNome());
                 }
 
             }catch (FileNotFoundException e){}

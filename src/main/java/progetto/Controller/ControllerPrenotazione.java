@@ -1,9 +1,8 @@
 package progetto.Controller;
 import progetto.database.Gestione_db;
-import progetto.functions.ConfrontaDate;
+import progetto.functions.FunzionalitaDate;
 import progetto.functions.ValidatoreCampi;
 import progetto.model.Prenotazione;
-import progetto.model.Proiezione;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -79,7 +78,7 @@ public class ControllerPrenotazione {
             String l;
             while ((l = in.readLine()) != null) {
                 tmp = stringToPrenotazione(l);
-                if(tmp.getIdGeneratore().equals(idGeneratore) && ConfrontaDate.dateSuccesive(data,tmp.getData())){
+                if(tmp.getIdGeneratore().equals(idGeneratore) && FunzionalitaDate.dateSuccesive(data,tmp.getData())){
                     prenotazioni.add(tmp);
                 }
 
@@ -128,8 +127,8 @@ public class ControllerPrenotazione {
             while ((l = in.readLine()) != null) {
                 tmp = stringToPrenotazione(l);
                 if(tmp.getIdGeneratore().equals(idUtente) &&
-                        ConfrontaDate.stessoGiorno(data,tmp.getData()) &&
-                        ConfrontaDate.dateSuccesive(data,tmp.getData())){
+                        FunzionalitaDate.stessoGiorno(data,tmp.getData()) &&
+                        FunzionalitaDate.dateSuccesive(data,tmp.getData())){
                     idFilms.add(tmp.getIdFilm());
                 }
             }
@@ -150,8 +149,8 @@ public class ControllerPrenotazione {
                 tmp = stringToPrenotazione(l);
                 if(tmp.getIdGeneratore().equals(idUtente) &&
                         tmp.getIdFilm().equals(idFilm)    &&
-                        ConfrontaDate.stessoGiorno(data,tmp.getData()) &&
-                        ConfrontaDate.dateSuccesive(data,tmp.getData())){
+                        FunzionalitaDate.stessoGiorno(data,tmp.getData()) &&
+                        FunzionalitaDate.dateSuccesive(data,tmp.getData())){
                     proiezioni.add(tmp);
                 }
             }

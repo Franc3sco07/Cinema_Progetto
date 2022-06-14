@@ -64,8 +64,11 @@ public class Gestione_db {
 
             }
             dati.add( (MaxID+1) + "," + insertElement );
-
-            return GestioneFile.writeFile(relativePath+tableName, dati);
+            String mess = GestioneFile.writeFile(relativePath+tableName, dati);
+            if(mess.equals("ok")){
+                return ""+MaxID++;
+            }
+            return mess;
 
         } catch (FileNotFoundException e) {
         } catch (IOException e) {

@@ -9,11 +9,18 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 import progetto.Controller.ControllerFilm;
-import progetto.functions.ConfrontaDate;
+import progetto.Controller.ControllerTransazione;
+import progetto.functions.FunzionalitaDate;
+import progetto.functions.ValidatoreCampi;
 
+import javax.swing.table.DefaultTableModel;
+import java.text.DecimalFormat;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Properties;
 
 /**
@@ -21,7 +28,8 @@ import java.util.Properties;
  * @author franc
  */
 public class VisualizzaVendite extends javax.swing.JPanel {
-
+    private DefaultTableModel modelloVendite ;
+    private String [] colonne = { "Giorno", "Vendite"};
     /**
      * Creates new form VisualizzaVendite
      */
@@ -47,6 +55,7 @@ public class VisualizzaVendite extends javax.swing.JPanel {
         jTable1 = new javax.swing.JTable();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
+        modelloVendite = new DefaultTableModel(colonne, 0);
 
         jLabel1.setText("Da:");
 
@@ -60,24 +69,27 @@ public class VisualizzaVendite extends javax.swing.JPanel {
         jLabel2.setText("a:");
 
         jTextField2.setText("jTextField2");
-
+        DecimalFormat formatoDouble = new DecimalFormat("0.00");
         jButton1.setText("Esegui");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
+        jButton1.addActionListener(evt -> {
+            modelloVendite.setRowCount(0);
+            Date dataInizio = (Date) datePickerInizio.getModel().getValue();
+            Date dataFine = FunzionalitaDate.giornoDopo((Date) datePickerFine.getModel().getValue());
+            String filmId = ((String) jComboBox1.getSelectedItem()).split(",")[0];
+            Collection<Double> vendite;
+            do{
+                vendite = new ControllerTransazione().getAllVenditeByFilmIDandInADay(filmId,dataInizio);
+                Double totVendite = vendite.stream().mapToDouble(Double::doubleValue).sum();
+                modelloVendite.addRow(new String[]{(ValidatoreCampi.NOTIMEFORMAT.format(dataInizio)),formatoDouble.format(totVendite)});
+                dataInizio = FunzionalitaDate.giornoDopo(dataInizio);
+            }while(FunzionalitaDate.dateSuccesive(dataInizio,dataFine));
+
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {},
-            new String [] {
-                "Giorno", "Vendite"
-            }
-        ));
+        jTable1.setModel(modelloVendite);
         jScrollPane1.setViewportView(jTable1);
         //date Piker
         UtilDateModel modelInizio = new UtilDateModel();
-        //SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
         modelInizio.setSelected(true);
         JDatePanelImpl datePanelInizio = new JDatePanelImpl(modelInizio,new Properties());
         UtilDateModel modelFine = new UtilDateModel();
@@ -90,7 +102,7 @@ public class VisualizzaVendite extends javax.swing.JPanel {
 
         datePanelInizio.addActionListener(evt -> {
 
-            if(!ConfrontaDate.dateSuccesive((Date) datePickerInizio.getModel().getValue(),(Date)datePickerFine.getModel().getValue())){
+            if(!FunzionalitaDate.dateSuccesive((Date) datePickerInizio.getModel().getValue(),(Date)datePickerFine.getModel().getValue())){
                 LocalDate inizioFilm= ((Date) datePickerInizio.getModel().getValue()).toInstant()
                         .atZone(ZoneId.systemDefault())
                         .toLocalDate();
@@ -100,7 +112,7 @@ public class VisualizzaVendite extends javax.swing.JPanel {
         });
 
         datePanelFine.addActionListener(evt -> {
-            if(!ConfrontaDate.dateSuccesive((Date) datePickerInizio.getModel().getValue(),(Date)datePickerFine.getModel().getValue())){
+            if(!FunzionalitaDate.dateSuccesive((Date) datePickerInizio.getModel().getValue(),(Date)datePickerFine.getModel().getValue())){
                 LocalDate inizioFilm= ((Date) datePickerInizio.getModel().getValue()).toInstant()
                         .atZone(ZoneId.systemDefault())
                         .toLocalDate();
@@ -111,7 +123,7 @@ public class VisualizzaVendite extends javax.swing.JPanel {
         //fine date Piker
 
 
-        String[] nomeFilms = new ControllerFilm().getAllFilmName().toArray(new String[0]);
+        String[] nomeFilms = new ControllerFilm().getAllFilmNameAndId().toArray(new String[0]);
 
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(nomeFilms));

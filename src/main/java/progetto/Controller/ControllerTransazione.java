@@ -1,6 +1,7 @@
 package progetto.Controller;
 
 import progetto.database.Gestione_db;
+import progetto.functions.FunzionalitaDate;
 import progetto.functions.ValidatoreCampi;
 import progetto.model.Transazione;
 
@@ -33,7 +34,7 @@ public class ControllerTransazione {
         return null;
     }
 
-    public Collection getTransazioniByFilmID(String IDfilm){
+    public Collection<Transazione> getTransazioniByFilmID(String IDfilm){
         ArrayList<Transazione> transazioni = new ArrayList<>();
 
         BufferedReader in = Gestione_db.getTable(tableName);
@@ -59,6 +60,27 @@ public class ControllerTransazione {
         }
 
         return prenotazioniByFilmID;
+    }
+
+    public Collection<Double> getAllVenditeByFilmIDandInADay (String IDfilm, Date data ){
+        ArrayList<Double> vendite = new ArrayList<>();
+        Transazione tmp;
+        BufferedReader in = Gestione_db.getTable(tableName);
+        try {
+            String l;
+            while ((l = in.readLine()) != null) {
+                tmp = stringToTransazione( l );
+                if(tmp.getIdFilm().equals(IDfilm) && FunzionalitaDate.stessoGiorno(data,tmp.getData())){
+                    vendite.add(Double.parseDouble(tmp.getImporto().trim()));
+                }
+
+            }
+            return vendite;
+        }
+        catch (FileNotFoundException e){}
+        catch (IOException e){}
+        return null;
+
     }
 
     public String deleteTransazione (String IDtransazione){

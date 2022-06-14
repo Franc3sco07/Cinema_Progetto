@@ -8,9 +8,16 @@ import org.apache.commons.io.FilenameUtils;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
+import progetto.Controller.ControllerFilm;
+import progetto.Controller.ControllerProiezione;
 import progetto.Controller.ControllerSala;
-import progetto.functions.ConfrontaDate;
+import progetto.Controller.ControllerTransazione;
+import progetto.functions.FunzionalitaDate;
+import progetto.functions.GestioneFile;
+import progetto.functions.TraduttoreMatrice;
 import progetto.functions.ValidatoreCampi;
+import progetto.model.Film;
+import progetto.model.Sala;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -29,17 +36,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Properties;
+import java.util.*;
 
 /**
  *
  * @author francesco
  */
 public class InserimentoFilm extends javax.swing.JPanel {
-
     /**
      * Creates new form inserimentoFilm
      */
@@ -94,7 +97,7 @@ public class InserimentoFilm extends javax.swing.JPanel {
 
         datePanelInizio.addActionListener(evt -> {
 
-            if(!ConfrontaDate.dateSuccesive((Date) datePickerInizio.getModel().getValue(),(Date)datePickerFine.getModel().getValue())){
+            if(!FunzionalitaDate.dateSuccesive((Date) datePickerInizio.getModel().getValue(),(Date)datePickerFine.getModel().getValue())){
                 LocalDate inizioFilm= ((Date) datePickerInizio.getModel().getValue()).toInstant()
                         .atZone(ZoneId.systemDefault())
                         .toLocalDate();
@@ -104,7 +107,7 @@ public class InserimentoFilm extends javax.swing.JPanel {
         });
 
         datePanelFine.addActionListener(evt -> {
-            if(!ConfrontaDate.dateSuccesive((Date) datePickerInizio.getModel().getValue(),(Date)datePickerFine.getModel().getValue())){
+            if(!FunzionalitaDate.dateSuccesive((Date) datePickerInizio.getModel().getValue(),(Date)datePickerFine.getModel().getValue())){
                 LocalDate inizioFilm= ((Date) datePickerInizio.getModel().getValue()).toInstant()
                         .atZone(ZoneId.systemDefault())
                         .toLocalDate();
@@ -141,7 +144,7 @@ public class InserimentoFilm extends javax.swing.JPanel {
                         if(locandinaBuffered != null){
                             ImageIcon locandinaIcon = new ImageIcon(locandinaBuffered.getScaledInstance(100,100,  java.awt.Image.SCALE_SMOOTH));
                             anteprimaLocandina.setIcon(locandinaIcon);
-                            percorso.setBorder(null);
+                            percorso.setBorder(new LineBorder(Color.black,1));
                         }else{
                             percorso.setBorder(new LineBorder(Color.red,2));
                             anteprimaLocandina.setIcon(null);
@@ -177,7 +180,7 @@ public class InserimentoFilm extends javax.swing.JPanel {
                 if(nomeFilmTextField.getText().equals("")){
                     nomeFilmTextField.setBorder(new LineBorder(Color.red,2));
                 }else{
-                    nomeFilmTextField.setBorder(null);
+                    nomeFilmTextField.setBorder(new LineBorder(Color.black,1));
                 }
             }
         });
@@ -195,7 +198,7 @@ public class InserimentoFilm extends javax.swing.JPanel {
                     if (locandinaBuffered!=null){
                         ImageIcon locandinaIcon = new ImageIcon(locandinaBuffered.getScaledInstance(100,100,  java.awt.Image.SCALE_SMOOTH));
                         anteprimaLocandina.setIcon(locandinaIcon);
-                        percorso.setBorder(null);
+                        percorso.setBorder(new LineBorder(Color.black,1));
                     }
                 } catch (IOException ioException) {
                     percorso.setBorder(new LineBorder(Color.red,2));
@@ -213,7 +216,7 @@ public class InserimentoFilm extends javax.swing.JPanel {
             @Override
             public void focusLost(FocusEvent e) {
                 if(ValidatoreCampi.isNumeric(prezzoTextField.getText())){
-                    prezzoTextField.setBorder(null);
+                    prezzoTextField.setBorder(new LineBorder(Color.black,1));
                 }else{
                     prezzoTextField.setBorder(new LineBorder(Color.red,2));
                 }
@@ -255,6 +258,10 @@ public class InserimentoFilm extends javax.swing.JPanel {
         jButton2.setText("Inserisci film");
         jButton2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
+                String info = "";
+                while ((info = JOptionPane.showInputDialog("Inserisci descrizione film")).equals(""));
+
+
                 boolean success = true;
                 if(((LineBorder)nomeFilmTextField.getBorder()).getLineColor() == Color.red ){
                     success = false;
@@ -275,19 +282,47 @@ public class InserimentoFilm extends javax.swing.JPanel {
                     orarioLabel.setBorder(new LineBorder(Color.red,2));
                     success = false;
                 }else{
-                    orarioLabel.setBorder(null);
+                    orarioLabel.setBorder(new LineBorder(Color.black,1));
                 }
 
                 if(success){
-                    String nomeImmagine =  FilenameUtils.getBaseName(percorso.getText()) + "." + FilenameUtils.getExtension(percorso.getText());
+                    String nomeLocandina =  FilenameUtils.getBaseName(percorso.getText()) + "." + FilenameUtils.getExtension(percorso.getText());
+                    Image locandina = ((ImageIcon) anteprimaLocandina.getIcon()).getImage();
+                    if(!GestioneFile.salvaImmagine(locandina,nomeLocandina)){
+                        JOptionPane.showMessageDialog(null,"Errore nel salvataggio dell'immaggine");
+                        return;
+                    }
+                    String film = nomeFilmTextField.getText() + "," +
+                                  nomeLocandina + ","+
+                                  info + ","+
+                                  prezzoTextField.getText()
+                                ;
+                    String idFilm = new ControllerFilm().insertFilm(film);
 
-                    String film = nomeFilmTextField.getText() + "," ;
+                    Date dataInizio = (Date) datePickerInizio.getModel().getValue();
+                    Date dataFine = FunzionalitaDate.giornoDopo((Date) datePickerFine.getModel().getValue());
+                    Date dataProiezione ;
+                    String ora;
+                    Sala sala = new ControllerSala().getSalaByID((String)nomeSala.getSelectedItem());
+                    String proiezione;
+                    do{
 
+                        for (Iterator<String> iterator = listaOre.iterator(); iterator.hasNext(); ){
+                            ora = iterator.next()+":00";
+                            dataProiezione  = FunzionalitaDate.modificaOrario(dataInizio,ora);
+                            proiezione = idFilm+", "+
+                                    sala.getId()+", "+
+                                    prezzoTextField.getText()+", "+
+                                    ValidatoreCampi.DATEFORMAT.format(dataProiezione)  +", "+
+                                    sala.getNumeroPosti()+", "+
+                                    TraduttoreMatrice.matriceToString(sala.getDisposizionePosti()) ;
+                            new ControllerProiezione().insertProiezione(proiezione);
+
+                        }
+                        dataInizio = FunzionalitaDate.giornoDopo(dataInizio);
+                    }while(FunzionalitaDate.dateSuccesive(dataInizio,dataFine));
 
                 }
-
-
-
 
             }
         });

@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 public class ValidatoreCampi {
 
     public final static DateFormat DATEFORMAT = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+    public final static DateFormat NOTIMEFORMAT = new SimpleDateFormat("dd-MM-yyyy");
 
     public static boolean isValidEmail(String email) {
         //dopo la @ non puoi inserire numeri

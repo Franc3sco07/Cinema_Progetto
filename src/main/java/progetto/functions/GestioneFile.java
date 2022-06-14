@@ -2,12 +2,18 @@ package progetto.functions;
 
 import progetto.model.Film;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 public class GestioneFile {
 
+    private static final String PERCORSOGRAFICA = "progetto/elementiGrafici/";
     public static BufferedReader openFile(String path) {
         try {
             FileReader w = new FileReader(path);
@@ -70,6 +76,24 @@ public class GestioneFile {
         } catch (IOException e) {
         }
         return false;
+    }
+
+    public static Boolean salvaImmagine(Image immagine, String nomeFile ) {
+        String elementiGraficiPath = "src/main/java/progetto/elementiGrafici/";
+        try {
+            BufferedImage immagineBuffered = new BufferedImage(immagine.getWidth(null), immagine.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+            immagineBuffered.getGraphics().drawImage(immagine,0,0,null );
+            ImageIcon icon = new ImageIcon(immagineBuffered);
+
+            JOptionPane.showMessageDialog(null,"imaggine",null,JOptionPane.INFORMATION_MESSAGE,icon);
+            File fileImmagine = new File(elementiGraficiPath+nomeFile) ;
+            System.out.println((fileImmagine.createNewFile()));
+            return ImageIO.write(immagineBuffered,"png",fileImmagine);
+        } catch (IOException e) {
+            System.out.println("ERRORE IO");
+            return false;
+        }
+
     }
 
 }

@@ -30,4 +30,16 @@ public class Transazione {
     public String getIdFilm() {
         return idFilm.trim();
     }
+
+    public String getIdPrenotazione() {
+        return idPrenotazione;
+    }
+
+    public String getImporto() {
+        return importo;
+    }
+
+    public Date getData() {
+        return data;
+    }
 }
