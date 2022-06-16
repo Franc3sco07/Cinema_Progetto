@@ -96,6 +96,15 @@ public class InserimentoFilm extends javax.swing.JPanel {
         JDatePickerImpl datePickerFine= new JDatePickerImpl(datePanelFine,new dateLabelFormatter());
 
         datePanelInizio.addActionListener(evt -> {
+            if(!FunzionalitaDate.dateSuccesive(new Date(),(Date)datePickerFine.getModel().getValue()) || FunzionalitaDate.stessoGiorno(new Date(),(Date)datePickerFine.getModel().getValue()) ){
+                LocalDate inizioFilm= new Date().toInstant()
+                        .atZone(ZoneId.systemDefault())
+                        .toLocalDate();
+                modelInizio.setDate(inizioFilm.getYear(),inizioFilm.getMonthValue() -1,inizioFilm.getDayOfMonth());
+
+            }
+
+
 
             if(!FunzionalitaDate.dateSuccesive((Date) datePickerInizio.getModel().getValue(),(Date)datePickerFine.getModel().getValue())){
                 LocalDate inizioFilm= ((Date) datePickerInizio.getModel().getValue()).toInstant()
@@ -103,6 +112,8 @@ public class InserimentoFilm extends javax.swing.JPanel {
                         .toLocalDate();
                 modelFine.setDate(inizioFilm.getYear(),inizioFilm.getMonthValue() -1,inizioFilm.getDayOfMonth());
             }
+
+
 
         });
 

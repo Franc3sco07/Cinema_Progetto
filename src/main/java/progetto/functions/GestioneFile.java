@@ -84,10 +84,8 @@ public class GestioneFile {
             BufferedImage immagineBuffered = new BufferedImage(immagine.getWidth(null), immagine.getHeight(null), BufferedImage.TYPE_INT_ARGB);
             immagineBuffered.getGraphics().drawImage(immagine,0,0,null );
             ImageIcon icon = new ImageIcon(immagineBuffered);
-
-            JOptionPane.showMessageDialog(null,"imaggine",null,JOptionPane.INFORMATION_MESSAGE,icon);
             File fileImmagine = new File(elementiGraficiPath+nomeFile) ;
-            System.out.println((fileImmagine.createNewFile()));
+            fileImmagine.createNewFile();
             return ImageIO.write(immagineBuffered,"png",fileImmagine);
         } catch (IOException e) {
             System.out.println("ERRORE IO");

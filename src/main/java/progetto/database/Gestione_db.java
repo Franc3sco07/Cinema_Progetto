@@ -66,7 +66,7 @@ public class Gestione_db {
             dati.add( (MaxID+1) + "," + insertElement );
             String mess = GestioneFile.writeFile(relativePath+tableName, dati);
             if(mess.equals("ok")){
-                return ""+MaxID++;
+                return ""+ ++MaxID;
             }
             return mess;
 

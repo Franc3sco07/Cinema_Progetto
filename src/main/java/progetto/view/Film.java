@@ -86,7 +86,6 @@ public class Film extends javax.swing.JPanel {
         JPanel infoPannello = new JPanel();
         infoPannello.setLayout(new BoxLayout(infoPannello, BoxLayout.Y_AXIS));
         Date oggi = new Date();
-        System.out.println(oggi);;
         Collection<String> idFilm = new ControllerProiezione().getAllIdFilmInADay(oggi);
         Collection<progetto.model.Film> filmDisponibili = new ControllerFilm().getAllFilmsByIdList(idFilm);
         progetto.model.Film tmpFilm;

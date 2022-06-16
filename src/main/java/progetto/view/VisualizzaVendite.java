@@ -80,7 +80,7 @@ public class VisualizzaVendite extends javax.swing.JPanel {
             do{
                 vendite = new ControllerTransazione().getAllVenditeByFilmIDandInADay(filmId,dataInizio);
                 Double totVendite = vendite.stream().mapToDouble(Double::doubleValue).sum();
-                modelloVendite.addRow(new String[]{(ValidatoreCampi.NOTIMEFORMAT.format(dataInizio)),formatoDouble.format(totVendite)});
+                modelloVendite.addRow(new String[]{(ValidatoreCampi.NOTIMEFORMAT.format(dataInizio)),formatoDouble.format(totVendite)+" €"});
                 dataInizio = FunzionalitaDate.giornoDopo(dataInizio);
             }while(FunzionalitaDate.dateSuccesive(dataInizio,dataFine));
 
