@@ -2,6 +2,7 @@ package progetto.elementiGrafici;
 
 import progetto.Main;
 import progetto.Session;
+import progetto.functions.GestioneFile;
 import progetto.model.Film;
 import progetto.state.PrenotazioneDipendeteState;
 import progetto.state.ProiezioneState;
@@ -26,11 +27,7 @@ public class FilmSingoloPrenotazione extends javax.swing.JPanel {
     public FilmSingoloPrenotazione(Film datiFilm) {
         BufferedImage img = null;
         this.datiFilm= datiFilm;
-        try {
-            img = ImageIO.read(new File(imagePath + datiFilm.getLocandina().trim()));
-        } catch (IOException e) {
-        }
-        this.logoFilm = new ImageIcon(img);
+        this.logoFilm = GestioneFile.apriImmagine(datiFilm.getLocandina());
         initComponents();
     }
 
