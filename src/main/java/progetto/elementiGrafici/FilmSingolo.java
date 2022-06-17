@@ -12,6 +12,8 @@ import progetto.state.ProiezioneState;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -52,7 +54,8 @@ public class FilmSingolo extends javax.swing.JPanel {
         jButton1 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
 
-        jLabel1.setText(datiFilm.getNome()+"\n"+datiFilm.getInfo());
+        jLabel1.setText("<html> <h2>"+datiFilm.getNome()+"</h2><br />  "+datiFilm.getInfo()+"</html>");
+
 
         jLabel2.setIcon(logoFilm);
 
@@ -93,7 +96,7 @@ public class FilmSingolo extends javax.swing.JPanel {
                         .addComponent(jButton1))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 8, Short.MAX_VALUE)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(17, 17, 17))
         );
     }// </editor-fold>//GEN-END:initComponents
