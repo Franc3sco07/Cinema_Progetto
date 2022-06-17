@@ -38,8 +38,6 @@ public class GUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -63,46 +61,13 @@ public class GUI extends javax.swing.JFrame {
         filmMenu = new javax.swing.JMenuItem();
         filmMenu.setText("Film");
         filmMenu.addActionListener(evt -> new FilmState().doAction(Main.context));
-        /*
-        filmMenu.addMenuListener(new MenuListener() {
-            @Override
-            public void menuSelected(MenuEvent e) {
-                new FilmState().doAction(Main.context);
-            }
-
-            @Override
-            public void menuDeselected(MenuEvent e) {
-            }
-
-            @Override
-            public void menuCanceled(MenuEvent e) {
-
-
-            }
-        });*/
         jMenuBar1.add(filmMenu);
 
         if (Session.getSessioneCorrente().getUtenteLoggato().getTipo().equals("U")){
             prenotazioniMenu = new javax.swing.JMenuItem();
             prenotazioniMenu.setText("Prenotazioni"); //visibile solo per gli utenti
             prenotazioniMenu.addActionListener(evt-> new PrenotazioniState().doAction(Main.context));
-            /*
-            prenotazioniMenu.addMenuListener(new MenuListener() {
-                @Override
-                public void menuSelected(MenuEvent e) {
-                    new PrenotazioniState().doAction(Main.context);
-                }
 
-                @Override
-                public void menuDeselected(MenuEvent e) {
-
-                }
-
-                @Override
-                public void menuCanceled(MenuEvent e) {
-
-                }
-            });*/
             jMenuBar1.add(prenotazioniMenu);
         }
 
@@ -110,15 +75,17 @@ public class GUI extends javax.swing.JFrame {
             gestioneBigliettiMenu = new javax.swing.JMenuItem();
             gestioneBigliettiMenu.setText("Gestione Biglietti"); //visibile solo per i dipendenti
             gestioneBigliettiMenu.addActionListener(evt-> new PrenotazioniState().doAction(Main.context));
+            accettazioneBiglietti = new javax.swing.JMenuItem();
+            accettazioneBiglietti.setText("Accettazione biglietti"); //visibile solo per i dipendenti
+            accettazioneBiglietti.addActionListener(evt-> new AccettazioneBigliettiState().doAction(Main.context));
             jMenuBar1.add(gestioneBigliettiMenu);
+            jMenuBar1.add(accettazioneBiglietti);
         }
 
         if (Session.getSessioneCorrente().getUtenteLoggato().getTipo().equals("A")){
-            //amministrazioneMenu = new javax.swing.JMenu();
             visualizzaVendite = new javax.swing.JMenuItem();
             visualizzaDipendenti = new javax.swing.JMenuItem();
             inserisciFilm = new javax.swing.JMenuItem();
-            //amministrazioneMenu.setText("Amministrazione"); //visibile solo admin
             visualizzaVendite.setText("Visualizza vendite");
             visualizzaVendite.addActionListener(evt -> new VisualizzaVenditeState().doAction(Main.context));
 
@@ -140,22 +107,6 @@ public class GUI extends javax.swing.JFrame {
 
         profiloMenu.setText("Profilo");
         profiloMenu.addActionListener(evt -> new VisualizzaDatiState().doAction(Main.context));
-        /*
-        profiloMenu.addMenuListener(new MenuListener() {
-            @Override
-            public void menuSelected(MenuEvent e) {
-
-            }
-
-            @Override
-            public void menuDeselected(MenuEvent e) {
-            }
-
-            @Override
-            public void menuCanceled(MenuEvent e) {
-            }
-        });*/
-
 
 
         jMenuBar1.add(profiloMenu);
@@ -166,22 +117,6 @@ public class GUI extends javax.swing.JFrame {
             Session.getSessioneCorrente().logOut();
             new LoginState().doAction(Main.context);
         });
-       /* jMenuLogout.addMenuListener(new MenuListener() {
-            @Override
-            public void menuSelected(MenuEvent e) {
-                Main.frame.hideMenu();
-            Session.getSessioneCorrente().logOut();
-            new LoginState().doAction(Main.context);
-            }
-
-            @Override
-            public void menuDeselected(MenuEvent e) {
-            }
-
-            @Override
-            public void menuCanceled(MenuEvent e) {
-            }
-        });*/
         jMenuBar1.add(jMenuLogout);
         jMenuBar1.setVisible(true);
         setJMenuBar(jMenuBar1);
@@ -204,12 +139,13 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem prenotazioniMenu;
     private javax.swing.JMenuItem profiloMenu;
     private javax.swing.JMenuItem gestioneBigliettiMenu;
-    private javax.swing.JMenu amministrazioneMenu;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem visualizzaVendite;
     private javax.swing.JMenuItem visualizzaDipendenti;
     private javax.swing.JMenuItem jMenuLogout;
     private javax.swing.JMenuItem inserisciFilm;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JMenuItem accettazioneBiglietti;
+
+
     // End of variables declaration//GEN-END:variables
 }

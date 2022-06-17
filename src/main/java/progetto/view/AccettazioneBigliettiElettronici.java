@@ -3,7 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.cinema;
+package progetto.view;
+
+import progetto.Controller.ControllerPrenotazione;
+import progetto.Controller.ControllerProiezione;
+import progetto.elementiGrafici.BigliettoSingolo;
+import progetto.elementiGrafici.PrenotazioneSingola;
+import progetto.model.Prenotazione;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  *
@@ -26,48 +35,71 @@ public class AccettazioneBigliettiElettronici extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
+        jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
-
+        jPanel3
         jLabel1.setText("Inserisci codice");
 
-        jTextField1.setText("jTextField1");
+        jTextField1.setText("");
 
         jButton1.setText("Verifica");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+        jButton1.addActionListener(evt ->{
+            Prenotazione biglietto = new ControllerPrenotazione().getPrenotazioneById(jTextField1.getText());
+            System.out.println(biglietto);
+            if(biglietto != null){
+                jButton2.setEnabled(true);
+                jButton3.setEnabled(true);
+                jPanel1= new BigliettoSingolo(biglietto);
+                JButton source = (JButton) evt.getSource();
+                source.getParent().getParent().revalidate();
+                source.getParent().getParent().repaint();
+                //jPanel1.revalidate();
+                //jPanel1.repaint();
+            }else{
+                JOptionPane.showMessageDialog(null,"Il biglietto non esiste");
             }
-        });
+
+        } );
 
         jButton2.setText("Annulla");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
+        jButton2.setEnabled(false);
+        jButton2.addActionListener(evt -> {
+            jPanel2 = new JPanel();
+            jButton2.setEnabled(false);
+            jButton3.setEnabled(false);
+            jTextField1.setText("");
         });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+
+        //jPanel1.setSize(754,252);
+        //jPanel1.setLayout(new BorderLayout());
+
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    //.addComponent(jPanel2,javax.swing.GroupLayout.DEFAULT_SIZE, 754, Short.MAX_VALUE)
             .addGap(0, 0, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    //.addComponent(jPanel2,javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
             .addGap(0, 252, Short.MAX_VALUE)
         );
 
         jButton3.setText("Conferma");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
+        jButton3.setEnabled(false);
+        jButton3.addActionListener(evt -> {
+            new ControllerPrenotazione().deletePrenotazione(jTextField1.getText());
+            jPanel2 = new JPanel();
+            jButton2.setEnabled(false);
+            jButton3.setEnabled(false);
+            jTextField1.setText("");
         });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -129,5 +161,6 @@ public class AccettazioneBigliettiElettronici extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 }

@@ -13,7 +13,7 @@ import java.util.Iterator;
 
 public class GestioneFile {
 
-    private static final String PERCORSOGRAFICA = "progetto/elementiGrafici/";
+    private static final String PERCORSOGRAFICA = "src/main/java/progetto/elementiGrafici/";
     public static BufferedReader openFile(String path) {
         try {
             FileReader w = new FileReader(path);
@@ -91,6 +91,14 @@ public class GestioneFile {
             System.out.println("ERRORE IO");
             return false;
         }
+
+    }
+
+    public static ImageIcon apriImmagine(String nomeFile ) {
+        //String elementiGraficiPath = "src/main/java/progetto/elementiGrafici/";
+
+            return new ImageIcon(nomeFile);
+
 
     }
 

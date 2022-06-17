@@ -13,6 +13,15 @@ import java.util.*;
 public class ControllerPrenotazione {
     private final String tableName = "prenotazione.csv";
 
+    public Prenotazione getPrenotazioneById (String id){
+        String tmp = Gestione_db.getRow(tableName,id);
+        if(tmp.split(",").length>1){
+            return stringToPrenotazione(tmp);
+        }else{
+            return null;
+        }
+    }
+
     public Collection<Prenotazione> getPrenotazioniByIDgeneratore(String IDutente){
         ArrayList<Prenotazione> prenotazioni = new ArrayList<>();
 

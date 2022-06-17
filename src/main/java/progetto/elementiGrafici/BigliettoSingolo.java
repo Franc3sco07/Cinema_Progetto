@@ -3,16 +3,32 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 
-package com.mycompany.cinema;
+package progetto.elementiGrafici;
+
+import progetto.Controller.ControllerFilm;
+import progetto.Controller.ControllerProiezione;
+import progetto.Controller.ControllerUtente;
+import progetto.functions.GestioneFile;
+import progetto.model.Film;
+import progetto.model.Prenotazione;
+import progetto.model.Utente;
+
 
 /**
  *
  * @author francesco
  */
 public class BigliettoSingolo extends javax.swing.JPanel {
-
+    private Prenotazione biglietto;
+    private Film infoFilm;
+    private Utente infoUtente;
+    private String idSala;
     /** Creates new form BigliettoSingolo */
-    public BigliettoSingolo() {
+    public BigliettoSingolo(Prenotazione biglietto) {
+        this.biglietto = biglietto;
+        this.infoFilm = new ControllerFilm().getFilmByID(this.biglietto.getIdFilm());
+        this.infoUtente = new ControllerUtente().getUtenteByID(this.biglietto.getIdGeneratore());
+        this.idSala = new ControllerProiezione().getProezioneByID(this.biglietto.getIdProiezione()).getIdSala();
         initComponents();
     }
 
@@ -35,23 +51,25 @@ public class BigliettoSingolo extends javax.swing.JPanel {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
 
-        jLabel1.setText("Film Loc");
+        //jLabel1.setText("Film Loc");
 
-        jLabel2.setText("Nome film");
+        jLabel1.setIcon( GestioneFile.apriImmagine(infoFilm.getLocandina()));
 
-        jLabel3.setText("Data ");
+        jLabel2.setText(infoFilm.getNome());
 
-        jLabel4.setText("Sala");
+        jLabel3.setText(biglietto.getData().toString());
 
-        jLabel5.setText("Numero biglietti");
+        jLabel4.setText(idSala);
 
-        jLabel6.setText("prezzo");
+        jLabel5.setText(""+biglietto.getPostoAssegnato().split(";").length);
 
-        jLabel7.setText("Nome");
+        jLabel6.setText(biglietto.getPrezzo());
 
-        jLabel8.setText("Cognome");
+        jLabel7.setText(infoUtente.getNome());
 
-        jLabel9.setText("Codice Fiscale");
+        jLabel8.setText(infoUtente.getCognome());
+
+        jLabel9.setText(infoUtente.getCodiceFiscale());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
