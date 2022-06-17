@@ -6,6 +6,7 @@ package progetto.view;
 
 import progetto.Controller.ControllerPrenotazione;
 import progetto.Controller.ControllerProiezione;
+import progetto.Controller.ControllerTransazione;
 import progetto.Main;
 import progetto.Session;
 import progetto.functions.TraduttoreMatrice;
@@ -163,7 +164,18 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
                             + "," + ValidatoreCampi.DATEFORMAT.format(proiezione.getData())
                             + "," + prezzoTotale
                             + "," + TrasformatoreArrayList.arrayListToStringMat(postiSelezionati);
-                    new ControllerPrenotazione().insertPrenotazione(prenotazione);
+                    String idPrenotazione = new ControllerPrenotazione().insertPrenotazione(prenotazione);
+
+                    if(Session.getSessioneCorrente().getUtenteLoggato().getTipo().equals("D")){
+                        String transazione = idPrenotazione
+                                + "," + Session.getSessioneCorrente().getIdRiferimentoFilm()
+                                + "," + ValidatoreCampi.DATEFORMAT.format(proiezione.getData())
+                                + "," + prezzoTotale;
+                        new ControllerTransazione().insertTransazione(transazione);
+
+
+
+                    }
 
                     Proiezione modified = new ControllerProiezione().getProezioneByID(Session.getSessioneCorrente().getIdRiferimentoProiezione());
                     modified.setPostiAttualiOccupati(posti);

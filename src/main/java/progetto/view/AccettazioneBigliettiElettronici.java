@@ -6,9 +6,12 @@
 package progetto.view;
 
 import progetto.Controller.ControllerPrenotazione;
+import progetto.Controller.ControllerTransazione;
 import progetto.Main;
 import progetto.elementiGrafici.BigliettoSingolo;
+import progetto.functions.ValidatoreCampi;
 import progetto.model.Prenotazione;
+import progetto.model.Transazione;
 
 import javax.swing.*;
 import java.awt.*;
@@ -48,10 +51,17 @@ public class AccettazioneBigliettiElettronici extends javax.swing.JPanel {
 
         jButton1.setText("Verifica");
         jButton1.addActionListener(evt ->{
+            Transazione usato = new ControllerTransazione().getTransazioneByIDPrenotazione(jTextField1.getText());
+
+            if( usato != null) {
+                JOptionPane.showMessageDialog(null,"Il biglietto è stato gia utilizzato");
+                return;
+            }
             Prenotazione biglietto = new ControllerPrenotazione().getPrenotazioneById(jTextField1.getText());
             if(biglietto != null){
                 jButton2.setEnabled(true);
                 jButton3.setEnabled(true);
+
                 jPanel2 = new BigliettoSingolo(biglietto);
                 pannelloCarte.add(jPanel2);
                 CardLayout cl = (CardLayout)(pannelloCarte.getLayout());
@@ -93,8 +103,12 @@ public class AccettazioneBigliettiElettronici extends javax.swing.JPanel {
         jButton3.setText("Conferma");
         jButton3.setEnabled(false);
         jButton3.addActionListener(evt -> {
-            //new ControllerPrenotazione().deletePrenotazione(jTextField1.getText());
-            //generare transazione
+            Prenotazione biglietto = new ControllerPrenotazione().getPrenotazioneById(jTextField1.getText());
+            String transazione = biglietto.getId()+ "," +
+                    biglietto.getIdFilm()+","+
+                    ValidatoreCampi.DATEFORMAT.format(biglietto.getData()) +","+
+                    biglietto.getPrezzo();
+            new ControllerTransazione().insertTransazione(transazione);
             jButton2.setEnabled(false);
             jButton3.setEnabled(false);
             jTextField1.setText("");

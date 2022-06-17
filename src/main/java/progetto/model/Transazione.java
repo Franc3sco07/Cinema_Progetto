@@ -15,7 +15,7 @@ public class Transazione {
     }
 
     public String getIdTransazione() {
-        return idTransazione;
+        return idTransazione.trim();
     }
 
     @Override
@@ -32,7 +32,7 @@ public class Transazione {
     }
 
     public String getIdPrenotazione() {
-        return idPrenotazione;
+        return idPrenotazione.trim();
     }
 
     public String getImporto() {

@@ -3,6 +3,7 @@ package progetto.Controller;
 import progetto.database.Gestione_db;
 import progetto.functions.FunzionalitaDate;
 import progetto.functions.ValidatoreCampi;
+import progetto.model.Prenotazione;
 import progetto.model.Transazione;
 
 import java.io.BufferedReader;
@@ -16,6 +17,26 @@ import java.util.Iterator;
 
 public class ControllerTransazione {
     private final String tableName = "Transazione.csv";
+
+
+    public Transazione getTransazioneByIDPrenotazione(String idPrenotazione){
+        Transazione tmp;
+        BufferedReader in = Gestione_db.getTable(tableName);
+        try {
+            String l;
+            while ((l = in.readLine()) != null) {
+                tmp = stringToTransazione(l);
+                if(tmp.getIdPrenotazione().equals(idPrenotazione)){
+                    return tmp;
+                }
+            }
+        }
+        catch (FileNotFoundException e){}
+        catch (IOException e){}
+
+        return null;
+
+    }
 
     public Collection<Transazione> getAllTransazioni(){
         ArrayList<Transazione> transazioni = new ArrayList<Transazione>();
@@ -88,6 +109,7 @@ public class ControllerTransazione {
     }
 
     public String insertTransazione(String transazione){
+        //System.out.println("CAIO");
         return Gestione_db.insertRow(tableName, transazione);
     }
 
