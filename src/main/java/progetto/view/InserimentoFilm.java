@@ -135,10 +135,8 @@ public class InserimentoFilm extends javax.swing.JPanel {
         bottoneCerca.addActionListener(evt ->{
             String path = "";
             if(Paths.get(percorso.getText()).isAbsolute()){
-                System.out.println("ciao");
                 path = percorso.getText();
                 System.out.println(path);
-                //immagineLogo.setCurrentDirectory(new File(path));
             }
             immagineLogo = new JFileChooser(path);
 

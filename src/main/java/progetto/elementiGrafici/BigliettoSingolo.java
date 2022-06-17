@@ -9,9 +9,13 @@ import progetto.Controller.ControllerFilm;
 import progetto.Controller.ControllerProiezione;
 import progetto.Controller.ControllerUtente;
 import progetto.functions.GestioneFile;
+import progetto.functions.ValidatoreCampi;
 import progetto.model.Film;
 import progetto.model.Prenotazione;
 import progetto.model.Utente;
+
+import javax.swing.border.LineBorder;
+import java.awt.*;
 
 
 /**
@@ -53,11 +57,12 @@ public class BigliettoSingolo extends javax.swing.JPanel {
 
         //jLabel1.setText("Film Loc");
 
-        jLabel1.setIcon( GestioneFile.apriImmagine(infoFilm.getLocandina()));
+        jLabel1.setIcon( GestioneFile.apriImmagine(infoFilm.getLocandina().trim()));
 
         jLabel2.setText(infoFilm.getNome());
 
-        jLabel3.setText(biglietto.getData().toString());
+        jLabel3.setText(ValidatoreCampi.DATEFORMAT.format(biglietto.getData()));
+        jLabel1.setBorder(new LineBorder(Color.gray,1));
 
         jLabel4.setText(idSala);
 

@@ -6,9 +6,8 @@
 package progetto.view;
 
 import progetto.Controller.ControllerPrenotazione;
-import progetto.Controller.ControllerProiezione;
+import progetto.Main;
 import progetto.elementiGrafici.BigliettoSingolo;
-import progetto.elementiGrafici.PrenotazioneSingola;
 import progetto.model.Prenotazione;
 
 import javax.swing.*;
@@ -40,9 +39,9 @@ public class AccettazioneBigliettiElettronici extends javax.swing.JPanel {
         jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
+        pannelloCarte = new javax.swing.JPanel(new CardLayout());
         jButton3 = new javax.swing.JButton();
-        jPanel3
+        jPanel3 = new javax.swing.JPanel();
         jLabel1.setText("Inserisci codice");
 
         jTextField1.setText("");
@@ -50,16 +49,13 @@ public class AccettazioneBigliettiElettronici extends javax.swing.JPanel {
         jButton1.setText("Verifica");
         jButton1.addActionListener(evt ->{
             Prenotazione biglietto = new ControllerPrenotazione().getPrenotazioneById(jTextField1.getText());
-            System.out.println(biglietto);
             if(biglietto != null){
                 jButton2.setEnabled(true);
                 jButton3.setEnabled(true);
-                jPanel1= new BigliettoSingolo(biglietto);
-                JButton source = (JButton) evt.getSource();
-                source.getParent().getParent().revalidate();
-                source.getParent().getParent().repaint();
-                //jPanel1.revalidate();
-                //jPanel1.repaint();
+                jPanel2 = new BigliettoSingolo(biglietto);
+                pannelloCarte.add(jPanel2);
+                CardLayout cl = (CardLayout)(pannelloCarte.getLayout());
+                cl.next(pannelloCarte);
             }else{
                 JOptionPane.showMessageDialog(null,"Il biglietto non esiste");
             }
@@ -69,18 +65,18 @@ public class AccettazioneBigliettiElettronici extends javax.swing.JPanel {
         jButton2.setText("Annulla");
         jButton2.setEnabled(false);
         jButton2.addActionListener(evt -> {
-            jPanel2 = new JPanel();
             jButton2.setEnabled(false);
             jButton3.setEnabled(false);
             jTextField1.setText("");
+            pannelloCarte.remove(jPanel2);
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel3);
 
         //jPanel1.setSize(754,252);
         //jPanel1.setLayout(new BorderLayout());
 
-        jPanel1.setLayout(jPanel1Layout);
+        jPanel3.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     //.addComponent(jPanel2,javax.swing.GroupLayout.DEFAULT_SIZE, 754, Short.MAX_VALUE)
@@ -91,15 +87,18 @@ public class AccettazioneBigliettiElettronici extends javax.swing.JPanel {
                     //.addComponent(jPanel2,javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
             .addGap(0, 252, Short.MAX_VALUE)
         );
+        pannelloCarte.add(jPanel3);
+
 
         jButton3.setText("Conferma");
         jButton3.setEnabled(false);
         jButton3.addActionListener(evt -> {
-            new ControllerPrenotazione().deletePrenotazione(jTextField1.getText());
-            jPanel2 = new JPanel();
+            //new ControllerPrenotazione().deletePrenotazione(jTextField1.getText());
+            //generare transazione
             jButton2.setEnabled(false);
             jButton3.setEnabled(false);
             jTextField1.setText("");
+            pannelloCarte.remove(jPanel2);
         });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -121,7 +120,7 @@ public class AccettazioneBigliettiElettronici extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(23, 23, 23))))
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pannelloCarte, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -132,7 +131,7 @@ public class AccettazioneBigliettiElettronici extends javax.swing.JPanel {
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
                 .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pannelloCarte, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
@@ -159,8 +158,9 @@ public class AccettazioneBigliettiElettronici extends javax.swing.JPanel {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel pannelloCarte;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     // End of variables declaration//GEN-END:variables
 }

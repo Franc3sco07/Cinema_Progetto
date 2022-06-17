@@ -97,7 +97,7 @@ public class GestioneFile {
     public static ImageIcon apriImmagine(String nomeFile ) {
         //String elementiGraficiPath = "src/main/java/progetto/elementiGrafici/";
 
-            return new ImageIcon(nomeFile);
+            return new ImageIcon(PERCORSOGRAFICA+nomeFile);
 
 
     }
