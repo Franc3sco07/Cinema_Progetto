@@ -2,18 +2,31 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package com.mycompany.cinema;
+package progetto.elementiGrafici;
+
+import progetto.Controller.ControllerProiezione;
+import progetto.Controller.ControllerTransazione;
+import progetto.Main;
+import progetto.Session;
+import progetto.functions.ValidatoreCampi;
+import progetto.model.Proiezione;
+import progetto.state.PrenotazionePostiState;
+
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+import java.awt.*;
 
 /**
  *
  * @author francesco
  */
 public class ProiezioneSingola extends javax.swing.JPanel {
-
+    private Proiezione datiProiezione;
     /**
      * Creates new form ProiezioneSingola
      */
-    public ProiezioneSingola() {
+    public ProiezioneSingola(Proiezione proiezione) {
+        this.datiProiezione = proiezione;
         initComponents();
     }
 
@@ -30,23 +43,46 @@ public class ProiezioneSingola extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        prezzoField = new javax.swing.JTextField();
 
-        jLabel1.setText("Data e ora");
+        jLabel1.setText("Data: "+ ValidatoreCampi.DATEFORMAT.format(datiProiezione.getData())+"     prezzo: ");
+        prezzoField.setText(datiProiezione.getPrezzo());
 
-        jLabel2.setText("Nome sala");
+        jLabel2.setText("Sala: "+datiProiezione.getIdSala()+"      posti disponibili: "+datiProiezione.getPostiLiberi());
 
         jButton1.setText("Prenota");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                Session.getSessioneCorrente().setIdRiferimentoProiezione(datiProiezione.getId());
+                new PrenotazionePostiState().doAction(Main.context);
             }
         });
+        prezzoField.setEditable(false);
+        if(!Session.getSessioneCorrente().getUtenteLoggato().getTipo().equals("A")){
+            jButton2.setVisible(false);
 
+            prezzoField.setBorder(null);
+
+        }
         jButton2.setText("Modifica");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+        jButton2.addActionListener(evt ->{
+            if(!prezzoField.isEditable()){
+                prezzoField.setEditable(true);
+                jButton2.setText("Salva");
+            }else{
+                String tmp = prezzoField.getText();
+                if(ValidatoreCampi.isNumeric(tmp)){
+                    datiProiezione.setPrezzo(tmp);
+                    new ControllerProiezione().modifyProiezione(datiProiezione);
+                    prezzoField.setEditable(false);
+                    jButton2.setText("Modifica");
+                    prezzoField.setBorder( new JTextField().getBorder());
+                }else{
+                    prezzoField.setBorder( new LineBorder(Color.red,2));
+                }
+
             }
+
         });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -56,8 +92,9 @@ public class ProiezioneSingola extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(55, 55, 55)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(prezzoField,javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                 .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -72,10 +109,12 @@ public class ProiezioneSingola extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(prezzoField)
                             .addComponent(jLabel2)
-                            .addComponent(jButton1))
+                            .addComponent(jButton1)
+                            .addComponent(jButton2))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    )
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -94,5 +133,7 @@ public class ProiezioneSingola extends javax.swing.JPanel {
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+
+    private javax.swing.JTextField prezzoField;
     // End of variables declaration//GEN-END:variables
 }

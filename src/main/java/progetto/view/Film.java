@@ -39,11 +39,49 @@ public class Film extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        if(Session.getSessioneCorrente().getUtenteLoggato().getTipo().equals("U")){
-            filmUtente();
+        JPanel infoPannello = new JPanel();
+        infoPannello.setLayout(new BoxLayout(infoPannello, BoxLayout.Y_AXIS));
+        Date oggi = new Date();
+        Collection<progetto.model.Film> filmDisponibili;
+        if(Session.getSessioneCorrente().getUtenteLoggato().getTipo().equals("D")){
+            Collection<String> idFilm = new ControllerProiezione().getAllIdFilmInADay(oggi);
+            filmDisponibili = new ControllerFilm().getAllFilmsByIdList(idFilm);
         }else{
-            filmDipendente();
+            Collection<String> idFilm = new ControllerProiezione().getAllIdFilmAfterDate(oggi);
+            filmDisponibili = new ControllerFilm().getAllFilmsByIdList(idFilm);
         }
+
+
+        progetto.model.Film tmpFilm;
+        int i = 0;
+        for (Iterator<progetto.model.Film> iterator = filmDisponibili.iterator(); iterator.hasNext(); ){
+            tmpFilm = iterator.next();
+            JPanel j = new FilmSingolo(tmpFilm);
+            infoPannello.add(j);
+            j.setOpaque(false);
+            i++;
+        }
+
+        for (;i<4;i++){
+            JPanel j = new FilmVuoto();
+            infoPannello.add(j);
+        }
+
+        jScrollPane1 = new javax.swing.JScrollPane(infoPannello);
+        jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 753, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
+        );
+
+
     }// </editor-fold>//GEN-END:initComponents
 
     private void filmUtente (){

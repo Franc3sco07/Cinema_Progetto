@@ -37,6 +37,10 @@ public class Proiezione {
                 "," + TraduttoreMatrice.matriceToString(postiAttualiOccupati) ;
     }
 
+    public void setPrezzo(String prezzo) {
+        this.prezzo = prezzo.trim();
+    }
+
     public String getIdFilm() {
         return idFilm.trim();
     }
@@ -68,4 +72,6 @@ public class Proiezione {
     public void setPostiLiberi(int postiLiberi) {
         this.postiLiberi = postiLiberi;
     }
+
+
 }

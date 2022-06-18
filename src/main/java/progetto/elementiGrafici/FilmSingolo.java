@@ -5,9 +5,14 @@
 package progetto.elementiGrafici;
 
 
+import progetto.Controller.ControllerPrenotazione;
+import progetto.Controller.ControllerProiezione;
 import progetto.Main;
 import progetto.Session;
 import progetto.model.Film;
+import progetto.model.Prenotazione;
+import progetto.model.Proiezione;
+import progetto.state.FilmState;
 import progetto.state.ProiezioneState;
 
 import javax.imageio.ImageIO;
@@ -17,6 +22,8 @@ import javax.swing.text.StyleConstants;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  *
@@ -52,7 +59,8 @@ public class FilmSingolo extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
+
+
 
         jLabel1.setText("<html> <h2>"+datiFilm.getNome()+"</h2><br />  "+datiFilm.getInfo()+"</html>");
 
@@ -66,8 +74,28 @@ public class FilmSingolo extends javax.swing.JPanel {
                 new ProiezioneState().doAction(Main.context);
             }
         });
+        if(Session.getSessioneCorrente().getUtenteLoggato().getTipo().equals("A")){
+            bottoneModifica = new javax.swing.JButton();
+            bottoneModifica.setText("Elimina");
+            bottoneModifica.addActionListener(evt->{
+                Collection<Proiezione> proiezioniDaEliminare = new ControllerProiezione().getProiezioneByIDFilm(datiFilm.getId());
+                Collection<String> ids = proiezioniDaEliminare.stream().map(Proiezione::getId).collect(ArrayList::new,ArrayList::add,ArrayList::addAll);
+                ids.stream().forEach(x-> new ControllerProiezione().deleteProiezione(x));
 
-        jLabel3.setText("prezzo: "+datiFilm.getPrezzo()+"€");
+                Collection<Prenotazione> prenotazioniDaEliminare = new ControllerPrenotazione().getPrenotazioniByIDFilm(datiFilm.getId());
+                ids = prenotazioniDaEliminare.stream().map(Prenotazione::getId).collect(ArrayList::new,ArrayList::add,ArrayList::addAll);
+                ids.stream().forEach(x-> new ControllerProiezione().deleteProiezione(x));
+
+                new FilmState().doAction(Main.context);
+            });
+
+            componeteVariabile = bottoneModifica;
+        }else{
+            jLabel3 = new javax.swing.JLabel();
+            jLabel3.setText("prezzo: "+datiFilm.getPrezzo()+"€");
+            componeteVariabile = jLabel3;
+        }
+
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -81,7 +109,7 @@ public class FilmSingolo extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(componeteVariabile, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE))
                 .addGap(16, 16, 16))
         );
         layout.setVerticalGroup(
@@ -91,7 +119,7 @@ public class FilmSingolo extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(componeteVariabile)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton1))
                     .addGroup(layout.createSequentialGroup()
@@ -111,5 +139,8 @@ public class FilmSingolo extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+
+    private javax.swing.JButton bottoneModifica;
+    private javax.swing.JComponent componeteVariabile;
     // End of variables declaration//GEN-END:variables
 }
