@@ -14,6 +14,7 @@ import progetto.model.Prenotazione;
 import progetto.model.Transazione;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 
 /**
@@ -43,6 +44,7 @@ public class AccettazioneBigliettiElettronici extends javax.swing.JPanel {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         pannelloCarte = new javax.swing.JPanel(new CardLayout());
+        pannelloCarte.setBorder(new LineBorder(Color.gray,2));
         jButton3 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel1.setText("Inserisci codice");
@@ -83,8 +85,6 @@ public class AccettazioneBigliettiElettronici extends javax.swing.JPanel {
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel3);
 
-        //jPanel1.setSize(754,252);
-        //jPanel1.setLayout(new BorderLayout());
 
         jPanel3.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(

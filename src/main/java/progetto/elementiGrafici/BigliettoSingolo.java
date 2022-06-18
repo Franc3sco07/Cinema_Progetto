@@ -64,11 +64,11 @@ public class BigliettoSingolo extends javax.swing.JPanel {
         jLabel3.setText(ValidatoreCampi.DATEFORMAT.format(biglietto.getData()));
         jLabel1.setBorder(new LineBorder(Color.gray,1));
 
-        jLabel4.setText(idSala);
+        jLabel4.setText("Sala: "+idSala);
 
-        jLabel5.setText(""+biglietto.getPostoAssegnato().split(";").length);
+        jLabel5.setText("Numero Biglietti: "+biglietto.getPostoAssegnato().split(";").length);
 
-        jLabel6.setText(biglietto.getPrezzo());
+        jLabel6.setText("Prezzo: "+biglietto.getPrezzo()+" €");
 
         jLabel7.setText(infoUtente.getNome());
 

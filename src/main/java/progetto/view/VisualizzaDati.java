@@ -125,17 +125,18 @@ public class VisualizzaDati extends javax.swing.JPanel {
 
         jButton4.setText("Modifica");
         jButton4.addActionListener(evt -> {
-            if(utenteCorrente.getTipo().equals("U")){
                 nomeTextField.setEditable(true);
                 cognomeTextField.setEditable(true);
                 emailTextField.setEditable(true);
                 cfTextField.setEditable(true);
                 cellulareTextField.setEditable(true);
-
                 bottoneAnnulla.setVisible(true);
                 bottoneSalva.setVisible(true);
-            }
         });
+
+        if(!Session.getSessioneCorrente().getUtenteLoggato().getTipo().equals("U") ){
+            jButton3.setVisible(false);
+        }
 
         jButton5.setText("Modifica password");
         jButton5.addActionListener(evt -> new ModificaPasswordState().doAction(Main.context));
