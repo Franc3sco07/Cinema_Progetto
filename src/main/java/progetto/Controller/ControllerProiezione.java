@@ -139,21 +139,25 @@ public class ControllerProiezione {
     public Proiezione stringToProiezione (String proiezione){
         String[] proizioneDati = proiezione.split(",");
         Date d = null;
-
-        try {
-            d = ValidatoreCampi.DATEFORMAT.parse(proizioneDati[4]);
-            return new Proiezione(proizioneDati[0],
-                    proizioneDati[1],
-                    proizioneDati[2],
-                    proizioneDati[3],
-                    d,
-                    Integer.parseInt(proizioneDati[5].trim()),
-                    TraduttoreMatrice.stringToMatrice(proizioneDati[6]));
-        } catch (ParseException e) {
-            System.out.println("Errore ParseException");
-            System.out.println(proizioneDati);
+        if(proizioneDati.length>1){
+            try {
+                d = ValidatoreCampi.DATEFORMAT.parse(proizioneDati[4]);
+                return new Proiezione(proizioneDati[0],
+                        proizioneDati[1],
+                        proizioneDati[2],
+                        proizioneDati[3],
+                        d,
+                        Integer.parseInt(proizioneDati[5].trim()),
+                        TraduttoreMatrice.stringToMatrice(proizioneDati[6]));
+            } catch (ParseException e) {
+                System.out.println("Errore ParseException");
+                System.out.println(proizioneDati);
+                return null;
+            }
+        }else{
             return null;
         }
+
 
     }
 

@@ -132,6 +132,7 @@ public class GUI extends javax.swing.JFrame {
         this.add(n);
         this.pack();
         this.setResizable(false);
+        this.getContentPane().requestFocusInWindow();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

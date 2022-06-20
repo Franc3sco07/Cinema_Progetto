@@ -49,8 +49,13 @@ public class PrenotazioneSingola extends javax.swing.JPanel {
         jButton2 = new javax.swing.JButton();
         //String nomeFilm = new ControllerFilm().getFilmByID(datiPrenotazione.getIdFilm()).getNome();
         jLabel1.setText( new ControllerFilm().getFilmByID(datiPrenotazione.getIdFilm()).getNome()); // nome del film
+        Proiezione tmpProiezione = new ControllerProiezione().getProezioneByID(datiPrenotazione.getIdProiezione());
+        if (tmpProiezione != null){
+            jLabel2.setText("Sala: "+tmpProiezione.getIdSala());
+        }else{
+            jLabel2.setText("Errore nella Sala");
+        }
 
-        jLabel2.setText("Sala: "+new ControllerProiezione().getProezioneByID(datiPrenotazione.getIdProiezione()).getIdSala());
 
         jLabel3.setText("Data: "+ ValidatoreCampi.DATEFORMAT.format(datiPrenotazione.getData()));
 

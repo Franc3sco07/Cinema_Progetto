@@ -84,7 +84,8 @@ public class VisualizzaPrenotazioni extends javax.swing.JPanel {
         progetto.model.Film tmpFilm;
         for (Iterator<progetto.model.Film> iterator = filmDisponibili.iterator(); iterator.hasNext(); ){
             tmpFilm = iterator.next();
-            JPanel j = new FilmSingoloPrenotazione(tmpFilm);
+            //JPanel j = new FilmSingoloPrenotazione(tmpFilm);
+            JPanel j = new FilmSingolo(tmpFilm);
             panelloFilm.add(j);
             j.setOpaque(false);
             i++;

@@ -13,6 +13,7 @@ import progetto.model.Film;
 import progetto.model.Prenotazione;
 import progetto.model.Proiezione;
 import progetto.state.FilmState;
+import progetto.state.PrenotazioneDipendeteState;
 import progetto.state.ProiezioneState;
 
 import javax.imageio.ImageIO;
@@ -67,11 +68,23 @@ public class FilmSingolo extends javax.swing.JPanel {
 
         jLabel2.setIcon(logoFilm);
 
-        jButton1.setText("Proiezioni");
+        if(Main.context.getState() instanceof FilmState){
+            jButton1.setText("Proiezioni");
+        }else{
+            jButton1.setText("Biglietti");
+        }
+
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Session.getSessioneCorrente().setIdRiferimentoFilm(datiFilm.getId());
-                new ProiezioneState().doAction(Main.context);
+                if(Main.context.getState() instanceof FilmState){
+                    Session.getSessioneCorrente().setIdRiferimentoFilm(datiFilm.getId());
+                    new ProiezioneState().doAction(Main.context);
+                }else{
+                    Session.getSessioneCorrente().setIdRiferimentoFilm(datiFilm.getId());
+                    new PrenotazioneDipendeteState().doAction(Main.context);
+                }
+
+
             }
         });
         if(Session.getSessioneCorrente().getUtenteLoggato().getTipo().equals("A")){
