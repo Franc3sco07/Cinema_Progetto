@@ -18,8 +18,6 @@ import progetto.state.ProiezioneState;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -57,13 +55,13 @@ public class FilmSingolo extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        nomeDescrizioneFilm = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
 
 
 
-        jLabel1.setText("<html> <h2>"+datiFilm.getNome()+"</h2><br />  "+datiFilm.getInfo()+"</html>");
+        nomeDescrizioneFilm.setText("<html> <h2>"+datiFilm.getNome()+"</h2><br />  "+datiFilm.getInfo()+"</html>");
 
 
         jLabel2.setIcon(logoFilm);
@@ -118,7 +116,7 @@ public class FilmSingolo extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(nomeDescrizioneFilm, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -131,13 +129,14 @@ public class FilmSingolo extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                           .addComponent(nomeDescrizioneFilm, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGap(20,20,20)
                         .addComponent(componeteVariabile)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 8, Short.MAX_VALUE)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    )
                 .addGap(17, 17, 17))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -149,7 +148,7 @@ public class FilmSingolo extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel nomeDescrizioneFilm;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
 

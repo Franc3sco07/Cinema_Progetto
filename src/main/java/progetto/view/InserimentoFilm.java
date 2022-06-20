@@ -12,12 +12,14 @@ import progetto.Controller.ControllerFilm;
 import progetto.Controller.ControllerProiezione;
 import progetto.Controller.ControllerSala;
 import progetto.Controller.ControllerTransazione;
+import progetto.Main;
 import progetto.functions.FunzionalitaDate;
 import progetto.functions.GestioneFile;
 import progetto.functions.TraduttoreMatrice;
 import progetto.functions.ValidatoreCampi;
 import progetto.model.Film;
 import progetto.model.Sala;
+import progetto.state.InserimentoFilmState;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -79,6 +81,8 @@ public class InserimentoFilm extends javax.swing.JPanel {
         jLabel8 = new JLabel();
         jButton2 = new JButton();
         anteprimaLocandina = new JLabel();
+        descrizioneField = new JTextField();
+        descrizioneLabel = new JLabel();
 
 
 
@@ -178,6 +182,9 @@ public class InserimentoFilm extends javax.swing.JPanel {
 
         prezzoLabel.setText("prezzo");
 
+        descrizioneField.setText("");
+
+        descrizioneLabel.setText("Descrizione");
         nomeFilmTextField.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -190,6 +197,22 @@ public class InserimentoFilm extends javax.swing.JPanel {
                     nomeFilmTextField.setBorder(new LineBorder(Color.red,2));
                 }else{
                     nomeFilmTextField.setBorder(new LineBorder(Color.black,1));
+                }
+            }
+        });
+
+        descrizioneField.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if(descrizioneField.getText().equals("")){
+                    descrizioneField.setBorder(new LineBorder(Color.red,2));
+                }else{
+                    descrizioneField.setBorder(new LineBorder(Color.black,1));
                 }
             }
         });
@@ -267,32 +290,37 @@ public class InserimentoFilm extends javax.swing.JPanel {
         jButton2.setText("Inserisci film");
         jButton2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                String info = "";
-                while ((info = JOptionPane.showInputDialog("Inserisci descrizione film")).equals(""));
-
-
-                boolean success = true;
-                if(((LineBorder)nomeFilmTextField.getBorder()).getLineColor() == Color.red ){
-                    success = false;
-                }
-                if(((LineBorder)prezzoTextField.getBorder()).getLineColor() == Color.red ){
-                    success = false;
-                }
-                if(((LineBorder)percorso.getBorder()).getLineColor() == Color.red ){
-                    success = false;
-                }
                 ArrayList<String> listaOre = new ArrayList<>();
-                for (int i = 0; i < orario.length; i++) {
-                    if(orario[i].isSelected()){
-                        listaOre.add(orario[i].getText());
+                boolean success = true;
+                try{
+                    if(((LineBorder)nomeFilmTextField.getBorder()).getLineColor() == Color.red ){
+                        success = false;
                     }
-                }
-                if(listaOre.size() == 0){
-                    orarioLabel.setBorder(new LineBorder(Color.red,2));
+                    if(((LineBorder)descrizioneField.getBorder()).getLineColor() == Color.red ){
+                        success = false;
+                    }
+                    if(((LineBorder)prezzoTextField.getBorder()).getLineColor() == Color.red ){
+                        success = false;
+                    }
+                    if(((LineBorder)percorso.getBorder()).getLineColor() == Color.red ){
+                        success = false;
+                    }
+
+                    for (int i = 0; i < orario.length; i++) {
+                        if(orario[i].isSelected()){
+                            listaOre.add(orario[i].getText());
+                        }
+                    }
+                    if(listaOre.size() == 0){
+                        orarioLabel.setBorder(new LineBorder(Color.red,2));
+                        success = false;
+                    }else{
+                        orarioLabel.setBorder(new LineBorder(Color.black,1));
+                    }
+                }catch(ClassCastException e){
                     success = false;
-                }else{
-                    orarioLabel.setBorder(new LineBorder(Color.black,1));
                 }
+
 
                 if(success){
                     String nomeLocandina =  FilenameUtils.getBaseName(percorso.getText()) + "." + FilenameUtils.getExtension(percorso.getText());
@@ -303,7 +331,7 @@ public class InserimentoFilm extends javax.swing.JPanel {
                     }
                     String film = nomeFilmTextField.getText() + "," +
                                   nomeLocandina + ","+
-                                  info + ","+
+                                  descrizioneLabel.getText() + ","+
                                   prezzoTextField.getText()
                                 ;
                     String idFilm = new ControllerFilm().insertFilm(film);
@@ -327,10 +355,12 @@ public class InserimentoFilm extends javax.swing.JPanel {
                                     TraduttoreMatrice.matriceToString(sala.getDisposizionePosti()) ;
                             new ControllerProiezione().insertProiezione(proiezione);
 
+
                         }
                         dataInizio = FunzionalitaDate.giornoDopo(dataInizio);
                     }while(FunzionalitaDate.dateSuccesive(dataInizio,dataFine));
-
+                    JOptionPane.showMessageDialog(null,"Film inserrito");
+                    new InserimentoFilmState().doAction(Main.context);
                 }
 
             }
@@ -347,6 +377,7 @@ public class InserimentoFilm extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(descrizioneLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(orarioLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(prezzoLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -374,8 +405,9 @@ public class InserimentoFilm extends javax.swing.JPanel {
                                 .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                    .addComponent(nomeFilmTextField, GroupLayout.PREFERRED_SIZE, 210, GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(prezzoTextField, GroupLayout.PREFERRED_SIZE, 210, GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(nomeFilmTextField, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(prezzoTextField, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(descrizioneField, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -421,8 +453,13 @@ public class InserimentoFilm extends javax.swing.JPanel {
                 .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(anteprimaLocandina,100,100,100)
-                    .addComponent(prezzoLabel)
-                                .addComponent(prezzoTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                        .addComponent(prezzoLabel)
+                        .addComponent(prezzoTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                        .addGap(32,32,32)
+                                        .addGroup(layout.createParallelGroup()
+                                                .addComponent(descrizioneLabel)
+                                                .addComponent(descrizioneField,javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(34,34,34)
                 .addComponent(orarioLabel)
                 //.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
@@ -485,6 +522,8 @@ public class InserimentoFilm extends javax.swing.JPanel {
     private javax.swing.JLabel anteprimaLocandina;
     private javax.swing.JFileChooser immagineLogo;
     // End of variables declaration//GEN-END:variables
+    private javax.swing.JLabel descrizioneLabel;
+    private javax.swing.JTextField descrizioneField;
 }
 
 class dateLabelFormatter extends JFormattedTextField.AbstractFormatter {
