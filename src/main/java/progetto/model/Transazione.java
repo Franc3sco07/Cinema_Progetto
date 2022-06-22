@@ -42,4 +42,8 @@ public class Transazione {
     public Date getData() {
         return data;
     }
+
+    public void setImporto(String importo) {
+        this.importo = importo;
+    }
 }

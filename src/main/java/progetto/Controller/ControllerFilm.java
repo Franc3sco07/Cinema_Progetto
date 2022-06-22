@@ -17,6 +17,7 @@ public class ControllerFilm {
         ArrayList<Film> films = new ArrayList<Film>();
 
         BufferedReader in = Gestione_db.getTable(tableName);
+       // films =   in.lines().parallel().map(s -> stringToFilm(s)).collect();
         try {
             String l;
             while ((l = in.readLine()) != null) {

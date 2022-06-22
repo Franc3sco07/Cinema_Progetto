@@ -5,7 +5,6 @@
  */
 package progetto.view;
 
-import progetto.Controller.ControllerFilm;
 import progetto.Controller.ControllerUtente;
 import progetto.Main;
 import progetto.Session;
@@ -50,9 +49,9 @@ public class VisualizzaDati extends javax.swing.JPanel {
         cfTextField = new javax.swing.JTextField();
         bottoneSalva = new javax.swing.JButton();
         bottoneAnnulla = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        eliminaAccount = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        modificaPassword = new javax.swing.JButton();
 
         jLabel1.setText("Nome");
 
@@ -102,14 +101,10 @@ public class VisualizzaDati extends javax.swing.JPanel {
 
 
 
-        bottoneAnnulla.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                new VisualizzaDatiState().doAction(Main.context);
-            }
-        });
+        bottoneAnnulla.addActionListener(evt -> new VisualizzaDatiState().doAction(Main.context));
 
-        jButton3.setText("elimina account");
-        jButton3.addActionListener(evt -> {
+        eliminaAccount.setText("elimina account");
+        eliminaAccount.addActionListener(evt -> {
             JPanel confermaEliminazione = new JPanel();
             JLabel testo = new JLabel("Sei sicuro di voler eliminare il tuo account");
             testo.setHorizontalAlignment(SwingConstants.CENTER);
@@ -134,12 +129,10 @@ public class VisualizzaDati extends javax.swing.JPanel {
                 bottoneSalva.setVisible(true);
         });
 
-        if(!Session.getSessioneCorrente().getUtenteLoggato().getTipo().equals("U") ){
-            jButton3.setVisible(false);
-        }
 
-        jButton5.setText("Modifica password");
-        jButton5.addActionListener(evt -> new ModificaPasswordState().doAction(Main.context));
+
+        modificaPassword.setText("Modifica password");
+        modificaPassword.addActionListener(evt -> new ModificaPasswordState().doAction(Main.context));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -149,39 +142,37 @@ public class VisualizzaDati extends javax.swing.JPanel {
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                            .addGap(50,50,50)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(modificaPassword, 200,200,200)
+                                .addGroup(layout.createSequentialGroup()
+                                        .addGap(20,20,20)
+                                        .addComponent(jButton4, 160,160,160)))
+                            .addGap(200,200,200)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(35, 35, 35)
-                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(186, 186, 186))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(249, 249, 249)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(65, 65, 65)
+                                .addGap(20, 20, 20)
                                 .addComponent(bottoneAnnulla)
                                 .addGap(18, 18, 18)
                                 .addComponent(bottoneSalva)
-                                .addGap(118, 118, 118))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(20, 20, 20))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(eliminaAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(40, 40, 40))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, Short.MAX_VALUE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cfTextField)
-                            .addComponent(cellulareTextField)
-                            .addComponent(cognomeTextField)
-                            .addComponent(nomeTextField)
-                            .addComponent(emailTextField))
-                        .addGap(93, 93, 93))))
+                            .addComponent(cfTextField, 400,400,400)
+                            .addComponent(cellulareTextField, 400,400,400)
+                            .addComponent(cognomeTextField, 400,400,400)
+                            .addComponent(nomeTextField, 400,400,400)
+                            .addComponent(emailTextField, 400,400,400))
+                       )))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -213,11 +204,13 @@ public class VisualizzaDati extends javax.swing.JPanel {
                     .addComponent(bottoneSalva))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton5)
-                    .addComponent(jButton3))
+                    .addComponent(modificaPassword)
+                    .addComponent(eliminaAccount))
                 .addGap(47, 47, 47))
         );
-
+        if(!Session.getSessioneCorrente().getUtenteLoggato().getTipo().equals("U") ){
+            eliminaAccount.setVisible(false);
+        }
         bottoneAnnulla.setVisible(false);
         bottoneSalva.setVisible(false);
     }// </editor-fold>//GEN-END:initComponents
@@ -250,9 +243,9 @@ public class VisualizzaDati extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bottoneSalva;
     private javax.swing.JButton bottoneAnnulla;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton eliminaAccount;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton modificaPassword;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

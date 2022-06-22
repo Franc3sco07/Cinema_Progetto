@@ -130,8 +130,8 @@ public class GUI extends javax.swing.JFrame {
     public void aggiornaPannello(JPanel n){
         this.getContentPane().removeAll();
         this.add(n);
-        this.pack();
         this.setResizable(false);
+        this.pack();
         this.getContentPane().requestFocusInWindow();
     }
 

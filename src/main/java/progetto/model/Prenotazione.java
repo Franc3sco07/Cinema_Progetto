@@ -46,4 +46,12 @@ public class Prenotazione {
     public Date getData() {
         return data;
     }
+
+    public void setPostoAssegnato(String postoAssegnato) {
+        this.postoAssegnato = postoAssegnato;
+    }
+
+    public void setPrezzo(String prezzo) {
+        this.prezzo = prezzo;
+    }
 }

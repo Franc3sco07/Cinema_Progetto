@@ -113,6 +113,10 @@ public class ControllerTransazione {
         return Gestione_db.insertRow(tableName, transazione);
     }
 
+    public String modifyTransazione(Transazione transazioneModificata){
+        return Gestione_db.modifyRow(transazioneModificata.getIdTransazione(), tableName, transazioneModificata.toString() );
+    }
+
     private Transazione stringToTransazione ( String stringTransazione){
         String[] datiTransazione =stringTransazione.split(",");
 

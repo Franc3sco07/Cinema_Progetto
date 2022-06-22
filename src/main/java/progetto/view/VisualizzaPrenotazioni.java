@@ -53,11 +53,9 @@ public class VisualizzaPrenotazioni extends javax.swing.JPanel {
         Collection<Prenotazione> listaPrenotazioni = new ControllerPrenotazione().getByIDGeneratoreAfterDate(Session.getSessioneCorrente().getUtenteLoggato().getId(), new Date());
         Prenotazione tmpPrenotazione;
         for (Iterator<Prenotazione> iterator = listaPrenotazioni.iterator(); iterator.hasNext(); ){
-
             tmpPrenotazione = iterator.next();
             JPanel j = new PrenotazioneSingola(tmpPrenotazione);
             prenotazioni.add(j);
-            j.setOpaque(false);
         }
         jScrollPane1 = new javax.swing.JScrollPane(prenotazioni);
         jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -66,7 +64,7 @@ public class VisualizzaPrenotazioni extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 753, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -103,7 +101,7 @@ public class VisualizzaPrenotazioni extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 753, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 760, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

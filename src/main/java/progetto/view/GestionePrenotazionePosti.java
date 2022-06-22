@@ -14,8 +14,8 @@ import progetto.functions.TrasformatoreArrayList;
 import progetto.functions.ValidatoreCampi;
 import progetto.model.Prenotazione;
 import progetto.model.Proiezione;
-import progetto.state.FilmState;
-import progetto.state.ProiezioneState;
+import progetto.model.Transazione;
+import progetto.state.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,9 +29,12 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
     private ArrayList postiSelezionati = new ArrayList();
     private String imgPath = "src/main/java/progetto/elementiGrafici/poltrona2.png";
     private Color selezionato = new Color(0,125,0);
+    private Color cambiato = new Color(125,125,0);
     private ImageIcon icon  ;
     private final int panel_lunghezza = 770; // 800
     private final int panel_altezza = 357; // 450
+
+    private  String proizioneId;
 
     /**
      * Creates new form postiCinema
@@ -49,11 +52,19 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        //String proizioneId;
+        if(Main.context.getState() instanceof ModificaPrenotazioneState){
+            String idPrenotazione = Session.getSessioneCorrente().getIdRiferimentoProiezione();
+            Prenotazione pr = new ControllerPrenotazione().getPrenotazioneById(idPrenotazione);
+            proizioneId = pr.getIdProiezione();
+        }else{
 
+            proizioneId = Session.getSessioneCorrente().getIdRiferimentoProiezione();
+        }
 
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        String proizioneId = Session.getSessioneCorrente().getIdRiferimentoProiezione();
+
         int posti[][] = new ControllerProiezione().getProezioneByID(proizioneId).getPostiAttualiOccupati();
 
         int righe = posti.length;
@@ -64,8 +75,6 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
         int altezza_img =  panel_altezza/(righe);
 
         Image newIcon;
-        int altezza_gap= 0;
-        int lunghezza_gap =0 ;
         int lunghezza_finale;
         int altezza_finale;
         if(lunghezza_img < altezza_img){
@@ -81,20 +90,29 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
         }
 
 
+        if(Main.context.getState() instanceof ModificaPrenotazioneState){
+            String idPrenotazione = Session.getSessioneCorrente().getIdRiferimentoProiezione();
+            Prenotazione pr = new ControllerPrenotazione().getPrenotazioneById(idPrenotazione);
+            int [][] postiDaCambiare = TraduttoreMatrice.stringToMatrice(pr.getPostoAssegnato());
+            for(int i=0;i<postiDaCambiare.length;i++){
+                posti[postiDaCambiare[i][0]][postiDaCambiare[i][1]] = 3;
+                postiSelezionati.add(postiDaCambiare[i][0]+":"+postiDaCambiare[i][1]+";");
+            }
+
+        }
+
+
+
 
         icon = new ImageIcon(newIcon);
         jPanel1 = new javax.swing.JPanel(new GridLayout(righe,colonne));
         jPanel1.setSize(lunghezza_finale,altezza_finale);
-        //JPanel posti = new JPanel(new GridLayout(righe,colonne));
         JButton tmp ;
         for(int x=0; x<righe;x++){
             for(int y=0;y<colonne;y++){
                 tmp = new JButton(icon);
                 tmp.setSize(new Dimension(icon.getIconWidth(),icon.getIconHeight()));
-                //tmp.setContentAreaFilled(false); fa diventare il bottone trasparente
                 tmp.setBorder(null);
-                //tmp.setIcon(icon);
-                //tmp.setBorderPainted(false);
 
                 if(posti[x][y] == 0){
                     tmp.setVisible(false);
@@ -102,42 +120,72 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
                     tmp.setBackground(Color.RED);
                     tmp.setEnabled(false);
                     tmp.setToolTipText("Posto occupato");
-                }else{
-                    tmp.setVisible(true);
+                }else if(posti[x][y] == 3){
+                    tmp.setBackground(selezionato);
                     tmp.setName(x+":"+y);
-                    tmp.setToolTipText("Seleziona posto "+x+","+y);
-                    tmp.addActionListener(new java.awt.event.ActionListener() {
-                        public void actionPerformed(java.awt.event.ActionEvent evt) {
-
-                            JButton source = (JButton) evt.getSource();
-                            if(source.getBackground()!=selezionato){
-                                String name = source.getName();
-                                postiSelezionati.add(name+";");
-                                int numbers[][] = TraduttoreMatrice.stringToMatrice(name) ;
-                                posti[numbers[0][0]][numbers[0][1]] = 2;
-
-                                if(!jButton1.isEnabled()){
-                                    jButton1.setToolTipText(null);
-                                    jButton1.setEnabled(true);
-                                }
-                                source.setBackground(selezionato);
-                                source.setToolTipText("Annulla selezione");
-                            }else{
-                                String name = source.getName();
-                                postiSelezionati.remove(name+";");
-                                int numbers[][] = TraduttoreMatrice.stringToMatrice(name) ;
-                                posti[numbers[0][0]][numbers[0][1]] = 1;
-                                source.setBackground(null);
-                                source.setToolTipText("Seleziona posto "+source.getName().replaceAll(":",","));
-
-
-                                if(postiSelezionati.size() < 1){
-                                    jButton1.setToolTipText("Seleziona un posto prima di continuare");
-                                    jButton1.setEnabled(false);
-                                }
+                    tmp.setToolTipText("Annulla selezione");
+                    tmp.addActionListener(evt->{
+                        JButton source = (JButton) evt.getSource();
+                        if(source.getBackground()==selezionato){
+                            String name = source.getName();
+                            source.setToolTipText("Riseleziona posto "+source.getName().replaceAll(":",","));
+                            postiSelezionati.remove(name+";");
+                            int numbers[][] = TraduttoreMatrice.stringToMatrice(name) ;
+                            posti[numbers[0][0]][numbers[0][1]] = 1;
+                            if(postiSelezionati.size() < 1){
+                                jButton1.setToolTipText("Seleziona un posto prima di continuare");
+                                jButton1.setEnabled(false);
                             }
+                            source.setBackground(cambiato);
+                        }else{
+                            String name = source.getName();
+                            postiSelezionati.add(name+";");
+                            int numbers[][] = TraduttoreMatrice.stringToMatrice(name) ;
+                            posti[numbers[0][0]][numbers[0][1]] = 2;
+
+                            if(!jButton1.isEnabled()){
+                                jButton1.setToolTipText(null);
+                                jButton1.setEnabled(true);
+                            }
+                            source.setBackground(selezionato);
+                            source.setToolTipText("Annulla selezione");
 
                         }
+                    });
+                }else {
+                    //tmp.setVisible(true);
+                    tmp.setName(x+":"+y);
+                    tmp.setToolTipText("Seleziona posto "+x+","+y);
+                    tmp.addActionListener(evt -> {
+
+                        JButton source = (JButton) evt.getSource();
+                        if(source.getBackground()!=selezionato){
+                            String name = source.getName();
+                            postiSelezionati.add(name+";");
+                            int numbers[][] = TraduttoreMatrice.stringToMatrice(name) ;
+                            posti[numbers[0][0]][numbers[0][1]] = 2;
+
+                            if(!jButton1.isEnabled()){
+                                jButton1.setToolTipText(null);
+                                jButton1.setEnabled(true);
+                            }
+                            source.setBackground(selezionato);
+                            source.setToolTipText("Annulla selezione");
+                        }else{
+                            String name = source.getName();
+                            postiSelezionati.remove(name+";");
+                            int numbers[][] = TraduttoreMatrice.stringToMatrice(name) ;
+                            posti[numbers[0][0]][numbers[0][1]] = 1;
+                            source.setBackground(null);
+                            source.setToolTipText("Seleziona posto "+source.getName().replaceAll(":",","));
+
+
+                            if(postiSelezionati.size() < 1){
+                                jButton1.setToolTipText("Seleziona un posto prima di continuare");
+                                jButton1.setEnabled(false);
+                            }
+                        }
+
                     });
                 }
 
@@ -151,29 +199,38 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 if(postiSelezionati.size()>0){
-                    Proiezione proiezione = new ControllerProiezione().getProezioneByID(Session.getSessioneCorrente().getIdRiferimentoProiezione());
+
+
+                    Proiezione proiezione = new ControllerProiezione().getProezioneByID(proizioneId);
                     float prezzo = Float.parseFloat(proiezione.getPrezzo().trim()) * postiSelezionati.size();
                     String prezzoTotale = new String(""+prezzo).replace(",", "\\.");
-
-
-                    //System.out.println(TrasformatoreArrayList.arrayListToStringMat(postiSelezionati));
-                    //idGeneratore, idProiezione, idFilm, postoAssegnato
-                    String prenotazione = Session.getSessioneCorrente().getUtenteLoggato().getId()
-                            + "," + Session.getSessioneCorrente().getIdRiferimentoProiezione()
-                            + "," + Session.getSessioneCorrente().getIdRiferimentoFilm()
-                            + "," + ValidatoreCampi.DATEFORMAT.format(proiezione.getData())
-                            + "," + prezzoTotale
-                            + "," + TrasformatoreArrayList.arrayListToStringMat(postiSelezionati);
-                    String idPrenotazione = new ControllerPrenotazione().insertPrenotazione(prenotazione);
-
-                    if(Session.getSessioneCorrente().getUtenteLoggato().getTipo().equals("D")){
-                        String transazione = idPrenotazione
+                    if(Main.context.getState() instanceof ModificaPrenotazioneState) {
+                        Prenotazione prenotazioneMod = new ControllerPrenotazione().getPrenotazioneById(Session.getSessioneCorrente().getIdRiferimentoProiezione());
+                        prenotazioneMod.setPrezzo(prezzoTotale);
+                        prenotazioneMod.setPostoAssegnato(TrasformatoreArrayList.arrayListToStringMat(postiSelezionati));
+                        new ControllerPrenotazione().modifyPrenotazione(prenotazioneMod);
+                        if(Session.getSessioneCorrente().getUtenteLoggato().getTipo().equals("D")){
+                            Transazione transazioneMod = new ControllerTransazione().getTransazioneByIDPrenotazione(prenotazioneMod.getId());
+                            transazioneMod.setImporto(prezzoTotale);
+                            new ControllerTransazione().modifyTransazione(transazioneMod);
+                        }
+                    }
+                    else{
+                        String prenotazione = Session.getSessioneCorrente().getUtenteLoggato().getId()
+                                + "," + Session.getSessioneCorrente().getIdRiferimentoProiezione()
                                 + "," + Session.getSessioneCorrente().getIdRiferimentoFilm()
                                 + "," + ValidatoreCampi.DATEFORMAT.format(proiezione.getData())
-                                + "," + prezzoTotale;
-                        new ControllerTransazione().insertTransazione(transazione);
+                                + "," + prezzoTotale
+                                + "," + TrasformatoreArrayList.arrayListToStringMat(postiSelezionati);
+                        String idPrenotazione = new ControllerPrenotazione().insertPrenotazione(prenotazione);
+                        if(Session.getSessioneCorrente().getUtenteLoggato().getTipo().equals("D")){
+                            String transazione = idPrenotazione
+                                    + "," + Session.getSessioneCorrente().getIdRiferimentoFilm()
+                                    + "," + ValidatoreCampi.DATEFORMAT.format(proiezione.getData())
+                                    + "," + prezzoTotale;
+                            new ControllerTransazione().insertTransazione(transazione);
 
-
+                    }
 
                     }
 
@@ -196,7 +253,17 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
         jButton2.setToolTipText("Ritorna alle proiezioni");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                new ProiezioneState().doAction(Main.context);
+                if(Main.context.getState() instanceof ModificaPrenotazioneState){
+                    if(Session.getSessioneCorrente().getUtenteLoggato().getTipo().equals("D")){
+                        new PrenotazioneDipendeteState().doAction(Main.context);
+                    }else{
+                        new PrenotazioniState().doAction(Main.context);
+                    }
+
+                }else{
+                    new ProiezioneState().doAction(Main.context);
+                }
+
             }
         });
 

@@ -7,11 +7,14 @@ package progetto.elementiGrafici;
 import progetto.Controller.ControllerFilm;
 import progetto.Controller.ControllerPrenotazione;
 import progetto.Controller.ControllerProiezione;
+import progetto.Controller.ControllerTransazione;
 import progetto.Main;
+import progetto.Session;
 import progetto.functions.TraduttoreMatrice;
 import progetto.functions.ValidatoreCampi;
 import progetto.model.Prenotazione;
 import progetto.model.Proiezione;
+import progetto.state.ModificaPrenotazioneState;
 import progetto.state.PrenotazioniState;
 
 import javax.swing.*;
@@ -80,7 +83,10 @@ public class PrenotazioneSingola extends javax.swing.JPanel {
                     proizioneModificata.setPostiAttualiOccupati(posti);
                     proizioneModificata.setPostiLiberi(proizioneModificata.getPostiLiberi()+postiDaLiberare.length);
                     new ControllerProiezione().modifyProiezione(proizioneModificata);
-
+                    if(Session.getSessioneCorrente().getUtenteLoggato().getTipo().equals("D")){
+                        String idTransazione = new ControllerTransazione().getTransazioneByIDPrenotazione(datiPrenotazione.getId()).getIdTransazione();
+                        new ControllerTransazione().deleteTransazione(idTransazione);
+                    }
                     new PrenotazioniState().doAction(Main.context);
                 }
 
@@ -91,11 +97,10 @@ public class PrenotazioneSingola extends javax.swing.JPanel {
         });
 
         jButton2.setText("modifica");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
+        jButton2.addActionListener(evt ->{
+            Session.getSessioneCorrente().setIdRiferimentoProiezione(datiPrenotazione.getId());
+            new ModificaPrenotazioneState().doAction(Main.context);
+        } );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
