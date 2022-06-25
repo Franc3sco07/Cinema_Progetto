@@ -264,11 +264,12 @@ public class InserimentoFilm extends javax.swing.JPanel {
         orarioLabel.setText("Seleziona orari proiezione");
 
 
-        ArrayList <Integer> ids =  new ControllerSala().getAllIdSala().stream().map(x->(Integer.parseInt(x))).sorted(Integer::compareTo).collect(ArrayList::new,ArrayList::add,ArrayList::addAll);
-        //Collections.sort(ids);
-        ArrayList <String> idsAsString = ids.stream().map(x->x.toString()).collect(ArrayList::new,ArrayList::add,ArrayList::addAll);
+        ArrayList <String> ids =  new ControllerSala().getAllSala().stream()
+                .sorted(Sala::comapareTo)
+                        .map(x-> x.getId())
+                                .collect(ArrayList::new,ArrayList::add,ArrayList::addAll);
 
-        String[]  idSale  =idsAsString.toArray(new String[0]);
+        String[]  idSale  =ids.toArray(new String[0]);
         nomeSala.setModel(new DefaultComboBoxModel<>(idSale));
 
         jLabel6.setText("Sala");

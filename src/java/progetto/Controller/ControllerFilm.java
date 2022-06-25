@@ -14,7 +14,9 @@ public class ControllerFilm {
 
     public Collection<Film> getAllFilms(){
         BufferedReader in = Gestione_db.getTable(tableName);
-        return in.lines().parallel().map(s -> stringToFilm(s)).collect(ArrayList::new,ArrayList::add,ArrayList::addAll);
+        return in.lines().parallel()
+                .map(s -> stringToFilm(s))
+                .collect(ArrayList::new,ArrayList::add,ArrayList::addAll);
     }
 
     /**
@@ -24,7 +26,10 @@ public class ControllerFilm {
      */
     public Collection<Film> getAllFilmsByIdList (Collection<String> idFilms){
         BufferedReader in = Gestione_db.getTable(tableName);
-        return in.lines().parallel().map(s -> stringToFilm(s)).filter(x-> idFilms.contains(x.getId())).collect(ArrayList::new,ArrayList::add,ArrayList::addAll);
+        return in.lines().parallel()
+                .map(s -> stringToFilm(s))
+                .filter(x-> idFilms.contains(x.getId()))
+                .collect(ArrayList::new,ArrayList::add,ArrayList::addAll);
     }
 
     /**

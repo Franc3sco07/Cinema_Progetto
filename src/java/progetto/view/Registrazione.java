@@ -309,22 +309,6 @@ public class Registrazione extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void cognomeFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cognomeFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cognomeFieldActionPerformed
-
-    private void nomeFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nomeFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nomeFieldActionPerformed
-
     private boolean controllaCampi(){
         if( ((LineBorder)nomeField.getBorder()).getLineColor() != Color.green ){
             return false;

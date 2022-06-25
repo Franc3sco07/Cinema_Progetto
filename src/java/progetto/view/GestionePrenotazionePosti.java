@@ -238,17 +238,15 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
 
         jButton2.setText("Indietro");
         jButton2.setToolTipText("Ritorna alle proiezioni");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                if(Main.context.getState() instanceof ModificaPrenotazioneState){
-                    if(Session.getSessioneCorrente().getUtenteLoggato().getTipo().equals("D")){
-                        new PrenotazioneDipendeteState().doAction(Main.context);
-                    }else{
-                        new PrenotazioniState().doAction(Main.context);
-                    }
+        jButton2.addActionListener(evt -> {
+            if(Main.context.getState() instanceof ModificaPrenotazioneState){
+                if(Session.getSessioneCorrente().getUtenteLoggato().getTipo().equals("D")){
+                    new PrenotazioneDipendeteState().doAction(Main.context);
                 }else{
-                    new ProiezioneState().doAction(Main.context);
+                    new PrenotazioniState().doAction(Main.context);
                 }
+            }else{
+                new ProiezioneState().doAction(Main.context);
             }
         });
 
@@ -280,16 +278,6 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

@@ -37,11 +37,7 @@ public class GUI extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -57,7 +53,6 @@ public class GUI extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         profiloMenu = new javax.swing.JMenuItem();
         jMenuLogout = new javax.swing.JMenuItem();
-
         filmMenu = new javax.swing.JMenuItem();
         filmMenu.setText("Film");
         filmMenu.addActionListener(evt -> new FilmState().doAction(Main.context));
@@ -67,7 +62,6 @@ public class GUI extends javax.swing.JFrame {
             prenotazioniMenu = new javax.swing.JMenuItem();
             prenotazioniMenu.setText("Prenotazioni"); //visibile solo per gli utenti
             prenotazioniMenu.addActionListener(evt-> new PrenotazioniState().doAction(Main.context));
-
             jMenuBar1.add(prenotazioniMenu);
         }
 
@@ -88,29 +82,18 @@ public class GUI extends javax.swing.JFrame {
             inserisciFilm = new javax.swing.JMenuItem();
             visualizzaVendite.setText("Visualizza vendite");
             visualizzaVendite.addActionListener(evt -> new VisualizzaVenditeState().doAction(Main.context));
-
             jMenuBar1.add(visualizzaVendite);
-
             visualizzaDipendenti.setText("Visualizza dipendenti");
             visualizzaDipendenti.addActionListener(evt -> new GestioneDipendentiState().doAction(Main.context));
-
-
-
             jMenuBar1.add(visualizzaDipendenti);
-
             inserisciFilm.setText("Inserimento Film");
             inserisciFilm.addActionListener(evt -> new InserimentoFilmState().doAction(Main.context));
             jMenuBar1.add(inserisciFilm);
-            //jMenuBar1.add(amministrazioneMenu);
         }
-
 
         profiloMenu.setText("Profilo");
         profiloMenu.addActionListener(evt -> new VisualizzaDatiState().doAction(Main.context));
-
-
         jMenuBar1.add(profiloMenu);
-
         jMenuLogout.setText("Logout");
         jMenuLogout.addActionListener(evt -> {
             Main.frame.hideMenu();
@@ -122,7 +105,6 @@ public class GUI extends javax.swing.JFrame {
         setJMenuBar(jMenuBar1);
 
     }
-
     public void hideMenu(){
         jMenuBar1 = null;
         this.setJMenuBar(null);

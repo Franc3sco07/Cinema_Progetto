@@ -41,6 +41,12 @@ public class ControllerSala {
         return idSale;
     }
 
+    public Collection<Sala> getAllSala(){
+        BufferedReader in = Gestione_db.getTable(tableName);
+        return in.lines().parallel()
+                .map(s -> stringToSala(s))
+                .collect(ArrayList::new,ArrayList::add,ArrayList::addAll);
+    }
 
     private Sala stringToSala(String salaString){
         String[] datiSala = salaString.split(",");

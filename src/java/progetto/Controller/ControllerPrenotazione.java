@@ -53,8 +53,8 @@ public class ControllerPrenotazione {
     public Collection<Prenotazione> getPrenotazioniByIDgeneratoreAfterDate(String IDutente, Date data){
         BufferedReader in = Gestione_db.getTable(tableName);
         return in.lines().parallel().map(s -> stringToPrenotazione(s))
-                .filter(x-> x.getIdGeneratore().equals(IDutente) &&
-                        FunzionalitaDate.dateSuccesive(data,x.getData()))
+                .filter(x-> x.getIdGeneratore().trim().equals(IDutente) &&
+                            FunzionalitaDate.dateSuccesive(data,x.getData()))
                 .collect(ArrayList::new,ArrayList::add,ArrayList::addAll);
     }
 

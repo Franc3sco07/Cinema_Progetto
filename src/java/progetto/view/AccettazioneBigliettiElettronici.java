@@ -46,8 +46,9 @@ public class AccettazioneBigliettiElettronici extends javax.swing.JPanel {
         pannelloCarte.setBorder(new LineBorder(Color.gray,2));
         jButton3 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        jLabel1.setText("Inserisci codice");
 
+
+        jLabel1.setText("Inserisci codice");
         jTextField1.setText("");
 
         jButton1.setText("Verifica");
@@ -154,21 +155,6 @@ public class AccettazioneBigliettiElettronici extends javax.swing.JPanel {
                 .addGap(22, 22, 22))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;

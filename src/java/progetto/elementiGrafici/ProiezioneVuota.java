@@ -33,7 +33,6 @@ public class ProiezioneVuota extends javax.swing.JPanel { ;
         jButton1 = new javax.swing.JButton();
         prezzoField = new javax.swing.JTextField();
 
-        jLabel2.setText("TEST");
         jLabel1.setVisible(false);
         jLabel2.setVisible(false);
         jButton1.setVisible(false);
@@ -71,15 +70,6 @@ public class ProiezioneVuota extends javax.swing.JPanel { ;
                                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

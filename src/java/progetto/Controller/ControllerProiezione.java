@@ -31,12 +31,10 @@ public class ControllerProiezione {
         catch (FileNotFoundException e){}
         catch (IOException e){}
 
-
         ArrayList<Proiezione> proiezioniByIDFilm = new ArrayList<>();
         Proiezione proiezioneTemp ;
 
         for(Iterator<Proiezione> iterator = proiezioni.iterator(); iterator.hasNext();){
-            //System.out.println(iterator.next());
             proiezioneTemp = iterator.next();
             if (IDfilm.equals(proiezioneTemp.getIdFilm())) {
                 proiezioniByIDFilm.add(proiezioneTemp);
@@ -85,7 +83,6 @@ public class ControllerProiezione {
         return null;
     }
 
-
     public Collection<Proiezione> getAllProiezioneByIdFilmAfterDate(String idFilm, Date data){
         ArrayList<Proiezione> proiezioni = new ArrayList<>();
         BufferedReader in = Gestione_db.getTable(tableName);
@@ -120,9 +117,7 @@ public class ControllerProiezione {
         catch (FileNotFoundException e){}
         catch (IOException e){}
         return filmSetId;
-
     }
-
 
     public String insertProiezione(String proiezione){
         return Gestione_db.insertRow(tableName,proiezione);
@@ -157,8 +152,6 @@ public class ControllerProiezione {
         }else{
             return null;
         }
-
-
     }
 
 }

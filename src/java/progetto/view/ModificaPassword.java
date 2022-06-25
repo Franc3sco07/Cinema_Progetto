@@ -7,11 +7,17 @@ package progetto.view;
 import progetto.Controller.ControllerUtente;
 import progetto.Main;
 import progetto.Session;
+import progetto.functions.ValidatoreCampi;
 import progetto.model.Utente;
 import progetto.state.LoginState;
 import progetto.state.VisualizzaDatiState;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
+import java.awt.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 /**
  *
@@ -45,43 +51,66 @@ public class ModificaPassword extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
 
+        jLabel4.setText("Conferma password");
+        jLabel5.setText("Inserisci password corrente");
+        jLabel6.setText("Inserisci nuova password");
+
         jButton1.setText("Indietro");
         jButton1.addActionListener(evt -> new VisualizzaDatiState().doAction(Main.context));
 
         jButton2.setText("Conferma password");
         jButton2.addActionListener(evt -> {
             if(utenteCorrente.getPassword().equals(new String(passwordCorrente.getPassword()))){
-                if(new String(nuovaPassword.getPassword()).equals(new String(confermaPassword.getPassword()))){
+                if(((LineBorder) confermaPassword.getBorder()).getLineColor() == Color.green && ((LineBorder) nuovaPassword.getBorder()).getLineColor() == Color.green) {
                     utenteCorrente.setPassword(new String(nuovaPassword.getPassword()) );
                     JOptionPane.showMessageDialog(null,"sarai disconesso dalla sessione attuale");
                     new ControllerUtente().modifyUtente(utenteCorrente);
                     new LoginState().doAction(Main.context);
-
-                }else{
-                    // implementare errore
                 }
             }else{
-                // implementare errore
-            }
-
-        });
-
-        nuovaPassword.setText("");
-        nuovaPassword.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jPasswordField1ActionPerformed(evt);
+                JOptionPane.showMessageDialog(null,"Passowrd utente sbagliata");
             }
         });
 
         passwordCorrente.setText("");
 
+        nuovaPassword.setText("");
+        nuovaPassword.addFocusListener(new FocusListener(){
+            @Override
+            public void focusGained(FocusEvent e) {}
+
+            @Override
+            public void focusLost(FocusEvent e) {
+
+                if (ValidatoreCampi.isValidPassword(new String(nuovaPassword.getPassword()))){
+                    nuovaPassword.setBorder(new LineBorder(Color.green,2));
+                } else {
+                    nuovaPassword.setBorder(new LineBorder(Color.red,2));
+                }
+            }
+        });
         confermaPassword.setText("");
+        confermaPassword.addFocusListener(new FocusListener(){
+            @Override
+            public void focusGained(FocusEvent e) {}
 
-        jLabel4.setText("Conferma password");
+            @Override
+            public void focusLost(FocusEvent e) {
+                if ( new String(confermaPassword.getPassword()).equals(new String(confermaPassword.getPassword()))){
+                    confermaPassword.setBorder(new LineBorder(Color.green,2));
+                } else {
+                    confermaPassword.setBorder(new LineBorder(Color.red,2));
+                    confermaPassword.setToolTipText("Le password devono coincidere");
+                }
+            }
+        });
 
-        jLabel5.setText("Inserisci password corrente");
 
-        jLabel6.setText("Inserisci nuova password");
+
+
+
+
+
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -130,19 +159,6 @@ public class ModificaPassword extends javax.swing.JPanel {
                 .addGap(117, 117, 117))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPasswordField1ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
