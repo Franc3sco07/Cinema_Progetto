@@ -164,7 +164,7 @@ public class InserimentoDipendente extends javax.swing.JPanel {
         });
 
         jPasswordField1.setText("");
-        jPasswordField1.setToolTipText("La password deve contenere almeno:\n\tun carattere speciale,\n\tuna lettere maiuscola,\n\tuna lettere minuscola e un numero;\n e deve essere lunga tra 6 a 20 caratteri");
+        jPasswordField1.setToolTipText("<html>La password deve contenere almeno:<ul><li>un carattere speciale;</li><li>una lettere maiuscola;</li><li>una lettere minuscola;</li><li>un numero;</li></ul>e deve essere lunga tra 6 a 20 caratteri</html>");
         jPasswordField1.addFocusListener(new FocusListener(){
             @Override
             public void focusGained(FocusEvent e) {}
@@ -198,31 +198,25 @@ public class InserimentoDipendente extends javax.swing.JPanel {
         });
 
         jButton1.setText("Conferma");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                if (controllaCampi()){
-                    String nuovoUtente = "D, "
-                            + nomeField.getText() + ","
-                            + cognomeField.getText() + ","
-                            + emailField.getText() + ","
-                            + numeroCellulareField.getText() + ","
-                            + codiceFiscaleField.getText() + ","
-                            + new String(jPasswordField1.getPassword());
+        jButton1.addActionListener(evt -> {
+            if (controllaCampi()){
+                String nuovoUtente = "D, "
+                        + nomeField.getText() + ","
+                        + cognomeField.getText() + ","
+                        + emailField.getText() + ","
+                        + numeroCellulareField.getText() + ","
+                        + codiceFiscaleField.getText() + ","
+                        + new String(jPasswordField1.getPassword());
 
-                    new ControllerUtente().insertUtente(nuovoUtente);
+                new ControllerUtente().insertUtente(nuovoUtente);
 
-                    JOptionPane.showMessageDialog(null, "Dipendente inserito con successo");
-                    new GestioneDipendentiState().doAction(Main.context);
-                }
+                JOptionPane.showMessageDialog(null, "Dipendente inserito con successo");
+                new GestioneDipendentiState().doAction(Main.context);
             }
         });
 
         jButton2.setText("Indietro");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                new GestioneDipendentiState().doAction(Main.context);
-            }
-        });
+        jButton2.addActionListener(evt -> new GestioneDipendentiState().doAction(Main.context));
 
 
 
@@ -236,7 +230,6 @@ public class InserimentoDipendente extends javax.swing.JPanel {
                                         .addGroup(layout.createSequentialGroup()
                                                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGroup(layout.createSequentialGroup()
-                                                        //.addGap(130)
                                                         .addGroup( layout.createSequentialGroup()
                                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                                                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
@@ -251,10 +244,8 @@ public class InserimentoDipendente extends javax.swing.JPanel {
                                                                                                 .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                                                         .addGroup(layout.createSequentialGroup()
-                                                                                                .addGap(16, 16, 16)
-                                                                                        )
+                                                                                                .addGap(16, 16, 16))
                                                                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                                                                //.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                                                                 .addGap(50,50,50)
                                                                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                                                                                         .addComponent(codiceFiscaleField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
@@ -267,7 +258,6 @@ public class InserimentoDipendente extends javax.swing.JPanel {
                                                                         )
                                                         )
                                                 )
-                                                //.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 476, Short.MAX_VALUE)
                                                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 )
                                 .addContainerGap())
@@ -310,8 +300,7 @@ public class InserimentoDipendente extends javax.swing.JPanel {
                                 .addContainerGap()));
 
 
-    }// </editor-fold>//GEN-END:initComponents
-
+    }
     private boolean controllaCampi(){
         if( ((LineBorder)nomeField.getBorder()).getLineColor() != Color.green ){
             return false;

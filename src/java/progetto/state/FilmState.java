@@ -2,7 +2,7 @@ package progetto.state;
 
 import progetto.Main;
 import progetto.Session;
-import progetto.view.Film;
+import progetto.view.FilmView;
 
 public class FilmState implements State{
     @Override
@@ -10,7 +10,7 @@ public class FilmState implements State{
         context.setState(this);
         Session.getSessioneCorrente().setIdRiferimentoProiezione(null);
         Session.getSessioneCorrente().setIdRiferimentoFilm(null);
-        Main.frame.aggiornaPannello(new Film());
+        Main.frame.aggiornaPannello(new FilmView());
 
     }
 }

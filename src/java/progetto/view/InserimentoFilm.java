@@ -82,9 +82,7 @@ public class InserimentoFilm extends javax.swing.JPanel {
         descrizioneField = new JTextField();
         descrizioneLabel = new JLabel();
 
-
-
-        //  creazione dei DATE PIKER
+        //creazione dei DATE PICKER per la gestione dell inseriomento della data
         UtilDateModel modelInizio = new UtilDateModel();
         modelInizio.setSelected(true);
         JDatePanelImpl datePanelInizio = new JDatePanelImpl(modelInizio,new Properties());
@@ -99,7 +97,6 @@ public class InserimentoFilm extends javax.swing.JPanel {
                         .atZone(ZoneId.systemDefault())
                         .toLocalDate();
                 modelInizio.setDate(inizioFilm.getYear(),inizioFilm.getMonthValue() -1,inizioFilm.getDayOfMonth());
-
             }
             if(!FunzionalitaDate.dateSuccesive((Date) datePickerInizio.getModel().getValue(),(Date)datePickerFine.getModel().getValue())){
                 LocalDate inizioFilm= ((Date) datePickerInizio.getModel().getValue()).toInstant()
@@ -108,7 +105,6 @@ public class InserimentoFilm extends javax.swing.JPanel {
                 modelFine.setDate(inizioFilm.getYear(),inizioFilm.getMonthValue() -1,inizioFilm.getDayOfMonth());
             }
         });
-
         datePanelFine.addActionListener(evt -> {
             if(!FunzionalitaDate.dateSuccesive((Date) datePickerInizio.getModel().getValue(),(Date)datePickerFine.getModel().getValue())){
                 LocalDate inizioFilm= ((Date) datePickerInizio.getModel().getValue()).toInstant()
@@ -118,7 +114,8 @@ public class InserimentoFilm extends javax.swing.JPanel {
             }
 
         });
-        // fine creazione
+        // fine creazione date picker
+
         //Definione della sceta file
         anteprimaLocandina.setIcon(null);
         anteprimaLocandina.setBorder(BorderFactory.createLineBorder(Color.gray,2));
@@ -130,8 +127,6 @@ public class InserimentoFilm extends javax.swing.JPanel {
                 path = percorso.getText();
             }
             immagineLogo = new JFileChooser(path);
-
-           // FilenameUtils.
             FileNameExtensionFilter filtro = new FileNameExtensionFilter("Image Files", "jpg", "png", "gif", "jpeg");
             immagineLogo.setFileFilter(filtro);
             immagineLogo.showOpenDialog(this.getParent());
@@ -152,32 +147,21 @@ public class InserimentoFilm extends javax.swing.JPanel {
 
                     } catch (IOException e) {
                     }
-
                 }
             }
-
         });
+        //fine
 
-        //fine scelta file
 
         jLabel1.setText("Periodo visione");
-
         nomeFilmLabel.setText("Nome film");
-
-
         jLabel3.setText("Inserisci locandina");
-
         prezzoLabel.setText("prezzo");
-
         descrizioneField.setText("");
-
         descrizioneLabel.setText("Descrizione");
         nomeFilmTextField.addFocusListener(new FocusListener() {
             @Override
-            public void focusGained(FocusEvent e) {
-
-            }
-
+            public void focusGained(FocusEvent e) {}
             @Override
             public void focusLost(FocusEvent e) {
                 if(nomeFilmTextField.getText().equals("")){
@@ -190,9 +174,7 @@ public class InserimentoFilm extends javax.swing.JPanel {
 
         descrizioneField.addFocusListener(new FocusListener() {
             @Override
-            public void focusGained(FocusEvent e) {
-
-            }
+            public void focusGained(FocusEvent e) {}
 
             @Override
             public void focusLost(FocusEvent e) {
@@ -206,9 +188,7 @@ public class InserimentoFilm extends javax.swing.JPanel {
 
         percorso.addFocusListener(new FocusListener() {
             @Override
-            public void focusGained(FocusEvent e) {
-
-            }
+            public void focusGained(FocusEvent e) {}
 
             @Override
             public void focusLost(FocusEvent e) {
@@ -228,10 +208,7 @@ public class InserimentoFilm extends javax.swing.JPanel {
 
         prezzoTextField.addFocusListener(new FocusListener() {
             @Override
-            public void focusGained(FocusEvent e) {
-
-            }
-
+            public void focusGained(FocusEvent e) {}
             @Override
             public void focusLost(FocusEvent e) {
                 if(ValidatoreCampi.isNumeric(prezzoTextField.getText())){
@@ -244,25 +221,11 @@ public class InserimentoFilm extends javax.swing.JPanel {
         });
 
         orario[0] .setText("16:30");
-        orario[0] .addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
-            }
-        });
-
         orario[1].setText("18:30");
-        orario[1].addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                jCheckBox2ActionPerformed(evt);
-            }
-        });
-
         orario[2].setText("20:30");
-
         orario[3].setText("22:30");
 
         orarioLabel.setText("Seleziona orari proiezione");
-
 
         ArrayList <String> ids =  new ControllerSala().getAllSala().stream()
                 .sorted(Sala::comapareTo)
@@ -273,11 +236,7 @@ public class InserimentoFilm extends javax.swing.JPanel {
         nomeSala.setModel(new DefaultComboBoxModel<>(idSale));
 
         jLabel6.setText("Sala");
-
         jLabel7.setText("fine:");
-
-
-
         jLabel8.setText("inizio:");
 
         jButton2.setText("Inserisci film");
@@ -347,7 +306,6 @@ public class InserimentoFilm extends javax.swing.JPanel {
                                     sala.getNumeroPosti()+", "+
                                     TraduttoreMatrice.matriceToString(sala.getDisposizionePosti()) ;
                             new ControllerProiezione().insertProiezione(proiezione);
-
 
                         }
                         dataInizio = FunzionalitaDate.giornoDopo(dataInizio);
@@ -473,30 +431,8 @@ public class InserimentoFilm extends javax.swing.JPanel {
                     .addComponent(nomeFilmLabel, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(336, Short.MAX_VALUE)))
         );
-    }// </editor-fold>//GEN-END:initComponents
+    }
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
-
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
-
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
-
-    private void jCheckBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox2ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bottoneCerca;
     private javax.swing.JButton jButton2;
     private javax.swing.JCheckBox[] orario;
@@ -514,7 +450,6 @@ public class InserimentoFilm extends javax.swing.JPanel {
     private javax.swing.JTextField prezzoTextField;
     private javax.swing.JLabel anteprimaLocandina;
     private javax.swing.JFileChooser immagineLogo;
-    // End of variables declaration//GEN-END:variables
     private javax.swing.JLabel descrizioneLabel;
     private javax.swing.JTextField descrizioneField;
 }

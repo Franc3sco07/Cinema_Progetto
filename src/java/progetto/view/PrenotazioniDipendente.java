@@ -11,27 +11,30 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 
+/**
+ * Classe PrenotazioniDipendente
+ * Gestione della prenotazione da parte del dipendente
+ */
 public class PrenotazioniDipendente extends javax.swing.JPanel{
     public PrenotazioniDipendente() {
         initComponents();
     }
-
     private void initComponents() {
         JPanel prenotazioni = new JPanel();
         prenotazioni.setLayout(new BoxLayout(prenotazioni, BoxLayout.Y_AXIS));
-
-        Collection<Prenotazione> listaPrenotazioni = new ControllerPrenotazione().
-                getPrenotazioniByIDFilmInSameDate(Session.getSessioneCorrente().getUtenteLoggato().getId(), Session.getSessioneCorrente().getIdRiferimentoFilm(), new Date());
+        Collection<Prenotazione> listaPrenotazioni = new ControllerPrenotazione()
+                .getPrenotazioniByIDFilmInSameDate(Session.getSessioneCorrente().getUtenteLoggato().getId(),
+                        Session.getSessioneCorrente().getIdRiferimentoFilm(),
+                        new Date());
         Prenotazione tmpPrenotazione;
         System.out.println("prenotazioni dipendente");
-        for (Iterator<Prenotazione> iterator = listaPrenotazioni.iterator(); iterator.hasNext(); ){
 
+        for (Iterator<Prenotazione> iterator = listaPrenotazioni.iterator(); iterator.hasNext(); ){
             tmpPrenotazione = iterator.next();
             JPanel j = new PrenotazioneSingola(tmpPrenotazione);
             j.setBorder(BorderFactory.createLineBorder(Color.black));
             prenotazioni.add(j);
             j.setOpaque(false);
-
         }
         jScrollPane1 = new javax.swing.JScrollPane(prenotazioni);
         jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);

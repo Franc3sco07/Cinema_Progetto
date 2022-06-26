@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package progetto.view;
 
 import progetto.Controller.ControllerUtente;
@@ -19,10 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-/**
- *
- * @author franc
- */
+
 public class GestioneDipendenti extends javax.swing.JPanel {
 
     public GestioneDipendenti() {
@@ -35,10 +28,9 @@ public class GestioneDipendenti extends javax.swing.JPanel {
         infoPannello.setLayout(new BoxLayout(infoPannello, BoxLayout.Y_AXIS));
 
         Collection<Utente> staff = new ControllerUtente().getAllStaff(Session.getSessioneCorrente().getUtenteLoggato().getId());
-
         Utente tmpStaff;
         staff = staff.stream().sorted(Utente::compareTo).collect(ArrayList::new,ArrayList::add,ArrayList::addAll);
-
+        //generazione in grafica dei dei vari dipedenti
         for (Iterator<Utente> iterator = staff.iterator(); iterator.hasNext(); ){
             tmpStaff = iterator.next();
             JPanel j = new DipendenteSingolo(tmpStaff);
@@ -49,17 +41,10 @@ public class GestioneDipendenti extends javax.swing.JPanel {
 
         jScrollPane1 = new javax.swing.JScrollPane(infoPannello);
         jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
-
         jButton1 = new javax.swing.JButton();
 
         jButton1.setText("Inserisci dipendente");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                new InserimentoDipendenteState().doAction(Main.context);
-
-            }
-        });
+        jButton1.addActionListener(evt -> new InserimentoDipendenteState().doAction(Main.context));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -80,7 +65,6 @@ public class GestioneDipendenti extends javax.swing.JPanel {
                 .addGap(19, 19, 19))
         );
     }
-
 
     private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;

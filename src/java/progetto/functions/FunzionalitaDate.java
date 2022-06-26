@@ -20,8 +20,6 @@ public class FunzionalitaDate {
     public static boolean stessaData(Date data1, Date data2){
         Instant in1 = data1.toInstant();
         Instant in2 = data2.toInstant();
-
-
         if(in1.equals(in2) ){
             return true;
         }
@@ -30,11 +28,8 @@ public class FunzionalitaDate {
     public static boolean dateSuccesive (Date data1, Date data2){
         Instant in1 = data1.toInstant();
         Instant in2 = data2.toInstant();
-
-
         if(in1.isBefore(in2) ){
             return true;
-
         }
         return false;
     }
@@ -61,6 +56,5 @@ public class FunzionalitaDate {
         } catch (ParseException e) {
             return null;
         }
-
     }
 }

@@ -17,7 +17,7 @@ public class Main {
     public static Context context = new Context();
     public static GUI frame ;
     public static String path;
-    public static void testControllerFIlm(){
+   /* public static void testControllerFIlm(){
 
 
         /* ControllerFilm f = new ControllerFilm();
@@ -46,7 +46,7 @@ public class Main {
         ArrayList<String> ids = new ArrayList<>();
         ids.add("203");
         ids.add("201");
-        System.out.println("Lista di film con gli id 203 , 201: "+ f.getAllFilmsByIdList(ids) );*/
+        System.out.println("Lista di film con gli id 203 , 201: "+ f.getAllFilmsByIdList(ids) );
     }
 
     public static void testControllerSala(){
@@ -161,6 +161,7 @@ public class Main {
 
     }
 
+    */
 
     public static void main(String[] args) throws IOException, ParseException {
         frame = new GUI();

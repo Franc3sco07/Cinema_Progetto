@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package progetto.view;
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -12,29 +8,27 @@ import progetto.Controller.ControllerProiezione;
 import progetto.Session;
 import progetto.elementiGrafici.FilmSingolo;
 import progetto.elementiGrafici.FilmVuoto;
+import progetto.model.Film;
 
 import java.awt.*;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 
-/**
- *
- * @author franc
- */
-public class Film extends javax.swing.JPanel {
 
-    public Film() {
+public class FilmView extends javax.swing.JPanel {
+
+    public FilmView() {
         initComponents();
     }
 
     private void initComponents() {
-
         JPanel infoPannello = new JPanel();
         infoPannello.setLayout(new BoxLayout(infoPannello, BoxLayout.Y_AXIS));
         Date oggi = new Date();
 
-        Collection<progetto.model.Film> filmDisponibili;
+        Collection<Film> filmDisponibili;
+        //differenzia i film da fare visualizzare in base al tipo di utente conesso
         if(Session.getSessioneCorrente().getUtenteLoggato().getTipo().equals("D")){
             Collection<String> idFilm = new ControllerProiezione().getAllIdFilmInADay(oggi);
             filmDisponibili = new ControllerFilm().getAllFilmsByIdList(idFilm);
@@ -42,10 +36,10 @@ public class Film extends javax.swing.JPanel {
             Collection<String> idFilm = new ControllerProiezione().getAllIdFilmAfterDate(oggi);
             filmDisponibili = new ControllerFilm().getAllFilmsByIdList(idFilm);
         }
-
-        progetto.model.Film tmpFilm;
+        Film tmpFilm;
         int i = 0;
-        for (Iterator<progetto.model.Film> iterator = filmDisponibili.iterator(); iterator.hasNext(); ){
+        //generazione in grafica dei dei vari film
+        for (Iterator<Film> iterator = filmDisponibili.iterator(); iterator.hasNext(); ){
             tmpFilm = iterator.next();
             JPanel j = new FilmSingolo(tmpFilm);
             infoPannello.add(j);
@@ -53,7 +47,6 @@ public class Film extends javax.swing.JPanel {
             i++;
             j.setBorder(new MatteBorder(0,0,1,0, Color.gray));
         }
-
         for (;i<4;i++){
             JPanel j = new FilmVuoto();
             infoPannello.add(j);

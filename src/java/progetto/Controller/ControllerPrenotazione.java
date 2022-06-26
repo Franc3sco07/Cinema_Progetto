@@ -13,19 +13,19 @@ import java.util.*;
 public class ControllerPrenotazione {
     private final String tableName = "prenotazione.csv";
 
+    /**
+     * Funzione che preso un id restituisce l'utente con l'id richiesto
+     * @param id id utente da cercare
+     * @return l'utente con l'id desiderato o null se non presente
+     */
     public Prenotazione getPrenotazioneById (String id){
-        String tmp = Gestione_db.getRow(tableName,id);
-        if(tmp.split(",").length>1){
-            return stringToPrenotazione(tmp);
-        }else{
-            return null;
-        }
+        return stringToPrenotazione(Gestione_db.getRow(tableName,id)) ;
     }
 
     public Collection<Prenotazione> getPrenotazioniByIDgeneratore(String IDutente){
         ArrayList<Prenotazione> prenotazioni = new ArrayList<>();
-
         BufferedReader in = Gestione_db.getTable(tableName);
+
         try {
             String l;
             while ((l = in.readLine()) != null) {
@@ -34,7 +34,6 @@ public class ControllerPrenotazione {
         }
         catch (FileNotFoundException e){}
         catch (IOException e){}
-
 
         ArrayList<Prenotazione> prenotazioniByIDUtente = new ArrayList<>();
         Prenotazione prenotazioniTemp ;
@@ -50,18 +49,31 @@ public class ControllerPrenotazione {
         return prenotazioniByIDUtente;
     }
 
+    /**
+     * funzione che preso in input un id
+     * @param IDutente
+     * @param data
+     * @return
+     */
     public Collection<Prenotazione> getPrenotazioniByIDgeneratoreAfterDate(String IDutente, Date data){
         BufferedReader in = Gestione_db.getTable(tableName);
-        return in.lines().parallel().map(s -> stringToPrenotazione(s))
-                .filter(x-> x.getIdGeneratore().trim().equals(IDutente) &&
-                            FunzionalitaDate.dateSuccesive(data,x.getData()))
-                .collect(ArrayList::new,ArrayList::add,ArrayList::addAll);
+        return  in.lines()
+                    .parallel()
+                        .map(s -> stringToPrenotazione(s))
+                            .filter(x-> x.getIdGeneratore().trim().equals(IDutente.trim())
+                                    && FunzionalitaDate.dateSuccesive(data,x.getData()))
+                                .collect(ArrayList::new,ArrayList::add,ArrayList::addAll);
     }
 
+    /**
+     *
+     * @param IDfilm
+     * @return
+     */
     public Collection<Prenotazione> getPrenotazioniByIDFilm(String IDfilm){
         ArrayList<Prenotazione> prenotazioni = new ArrayList<>();
-
         BufferedReader in = Gestione_db.getTable(tableName);
+
         try {
             String l;
             while ((l = in.readLine()) != null) {
@@ -76,7 +88,6 @@ public class ControllerPrenotazione {
         Prenotazione prenotazioniTemp ;
 
         for(Iterator<Prenotazione> iterator = prenotazioni.iterator(); iterator.hasNext();){
-            //System.out.println(iterator.next());
             prenotazioniTemp = iterator.next();
             if (IDfilm.trim().equals(prenotazioniTemp.getIdFilm().trim())) {
                 prenotazioniByIDFilm.add(prenotazioniTemp);
@@ -104,7 +115,6 @@ public class ControllerPrenotazione {
         Prenotazione prenotazioniTemp ;
 
         for(Iterator<Prenotazione> iterator = prenotazioni.iterator(); iterator.hasNext();){
-            //System.out.println(iterator.next());
             prenotazioniTemp = iterator.next();
             if (IDProiezione.trim().equals(prenotazioniTemp.getIdProiezione().trim())) {
                 prenotazioniByIDProiezione.add(prenotazioniTemp);
@@ -114,6 +124,12 @@ public class ControllerPrenotazione {
         return prenotazioniByIDProiezione;
     }
 
+    /**
+     *
+     * @param idUtente
+     * @param data
+     * @return
+     */
     public Collection<String> getIdFilmINSameDay(String idUtente,Date data){
         HashSet<String> idFilms = new HashSet<>();
         BufferedReader in = Gestione_db.getTable(tableName);
@@ -135,6 +151,13 @@ public class ControllerPrenotazione {
         return null;
     }
 
+    /**
+     *
+     * @param idUtente
+     * @param idFilm
+     * @param data
+     * @return
+     */
     public Collection<Prenotazione> getPrenotazioniByIDFilmInSameDate(String idUtente,String idFilm, Date data){
         ArrayList<Prenotazione> proiezioni = new ArrayList<>();
         BufferedReader in = Gestione_db.getTable(tableName);
@@ -158,32 +181,55 @@ public class ControllerPrenotazione {
         return null;
     }
 
+    /**
+     *
+     * @param prenotazione
+     * @return
+     */
     public String insertPrenotazione(String prenotazione){
         return Gestione_db.insertRow(tableName, prenotazione);
     }
 
+    /**
+     *
+     * @param IDprenotazione
+     * @return
+     */
     public String deletePrenotazione(String IDprenotazione){
         return Gestione_db.deleteRow(IDprenotazione, tableName);
     }
 
-
-
+    /**
+     *
+     * @param prenotazioneModificata
+     * @return
+     */
     public String modifyPrenotazione(Prenotazione prenotazioneModificata){
         return Gestione_db.modifyRow(prenotazioneModificata.getId(), tableName, prenotazioneModificata.toString() );
     }
 
+    /**
+     *
+     * @param prenotazioneString
+     * @return
+     */
     private Prenotazione stringToPrenotazione(String prenotazioneString){
         String[] datiPrenotazione = prenotazioneString.split(",");
         Date d = null;
-        try{
-            d = ValidatoreCampi.DATEFORMAT.parse(datiPrenotazione[4]);
-        } catch (ParseException e) {
-            System.out.println("Errore ParseException");
-            System.out.println(datiPrenotazione);
-            return null;
+        if (datiPrenotazione.length>1){
+            try{
+                d = ValidatoreCampi.DATEFORMAT.parse(datiPrenotazione[4]);
+            } catch (ParseException e) {
+                System.out.println("Errore ParseException");
+                System.out.println(datiPrenotazione);
+                return null;
 
+            }
+            return new Prenotazione(datiPrenotazione[0], datiPrenotazione[1], datiPrenotazione[2], datiPrenotazione[3], d, datiPrenotazione[5], datiPrenotazione[6]);
         }
+        return null;
         
-        return new Prenotazione(datiPrenotazione[0], datiPrenotazione[1], datiPrenotazione[2], datiPrenotazione[3], d, datiPrenotazione[5], datiPrenotazione[6]);
+
     }
+
 }
