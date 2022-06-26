@@ -18,7 +18,7 @@ import java.awt.event.FocusEvent;
 
 /**
  * Classe Registrazione
- * Gestione della resgistrazione di un utente
+ * Gestione della registrazione di un utente
  */
 public class Registrazione extends javax.swing.JPanel {
 

@@ -14,6 +14,10 @@ import javax.swing.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
+/**
+ * Classe Login
+ * Classe che gestisce l'accesso al gestionale
+ */
 
 public class Login extends javax.swing.JPanel {
     private String emailString = "utente"; //ricordarsi di sostituire

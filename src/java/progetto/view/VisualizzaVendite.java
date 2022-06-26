@@ -19,7 +19,7 @@ import java.util.Properties;
 
 /**
  * Classe VisualizzaVendite
- * Visualizzazione delle vendite del film desiderato in un lasso di tempo variabile
+ * Visualizzazione delle vendite del film desiderati in un lasso di tempo variabile
  */
 public class VisualizzaVendite extends javax.swing.JPanel {
     private DefaultTableModel modelloVendite ;
@@ -31,9 +31,7 @@ public class VisualizzaVendite extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -42,17 +40,8 @@ public class VisualizzaVendite extends javax.swing.JPanel {
         modelloVendite = new DefaultTableModel(colonne, 0);
 
         jLabel1.setText("Da:");
-
-        jTextField1.setText("jTextField1");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                
-            }
-        });
-
         jLabel2.setText("a:");
 
-        jTextField2.setText("jTextField2");
         DecimalFormat formatoDouble = new DecimalFormat("0.00");
         jButton1.setText("Esegui");
         jButton1.addActionListener(evt -> {
@@ -62,7 +51,7 @@ public class VisualizzaVendite extends javax.swing.JPanel {
             String filmId = ((String) jComboBox1.getSelectedItem()).split(",")[0];
             Collection<Double> vendite;
             do{
-                vendite = new ControllerTransazione().getAllVenditeByFilmIDandInADay(filmId,dataInizio);
+                vendite = new ControllerTransazione().getAllVenditeByIDFilmInADay(filmId,dataInizio);
                 Double totVendite = vendite.stream().mapToDouble(Double::doubleValue).sum();
                 modelloVendite.addRow(new String[]{(ValidatoreCampi.NOTIMEFORMAT.format(dataInizio)),formatoDouble.format(totVendite)+" €"});
                 dataInizio = FunzionalitaDate.giornoDopo(dataInizio);
@@ -78,9 +67,9 @@ public class VisualizzaVendite extends javax.swing.JPanel {
         JDatePanelImpl datePanelInizio = new JDatePanelImpl(modelInizio,new Properties());
         UtilDateModel modelFine = new UtilDateModel();
         modelFine.setSelected(true);
-        datePickerInizio = new JDatePickerImpl(datePanelInizio,new dateLabelFormatter());
+        datePickerInizio = new JDatePickerImpl(datePanelInizio, FunzionalitaDate.generaDateLabelFormatter());
         JDatePanelImpl datePanelFine = new JDatePanelImpl(modelFine,new Properties());
-        datePickerFine= new JDatePickerImpl(datePanelFine,new dateLabelFormatter());
+        datePickerFine= new JDatePickerImpl(datePanelFine, FunzionalitaDate.generaDateLabelFormatter());
         datePanelInizio.addActionListener(evt -> {
             if(!FunzionalitaDate.dateSuccesive((Date) datePickerInizio.getModel().getValue(),(Date)datePickerFine.getModel().getValue())){
                 LocalDate inizioFilm= ((Date) datePickerInizio.getModel().getValue()).toInstant()
@@ -154,6 +143,7 @@ public class VisualizzaVendite extends javax.swing.JPanel {
                 .addContainerGap(37, Short.MAX_VALUE))
         );
     }
+
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
@@ -161,8 +151,6 @@ public class VisualizzaVendite extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private JDatePickerImpl datePickerInizio;
     private JDatePickerImpl datePickerFine;
 

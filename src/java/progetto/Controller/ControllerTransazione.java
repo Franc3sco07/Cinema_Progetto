@@ -14,9 +14,19 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 
+/**
+ * Classe ControllerTransazione
+ * Implementazione di metodi per gestire le transazioni
+ */
+
 public class ControllerTransazione {
     private final String tableName = "Transazione.csv";
 
+    /**
+     * Funzione che preso a parametro un id prenotazione restituisce una transazione
+     * @param idPrenotazione
+     * @return
+     */
 
     public Transazione getTransazioneByIDPrenotazione(String idPrenotazione){
         Transazione tmp;
@@ -82,7 +92,13 @@ public class ControllerTransazione {
         return prenotazioniByFilmID;
     }
 
-    public Collection<Double> getAllVenditeByFilmIDandInADay (String IDfilm, Date data ){
+    /**
+     * Funzione che presa a parametro un id film e una data, restituisce tutte le relative vendite giornaliere
+     * @param IDfilm
+     * @param data
+     * @return
+     */
+    public Collection<Double> getAllVenditeByIDFilmInADay(String IDfilm, Date data ){
         ArrayList<Double> vendite = new ArrayList<>();
         Transazione tmp;
         BufferedReader in = Gestione_db.getTable(tableName);
@@ -103,18 +119,39 @@ public class ControllerTransazione {
 
     }
 
+    /**
+     * Funzione che presa in input un id transazione, elimina la transazione con quell'id
+     * @param IDtransazione
+     * @return
+     */
     public String deleteTransazione (String IDtransazione){
         return Gestione_db.deleteRow(IDtransazione, tableName);
     }
 
+    /**
+     * Funzione utilizzata per gestire l'inserimento di una transazione
+     * @param transazione
+     * @return
+     */
     public String insertTransazione(String transazione){
         //System.out.println("CAIO");
         return Gestione_db.insertRow(tableName, transazione);
     }
 
+    /**
+     * Funzione utilizzata per gestire la modifica di una transazione
+     * @param transazioneModificata
+     * @return
+     */
     public String modifyTransazione(Transazione transazioneModificata){
         return Gestione_db.modifyRow(transazioneModificata.getIdTransazione(), tableName, transazioneModificata.toString() );
     }
+
+    /**
+     * Funzione che data una stringa con le informazioni di una transazione, lo trasforma in un oggetto di tipo Transazione
+     * @param stringTransazione
+     * @return
+     */
 
     private Transazione stringToTransazione ( String stringTransazione){
         String[] datiTransazione =stringTransazione.split(",");

@@ -15,6 +15,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+/**
+ * Classe GestioneDipendenti
+ * Classe che permette agli amministratori di gestire i dipendenti
+ */
 
 public class GestioneDipendenti extends javax.swing.JPanel {
 

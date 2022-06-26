@@ -3,6 +3,10 @@ package progetto;
 import progetto.Controller.ControllerUtente;
 import progetto.model.Utente;
 
+/**
+ * Classe che gestisce la sessione dell'utente loggato
+  */
+
 public class Session {
     private Utente utenteLoggato;
     private String idRiferimentoFilm, IdRiferimentoProiezione;

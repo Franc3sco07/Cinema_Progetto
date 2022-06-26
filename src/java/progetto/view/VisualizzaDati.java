@@ -15,7 +15,6 @@ import progetto.state.ModificaPasswordState;
 import progetto.state.VisualizzaDatiState;
 
 import javax.swing.*;
-import javax.swing.text.DefaultEditorKit;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -92,13 +91,13 @@ public class VisualizzaDati extends javax.swing.JPanel {
 
         eliminaAccount.setText("elimina account");
         eliminaAccount.addActionListener(evt -> {
-            String s [] = {"Si","No"};
+            String opzioni [] = {"Si","No"};
             boolean eliminaAccount;
             JPanel confermaEliminazione = new JPanel();
             JLabel testo = new JLabel("Sei sicuro di voler eliminare il tuo account");
             testo.setHorizontalAlignment(SwingConstants.CENTER);
             confermaEliminazione.add(testo);
-            int res = JOptionPane.showOptionDialog(null,confermaEliminazione,"Conferma",JOptionPane.YES_NO_OPTION,JOptionPane.PLAIN_MESSAGE,null,s,null);
+            int res = JOptionPane.showOptionDialog(null,confermaEliminazione,"Conferma",JOptionPane.YES_NO_OPTION,JOptionPane.PLAIN_MESSAGE,null, opzioni,null);
 
             if(res == 0){
                 eliminaAccount = true;
@@ -110,13 +109,13 @@ public class VisualizzaDati extends javax.swing.JPanel {
                 if(prenotazioni.size()>=1){
 
                     testo.setText("Ci sono delle prenotazioni effettute, perderai tutte le prenotazioni, continuare?");
-                    res = JOptionPane.showOptionDialog(null,confermaEliminazione,"Conferma",JOptionPane.YES_NO_OPTION,JOptionPane.PLAIN_MESSAGE,null,s,null);
+                    res = JOptionPane.showOptionDialog(null,confermaEliminazione,"Conferma",JOptionPane.YES_NO_OPTION,JOptionPane.PLAIN_MESSAGE,null, opzioni,null);
                     if(res == 0){
                         Prenotazione tmp;
 
                         for (Iterator<Prenotazione> iterator = prenotazioni.iterator(); iterator.hasNext(); ){
                             tmp = iterator.next();
-                            Proiezione proizioneModificata = new ControllerProiezione().getProezioneByID(tmp.getIdProiezione());
+                            Proiezione proizioneModificata = new ControllerProiezione().getProiezioneByID(tmp.getIdProiezione());
                             int posti [][] = proizioneModificata.getPostiAttualiOccupati();
                             int postiDaLiberare[][] = TraduttoreMatrice.stringToMatrice(tmp.getPostoAssegnato());
                             for (int i= 0; i<postiDaLiberare.length;i++){

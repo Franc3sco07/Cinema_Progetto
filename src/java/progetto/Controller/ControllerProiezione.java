@@ -12,12 +12,28 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.*;
 
+/**
+ * Classe ControllerProiezione
+ * Implementazione di metodi per gestire le proiezioni
+ */
+
 public class ControllerProiezione {
     private final String tableName = "proiezione.csv";
 
-    public Proiezione getProezioneByID(String IDProiezione){
+    /**
+     * Funzione che presa a paramento un id proiezione restituisca una proiezione
+     * @param IDProiezione
+     * @return
+     */
+    public Proiezione getProiezioneByID(String IDProiezione){
         return stringToProiezione(Gestione_db.getRow( tableName, IDProiezione));
     }
+
+    /**
+     * Funzione che presa in input un id film, restituisce le proiezioni di quel film
+     * @param IDfilm
+     * @return
+     */
     public Collection<Proiezione> getProiezioneByIDFilm(String IDfilm){
         ArrayList<Proiezione> proiezioni = new ArrayList<>();
 
@@ -44,6 +60,12 @@ public class ControllerProiezione {
         return proiezioniByIDFilm;
     }
 
+    /**
+     * Funzione che presa in input un id film e una data, restituisce le proiezioni di quel film in quel giorno
+     * @param IDfilm
+     * @param data
+     * @return
+     */
     public Collection<Proiezione> getProiezioneByIDFilmInADay(String IDfilm,Date data){
         ArrayList<Proiezione> proiezioni = new ArrayList<>();
         BufferedReader in = Gestione_db.getTable(tableName);
@@ -64,6 +86,11 @@ public class ControllerProiezione {
         return null;
     }
 
+    /**
+     * Funzione che presa in input una data, restituisce tutti gli id dei film che hanno una proiezione in quel giorno
+     * @param data
+     * @return
+     */
     public Collection<String> getAllIdFilmInADay (Date data){
         HashSet<String> idFilms = new HashSet<>();
         BufferedReader in = Gestione_db.getTable(tableName);
@@ -83,6 +110,12 @@ public class ControllerProiezione {
         return null;
     }
 
+    /**
+     * Funzione che presa in input una data e un idFilm, restituisce tutte le proiezioni successive a quella data
+     * @param idFilm
+     * @param data
+     * @return
+     */
     public Collection<Proiezione> getAllProiezioneByIdFilmAfterDate(String idFilm, Date data){
         ArrayList<Proiezione> proiezioni = new ArrayList<>();
         BufferedReader in = Gestione_db.getTable(tableName);
@@ -101,6 +134,11 @@ public class ControllerProiezione {
         return proiezioni;
     }
 
+    /**
+     * Funzione che presa in input una data, restituisce tutti gli id dei film che hanno una proiezione successiva a quella data
+     * @param data
+     * @return
+     */
     public Collection<String> getAllIdFilmAfterDate(Date data){
         HashSet<String> filmSetId= new HashSet<>();
         BufferedReader in = Gestione_db.getTable(tableName);
@@ -119,18 +157,39 @@ public class ControllerProiezione {
         return filmSetId;
     }
 
+    /**
+     * Funzione che gestisce l'inserimento di una proiezione
+     * @param proiezione
+     * @return
+     */
+
     public String insertProiezione(String proiezione){
         return Gestione_db.insertRow(tableName,proiezione);
     }
 
+    /**
+     * Funzione che gestisce l'eliminazione di una proiezione
+     * @param IDproiezione
+     * @return
+     */
     public String deleteProiezione(String IDproiezione){
         return Gestione_db.deleteRow(IDproiezione, tableName);
     }
 
+    /**
+     * Funzione che gestisce la modifica di una proiezione
+     * @param proiezioneModificata
+     * @return
+     */
     public String modifyProiezione(Proiezione proiezioneModificata){
         return Gestione_db.modifyRow(proiezioneModificata.getId(), tableName, proiezioneModificata.toString());
     }
 
+    /**
+     * Funzione che data una stringa con le informazioni di una proiezione, lo trasforma in un oggetto di tipo Proiezione
+     * @param proiezione
+     * @return
+     */
     public Proiezione stringToProiezione (String proiezione){
         String[] proizioneDati = proiezione.split(",");
         Date d = null;

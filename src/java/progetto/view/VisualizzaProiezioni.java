@@ -23,7 +23,7 @@ import java.util.Iterator;
 
 /**
  * Classe VisualizzaProiezioni
- * Gestione della visualizzazione delle proezioni e prenotazione dei posti per la proiezione;
+ * Gestione della visualizzazione delle proiezioni e prenotazione dei posti per la proiezione;
  */
 public class VisualizzaProiezioni extends javax.swing.JPanel {
 

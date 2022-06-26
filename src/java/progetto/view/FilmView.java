@@ -15,6 +15,10 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 
+/**
+ * Classe FilmView
+ * Gestione della visualizzazione dei film disponibili
+ */
 
 public class FilmView extends javax.swing.JPanel {
 

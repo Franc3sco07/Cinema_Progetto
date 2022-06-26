@@ -15,6 +15,11 @@ import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
+/**
+ * Classe ModificaPassword
+ * Classe che gestisce la modifica della password
+ */
+
 
 public class ModificaPassword extends javax.swing.JPanel {
     private Utente utenteCorrente;

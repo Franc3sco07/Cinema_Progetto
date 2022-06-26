@@ -1,5 +1,10 @@
 package progetto.database;
 
+/**
+ * Classe Gestione_db
+ * Implementazione di vari metodi per gestire i dati
+ */
+
 import progetto.functions.GestioneFile;
 import progetto.functions.ValidatoreCampi;
 
@@ -7,13 +12,13 @@ import java.io.*;
 import java.util.*;
 
 public class Gestione_db {
-    private static final String relativePath = "database/";
+    private static final String relativePath = "Database/";
 
     public static BufferedReader getTable(String tableName) {
         try{
 
             BufferedReader f = GestioneFile.openFile(relativePath+tableName);
-            f.readLine(); // non memorizziamo la prima riga
+            f.readLine();
             return f;
         }
         catch (FileNotFoundException e) {}
@@ -74,8 +79,6 @@ public class Gestione_db {
         } catch (FileNotFoundException e) {
         } catch (IOException e) {
         }
-
-
         return "errore nell'inserimento del nuovo elemento";
     }
 
@@ -91,7 +94,7 @@ public class Gestione_db {
                     return l;
                 }
 
-            } return "errore elemento non trovato";
+            } return "errore, elemento non trovato";
 
         } catch (FileNotFoundException e) {
         } catch (IOException e) {

@@ -10,6 +10,11 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.*;
 
+/**
+ * Classe ControllerPrenotazione
+ * Implementazione di metodi per gestire le prenotazioni
+ */
+
 public class ControllerPrenotazione {
     private final String tableName = "prenotazione.csv";
 
@@ -50,7 +55,7 @@ public class ControllerPrenotazione {
     }
 
     /**
-     * funzione che preso in input un id
+     * funzione che preso in input un id e una data, restituisce tutte le proiezioni dell'utente successive alla data
      * @param IDutente
      * @param data
      * @return
@@ -66,7 +71,7 @@ public class ControllerPrenotazione {
     }
 
     /**
-     *
+     * funzione che preso in input un id film restituisce le prenotazioni associate
      * @param IDfilm
      * @return
      */
@@ -83,9 +88,8 @@ public class ControllerPrenotazione {
         catch (FileNotFoundException e){}
         catch (IOException e){}
 
-
         ArrayList<Prenotazione> prenotazioniByIDFilm = new ArrayList<>();
-        Prenotazione prenotazioniTemp ;
+        Prenotazione prenotazioniTemp;
 
         for(Iterator<Prenotazione> iterator = prenotazioni.iterator(); iterator.hasNext();){
             prenotazioniTemp = iterator.next();
@@ -125,7 +129,7 @@ public class ControllerPrenotazione {
     }
 
     /**
-     *
+     * Funzione che preso in input un idUtente e una data, restituisce gli id dei film con una prenotazione nello stesso giorno
      * @param idUtente
      * @param data
      * @return
@@ -152,7 +156,7 @@ public class ControllerPrenotazione {
     }
 
     /**
-     *
+     * Funzione che preso in input un idUtente, idFIlm e una data, restituisce la lista di prenotazioni dello stesso giorno
      * @param idUtente
      * @param idFilm
      * @param data
@@ -182,7 +186,7 @@ public class ControllerPrenotazione {
     }
 
     /**
-     *
+     * Funzioni che gestisce l'inserimento di una prenotazione
      * @param prenotazione
      * @return
      */
@@ -191,7 +195,7 @@ public class ControllerPrenotazione {
     }
 
     /**
-     *
+     * Funzioni che gestisce l'eliminazione di una prenotazione
      * @param IDprenotazione
      * @return
      */
@@ -200,7 +204,7 @@ public class ControllerPrenotazione {
     }
 
     /**
-     *
+     * Funzioni che gestisce la modifica di una prenotazione
      * @param prenotazioneModificata
      * @return
      */
@@ -209,7 +213,7 @@ public class ControllerPrenotazione {
     }
 
     /**
-     *
+     * Funzione che data una stringa con le informazioni di una prenotazione, lo trasforma in un oggetto di tipo Prenotazione
      * @param prenotazioneString
      * @return
      */

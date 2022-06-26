@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
+
 package progetto.view;
 
 import progetto.Controller.ControllerPrenotazione;
@@ -23,9 +20,10 @@ import java.awt.*;
 import java.util.ArrayList;
 
 /**
- *
- * @author francesco
+ * Classe GestionePrenotazionePosti
+ * Classe che permette la gestione dei posti
  */
+
 public class GestionePrenotazionePosti extends javax.swing.JPanel {
     private ArrayList postiSelezionati = new ArrayList();
     private String imgNome = "poltrona2.png";
@@ -57,7 +55,7 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
             proizioneId = Session.getSessioneCorrente().getIdRiferimentoProiezione();
         }
 
-        int posti[][] = new ControllerProiezione().getProezioneByID(proizioneId).getPostiAttualiOccupati();
+        int posti[][] = new ControllerProiezione().getProiezioneByID(proizioneId).getPostiAttualiOccupati();
         int righe = posti.length;
         int colonne = posti[0].length;
         icon = GestioneFile.apriImmagine(imgNome);
@@ -196,7 +194,7 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
         jButton1.addActionListener(evt -> {
             if(postiSelezionati.size()>0) {
 
-                Proiezione proiezione = new ControllerProiezione().getProezioneByID(proizioneId);
+                Proiezione proiezione = new ControllerProiezione().getProiezioneByID(proizioneId);
                 float prezzo = Float.parseFloat(proiezione.getPrezzo().trim()) * postiSelezionati.size();
                 String prezzoTotale = new String("" + prezzo).replace(",", "\\.");
 
@@ -233,7 +231,7 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
                     }
                 }
 
-                Proiezione modified = new ControllerProiezione().getProezioneByID(Session.getSessioneCorrente().getIdRiferimentoProiezione());
+                Proiezione modified = new ControllerProiezione().getProiezioneByID(Session.getSessioneCorrente().getIdRiferimentoProiezione());
                 modified.setPostiAttualiOccupati(posti);
                 modified.setPostiLiberi(modified.getPostiLiberi() - postiSelezionati.size());
                 new ControllerProiezione().modifyProiezione(modified);

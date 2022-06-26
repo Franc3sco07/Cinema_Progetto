@@ -10,8 +10,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * Classe ControllerSala
+ * Implementazione di metodi per gestire le sale
+ */
+
 public class ControllerSala {
     private final String tableName = "sala.csv";
+
+    /**
+     * Funzione che preso in input un id sala restituisce un Sala
+     * @param IDsala
+     * @return
+     */
 
     public Sala getSalaByID(String IDsala){
         String stringaSala = Gestione_db.getRow(tableName, IDsala);
@@ -41,6 +52,10 @@ public class ControllerSala {
         return idSale;
     }
 
+    /**
+     * Funzione che restituisce tutte le sale
+     * @return
+     */
     public Collection<Sala> getAllSala(){
         BufferedReader in = Gestione_db.getTable(tableName);
         return in.lines().parallel()
@@ -48,6 +63,11 @@ public class ControllerSala {
                 .collect(ArrayList::new,ArrayList::add,ArrayList::addAll);
     }
 
+    /**
+     * Funzione che data una stringa con le informazioni di una sala, lo trasforma in un oggetto di tipo Sala
+     * @param salaString
+     * @return
+     */
     private Sala stringToSala(String salaString){
         String[] datiSala = salaString.split(",");
         return new Sala(datiSala[0], Integer.parseInt(datiSala[1].trim()), TraduttoreMatrice.stringToMatrice(datiSala[2]));

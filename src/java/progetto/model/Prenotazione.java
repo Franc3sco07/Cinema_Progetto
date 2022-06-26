@@ -56,7 +56,7 @@ public class Prenotazione {
         this.prezzo = prezzo;
     }
 
-    public int compareTo (Prenotazione daConfrontare){
+    public int compareTo (Prenotazione daConfrontare){       // da rivedere
         if(FunzionalitaDate.stessaData(this.data,daConfrontare.data))
         {
             return 0;

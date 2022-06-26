@@ -9,6 +9,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * Classe ControllerFilm
+ * Implementazione di metodi per gestire i film
+ */
+
 public class ControllerFilm {
     private final String tableName = "film.csv";
 
@@ -20,7 +25,7 @@ public class ControllerFilm {
     }
 
     /**
-     * Funzione che data una collezione di id di film restituisce una collezione con i film corrispodenti agli id
+     * Funzione che data una collezione di idFilm, restituisce una collezione con i film corrispondenti agli id
      * @param idFilms collezione con gli id dei film che cerchiamo
      * @return una collezione con i film cercati
      */
@@ -33,7 +38,7 @@ public class ControllerFilm {
     }
 
     /**
-     * Funzione che dato un id di un film lo restituisce il film corrispettivo
+     * Funzione che dato un id di un film, restituisce il film corrispettivo
      * @param IDfilm id del film che si vuole cercare
      * @return il film richiesto
      */
@@ -67,8 +72,8 @@ public class ControllerFilm {
     }
 
     /**
-     * Funzione che data una stringa con tutte le informazioni del film
-     * @param film stringa con  informazioni del film da aggiungere
+     * Data una stringa con tutte le informazioni del film, procederà con l'inserimento del db
+     * @param film stringa con informazioni del film da aggiungere
      * @return messaggio di conferma
      */
     public String insertFilm(String film){
@@ -76,7 +81,7 @@ public class ControllerFilm {
     }
 
     /**
-     * Funzione che dato l'id di un film procedera all'eliminazie del film dal database
+     * Funzione che dato l'id di un film, procederà all'eliminazione del film dal database
      * @param IDfilm
      * @return messaggio di conferma
      */
@@ -87,7 +92,7 @@ public class ControllerFilm {
     public String modifyFilm(Film filmModificato){ return Gestione_db.modifyRow(filmModificato.getId(), tableName, filmModificato.toString() ); }
 
     /**
-     * Funzione che data una stringa con le informazioni di un film e lo traforma in un oggetto di tipo Film
+     * Funzione che data una stringa con le informazioni di un film, lo trasforma in un oggetto di tipo Film
      * @param filmString Stringa con le informazioni del film
      * @return Un oggetto Film creato tramite le informazioni nella stringa
      */

@@ -12,6 +12,11 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 
+/**
+ * Classe AccettazioneBigliettiElettronici
+ * Gestione dei biglietti generati dagli utenti da parte del dipendente
+ */
+
 public class AccettazioneBigliettiElettronici extends javax.swing.JPanel {
 
     public AccettazioneBigliettiElettronici() {
@@ -36,7 +41,7 @@ public class AccettazioneBigliettiElettronici extends javax.swing.JPanel {
             Transazione usato = new ControllerTransazione().getTransazioneByIDPrenotazione(jTextField1.getText());
 
             if( usato != null) {
-                JOptionPane.showMessageDialog(null,"Il biglietto è stato gia utilizzato");
+                JOptionPane.showMessageDialog(null,"Il biglietto è stato già generato");
                 return;
             }
 
@@ -81,6 +86,7 @@ public class AccettazioneBigliettiElettronici extends javax.swing.JPanel {
                     ValidatoreCampi.DATEFORMAT.format(biglietto.getData()) +","+
                     biglietto.getPrezzo();
             new ControllerTransazione().insertTransazione(transazione);
+
             jButton2.setEnabled(false);
             jButton3.setEnabled(false);
             jTextField1.setText("");

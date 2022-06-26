@@ -39,24 +39,6 @@ public class ValidatoreCampi {
         return true;
     }
 
-    /* **non serve
-    public static boolean isValidDate(String data){
-        if (!data.matches("(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[-/.](19|20)\\d\\d")) {
-            return false;
-        }
-        return true;
-    }
-
-    public static boolean isValidEta( String eta ) {
-
-        // String agepattern =" \\d"  ok;"
-        if (!eta.matches("^.*[0-9]$")){
-            return false;
-        }
-        return true;
-    }
-*/
-
     public static boolean isValidNumberCell( String number ) {
         if (!number.matches("[0-9]{10}")){
             return false;

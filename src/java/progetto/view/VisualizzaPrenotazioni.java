@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
-*/
+
 package progetto.view;
 
 import progetto.Controller.ControllerFilm;
@@ -22,7 +18,7 @@ import java.util.Iterator;
 /**
  * Classe VisualizzaPrenotazioni
  * Gestione delle prenotazioni, con la possibilità della modifica o eliminazione della prenotazione.
- * La classe funzionerà in maniera differente i base al tipo di utente loggato
+ * La classe funzionerà in maniera differente in base al tipo di utente loggato: utente o dipendente
  */
 public class VisualizzaPrenotazioni extends javax.swing.JPanel {
     public VisualizzaPrenotazioni() {

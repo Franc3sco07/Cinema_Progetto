@@ -7,6 +7,9 @@ import progetto.state.*;
 
 import javax.swing.*;
 
+/**
+ * Frame dell'applicazione
+ */
 
 public class GUI extends javax.swing.JFrame {
     public GUI() {
