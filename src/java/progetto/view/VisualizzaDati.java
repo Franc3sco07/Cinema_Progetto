@@ -15,6 +15,7 @@ import progetto.state.ModificaPasswordState;
 import progetto.state.VisualizzaDatiState;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -23,7 +24,7 @@ import java.util.Iterator;
  * Classe VisualizzaDati
  * Gestione dei dati dei singoli utenti: visualizzazione, modifica e eliminazione di account
  */
-public class VisualizzaDati extends javax.swing.JPanel {
+public class VisualizzaDati extends javax.swing.JPanel implements Cloneable {
     private Utente utenteCorrente;
     public VisualizzaDati() {
         utenteCorrente = Session.getSessioneCorrente().getUtenteLoggato();
@@ -83,11 +84,13 @@ public class VisualizzaDati extends javax.swing.JPanel {
             }else{
                 JOptionPane.showMessageDialog(null, "Controllare i dati immessi");
             }
-
         });
 
         bottoneAnnulla.setText("Annulla");
-        bottoneAnnulla.addActionListener(evt -> new VisualizzaDatiState().doAction(Main.context));
+        //new VisualizzaDatiState().doAction(Main.context)
+        bottoneAnnulla.addActionListener(evt -> {
+            restore();
+        });
 
         eliminaAccount.setText("elimina account");
         eliminaAccount.addActionListener(evt -> {
@@ -148,13 +151,13 @@ public class VisualizzaDati extends javax.swing.JPanel {
 
         jButton4.setText("Modifica");
         jButton4.addActionListener(evt -> {
-                nomeTextField.setEditable(true);
-                cognomeTextField.setEditable(true);
-                emailTextField.setEditable(true);
-                cfTextField.setEditable(true);
-                cellulareTextField.setEditable(true);
-                bottoneAnnulla.setVisible(true);
-                bottoneSalva.setVisible(true);
+            nomeTextField.setEditable(true);
+            cognomeTextField.setEditable(true);
+            emailTextField.setEditable(true);
+            cfTextField.setEditable(true);
+            cellulareTextField.setEditable(true);
+            bottoneAnnulla.setVisible(true);
+            bottoneSalva.setVisible(true);
         });
 
         if(!Session.getSessioneCorrente().getUtenteLoggato().getTipo().equals("U") ){
@@ -241,6 +244,10 @@ public class VisualizzaDati extends javax.swing.JPanel {
                 .addGap(47, 47, 47))
         );
 
+    }
+
+    private void restore(){
+        Main.frame.aggiornaPannello(new VisualizzaDati());
     }
     private javax.swing.JButton bottoneSalva;
     private javax.swing.JButton bottoneAnnulla;

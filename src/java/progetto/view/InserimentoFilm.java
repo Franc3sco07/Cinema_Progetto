@@ -78,20 +78,26 @@ public class InserimentoFilm extends javax.swing.JPanel {
         JDatePickerImpl datePickerInizio = new JDatePickerImpl(datePanelInizio,FunzionalitaDate.generaDateLabelFormatter());
         JDatePanelImpl datePanelFine = new JDatePanelImpl(modelFine,new Properties());
         JDatePickerImpl datePickerFine= new JDatePickerImpl(datePanelFine, FunzionalitaDate.generaDateLabelFormatter());
+        LocalDate tmp= new Date().toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+        modelInizio.setDate(tmp.getYear(),tmp.getMonthValue() -1,tmp.getDayOfMonth());
+        modelFine.setDate(tmp.getYear(),tmp.getMonthValue() -1,tmp.getDayOfMonth());
         datePanelInizio.addActionListener(evt -> {
-            if(!FunzionalitaDate.dateSuccesive(new Date(),(Date)datePickerFine.getModel().getValue()) || FunzionalitaDate.stessoGiorno(new Date(),(Date)datePickerFine.getModel().getValue()) ){
+            if(!FunzionalitaDate.dateSuccesive(new Date(),(Date)datePickerFine.getModel().getValue()) || FunzionalitaDate.stessaData(new Date(),(Date)datePickerFine.getModel().getValue()) ){
                 LocalDate inizioFilm= new Date().toInstant()
                         .atZone(ZoneId.systemDefault())
                         .toLocalDate();
                 modelInizio.setDate(inizioFilm.getYear(),inizioFilm.getMonthValue() -1,inizioFilm.getDayOfMonth());
             }
-            if(!FunzionalitaDate.dateSuccesive((Date) datePickerInizio.getModel().getValue(),(Date)datePickerFine.getModel().getValue())){
+            if(!FunzionalitaDate.dateSuccesive((Date) datePickerInizio.getModel().getValue(),(Date)datePickerFine.getModel().getValue()) || FunzionalitaDate.stessaData((Date)datePickerFine.getModel().getValue(),(Date)datePickerFine.getModel().getValue())){
                 LocalDate inizioFilm= ((Date) datePickerInizio.getModel().getValue()).toInstant()
                         .atZone(ZoneId.systemDefault())
                         .toLocalDate();
                 modelFine.setDate(inizioFilm.getYear(),inizioFilm.getMonthValue() -1,inizioFilm.getDayOfMonth());
             }
         });
+
         datePanelFine.addActionListener(evt -> {
             if(!FunzionalitaDate.dateSuccesive((Date) datePickerInizio.getModel().getValue(),(Date)datePickerFine.getModel().getValue())){
                 LocalDate inizioFilm= ((Date) datePickerInizio.getModel().getValue()).toInstant()

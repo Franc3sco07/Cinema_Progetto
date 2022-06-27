@@ -82,7 +82,7 @@ public class ControllerFilm {
 
     /**
      * Funzione che dato l'id di un film, procederà all'eliminazione del film dal database
-     * @param IDfilm
+     * @param IDfilm l'id del film da eliminare
      * @return messaggio di conferma
      */
     public String deleteFilmByID(String IDfilm) {
