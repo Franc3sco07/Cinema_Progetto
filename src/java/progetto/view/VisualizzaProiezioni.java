@@ -39,7 +39,7 @@ public class VisualizzaProiezioni extends javax.swing.JPanel {
             Date oggi = new Date();
             Collection<Proiezione> listaProiezione;
 
-            if(!Session.getSessioneCorrente().getUtenteLoggato().getTipo().equals("D")){
+            if(!Session.getSessioneCorrente().getUtenteConesso().getTipo().equals("D")){
 
                 listaProiezione = new ControllerProiezione().getAllProiezioneByIdFilmAfterDate(Session.getSessioneCorrente().getIdRiferimentoFilm(),oggi);
             }else{

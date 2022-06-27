@@ -14,13 +14,9 @@ import progetto.state.FilmState;
 import progetto.state.PrenotazioneDipendeteState;
 import progetto.state.ProiezioneState;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -68,7 +64,7 @@ public class FilmSingolo extends javax.swing.JPanel {
                 }
             }
         });
-        if(Session.getSessioneCorrente().getUtenteLoggato().getTipo().equals("A")){
+        if(Session.getSessioneCorrente().getUtenteConesso().getTipo().equals("A")){
             bottoneModifica = new javax.swing.JButton();
             bottoneModifica.setText("Elimina");
             bottoneModifica.addActionListener(evt->{

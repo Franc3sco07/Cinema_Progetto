@@ -33,7 +33,7 @@ public class FilmView extends javax.swing.JPanel {
 
         Collection<Film> filmDisponibili;
         //differenzia i film da fare visualizzare in base al tipo di utente conesso
-        if(Session.getSessioneCorrente().getUtenteLoggato().getTipo().equals("D")){
+        if(Session.getSessioneCorrente().getUtenteConesso().getTipo().equals("D")){
             Collection<String> idFilm = new ControllerProiezione().getAllIdFilmInADay(oggi);
             filmDisponibili = new ControllerFilm().getAllFilmsByIdList(idFilm);
         }else{

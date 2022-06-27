@@ -9,7 +9,6 @@ import progetto.state.LoginState;
 import progetto.state.VisualizzaDatiState;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.FocusEvent;
@@ -25,7 +24,7 @@ public class ModificaPassword extends javax.swing.JPanel {
     private Utente utenteCorrente;
 
     public ModificaPassword() {
-        utenteCorrente = Session.getSessioneCorrente().getUtenteLoggato();
+        utenteCorrente = Session.getSessioneCorrente().getUtenteConesso();
         initComponents();
     }
 

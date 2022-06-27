@@ -18,7 +18,7 @@ import java.util.Iterator;
 /**
  * Classe VisualizzaPrenotazioni
  * Gestione delle prenotazioni, con la possibilità della modifica o eliminazione della prenotazione.
- * La classe funzionerà in maniera differente in base al tipo di utente loggato: utente o dipendente
+ * La classe funzionerà in maniera differente in base al tipo di utente connesso: utente o dipendente
  */
 public class VisualizzaPrenotazioni extends javax.swing.JPanel {
     public VisualizzaPrenotazioni() {
@@ -26,7 +26,7 @@ public class VisualizzaPrenotazioni extends javax.swing.JPanel {
     }
 
     private void initComponents() {
-        if(Session.getSessioneCorrente().getUtenteLoggato().getTipo().equals("U") ){
+        if(Session.getSessioneCorrente().getUtenteConesso().getTipo().equals("U") ){
             prenotazioniUtente();
         }else{
             prenotazioniDipendente();
@@ -37,7 +37,7 @@ public class VisualizzaPrenotazioni extends javax.swing.JPanel {
         JPanel prenotazioni = new JPanel();
         prenotazioni.setLayout(new BoxLayout(prenotazioni, BoxLayout.Y_AXIS));
 
-        Collection<Prenotazione> listaPrenotazioni = new ControllerPrenotazione().getPrenotazioniByIDgeneratoreAfterDate(Session.getSessioneCorrente().getUtenteLoggato().getId(), new Date());
+        Collection<Prenotazione> listaPrenotazioni = new ControllerPrenotazione().getPrenotazioniByIDgeneratoreAfterDate(Session.getSessioneCorrente().getUtenteConesso().getId(), new Date());
         Prenotazione tmpPrenotazione;
         for (Iterator<Prenotazione> iterator = listaPrenotazioni.iterator(); iterator.hasNext(); ){
             tmpPrenotazione = iterator.next();
@@ -63,7 +63,7 @@ public class VisualizzaPrenotazioni extends javax.swing.JPanel {
     private void prenotazioniDipendente(){
         JPanel panelloFilm = new JPanel();
         panelloFilm.setLayout(new BoxLayout(panelloFilm, BoxLayout.Y_AXIS));
-        String idUtente = Session.getSessioneCorrente().getUtenteLoggato().getId();
+        String idUtente = Session.getSessioneCorrente().getUtenteConesso().getId();
         Collection<String> listaFilm = new ControllerPrenotazione().getIdFilmINSameDay(idUtente,new Date());
         Collection<Film> filmDisponibili = new ControllerFilm().getAllFilmsByIdList(listaFilm );
         int i = 0;

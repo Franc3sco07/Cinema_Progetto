@@ -4,11 +4,11 @@ import progetto.Controller.ControllerUtente;
 import progetto.model.Utente;
 
 /**
- * Classe che gestisce la sessione dell'utente loggato
+ * Classe che gestisce la sessione dell'utente connesso
   */
 
 public class Session {
-    private Utente utenteLoggato;
+    private Utente utenteConesso;
     private String idRiferimentoFilm, IdRiferimentoProiezione;
     private static Session sessioneCorrente;
 
@@ -21,7 +21,7 @@ public class Session {
             Utente tmp = utente.login( eMail.trim(), password.trim() );
             if (tmp != null ){
                 sessioneCorrente = new Session();
-                sessioneCorrente.utenteLoggato = tmp;
+                sessioneCorrente.utenteConesso = tmp;
                 return sessioneCorrente;
             }else{
                 return null;
@@ -35,8 +35,8 @@ public class Session {
         return sessioneCorrente;
     }
 
-    public Utente getUtenteLoggato() {
-        return utenteLoggato;
+    public Utente getUtenteConesso() {
+        return utenteConesso;
     }
 
     public String getIdRiferimentoFilm() {
@@ -56,11 +56,11 @@ public class Session {
     }
 
     public void logOut (){
-        utenteLoggato = null;
+        utenteConesso = null;
         sessioneCorrente = null;
     }
 
-    public void setUtenteLoggato(Utente utenteLoggato) {
-        this.utenteLoggato = utenteLoggato;
+    public void setUtenteConesso(Utente utenteConesso) {
+        this.utenteConesso = utenteConesso;
     }
 }

@@ -205,7 +205,7 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
                     prenotazioneMod.setPostoAssegnato(TrasformatoreArrayList.arrayListToStringMat(postiSelezionati));
                     new ControllerPrenotazione().modifyPrenotazione(prenotazioneMod);
 
-                    if (Session.getSessioneCorrente().getUtenteLoggato().getTipo().equals("D")) {
+                    if (Session.getSessioneCorrente().getUtenteConesso().getTipo().equals("D")) {
 
                         Transazione transazioneMod = new ControllerTransazione().getTransazioneByIDPrenotazione(prenotazioneMod.getId());
                         transazioneMod.setImporto(prezzoTotale);
@@ -213,7 +213,7 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
                     }
                 } else {
 
-                    String prenotazione = Session.getSessioneCorrente().getUtenteLoggato().getId()
+                    String prenotazione = Session.getSessioneCorrente().getUtenteConesso().getId()
                             + "," + Session.getSessioneCorrente().getIdRiferimentoProiezione()
                             + "," + Session.getSessioneCorrente().getIdRiferimentoFilm()
                             + "," + ValidatoreCampi.DATEFORMAT.format(proiezione.getData())
@@ -221,7 +221,7 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
                             + "," + TrasformatoreArrayList.arrayListToStringMat(postiSelezionati);
                     String idPrenotazione = new ControllerPrenotazione().insertPrenotazione(prenotazione);
 
-                    if (Session.getSessioneCorrente().getUtenteLoggato().getTipo().equals("D")) {
+                    if (Session.getSessioneCorrente().getUtenteConesso().getTipo().equals("D")) {
 
                         String transazione = idPrenotazione
                                 + "," + Session.getSessioneCorrente().getIdRiferimentoFilm()
@@ -245,7 +245,7 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
         jButton2.setToolTipText("Ritorna alle proiezioni");
         jButton2.addActionListener(evt -> {
             if(Main.context.getState() instanceof ModificaPrenotazioneState){
-                if(Session.getSessioneCorrente().getUtenteLoggato().getTipo().equals("D")){
+                if(Session.getSessioneCorrente().getUtenteConesso().getTipo().equals("D")){
                     new PrenotazioneDipendeteState().doAction(Main.context);
                 }else{
                     new PrenotazioniState().doAction(Main.context);

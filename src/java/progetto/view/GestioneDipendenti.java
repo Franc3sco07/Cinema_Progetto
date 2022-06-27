@@ -31,7 +31,7 @@ public class GestioneDipendenti extends javax.swing.JPanel {
         JPanel infoPannello = new JPanel();
         infoPannello.setLayout(new BoxLayout(infoPannello, BoxLayout.Y_AXIS));
 
-        Collection<Utente> staff = new ControllerUtente().getAllStaff(Session.getSessioneCorrente().getUtenteLoggato().getId());
+        Collection<Utente> staff = new ControllerUtente().getAllStaff(Session.getSessioneCorrente().getUtenteConesso().getId());
         Utente tmpStaff;
         staff = staff.stream().sorted(Utente::compareTo).collect(ArrayList::new,ArrayList::add,ArrayList::addAll);
         //generazione in grafica dei dei vari dipedenti

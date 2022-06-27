@@ -85,7 +85,7 @@ public class PrenotazioneSingola extends javax.swing.JPanel {
                 proizioneModificata.setPostiLiberi(proizioneModificata.getPostiLiberi()+postiDaLiberare.length);
                 new ControllerProiezione().modifyProiezione(proizioneModificata);
 
-                if(Session.getSessioneCorrente().getUtenteLoggato().getTipo().equals("D")){
+                if(Session.getSessioneCorrente().getUtenteConesso().getTipo().equals("D")){
                     String idTransazione = new ControllerTransazione().getTransazioneByIDPrenotazione(datiPrenotazione.getId()).getIdTransazione();
                     new ControllerTransazione().deleteTransazione(idTransazione);
                 }

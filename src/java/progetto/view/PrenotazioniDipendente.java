@@ -23,7 +23,7 @@ public class PrenotazioniDipendente extends javax.swing.JPanel{
         JPanel prenotazioni = new JPanel();
         prenotazioni.setLayout(new BoxLayout(prenotazioni, BoxLayout.Y_AXIS));
         Collection<Prenotazione> listaPrenotazioni = new ControllerPrenotazione()
-                .getPrenotazioniByIDFilmInSameDate(Session.getSessioneCorrente().getUtenteLoggato().getId(),
+                .getPrenotazioniByIDFilmInSameDate(Session.getSessioneCorrente().getUtenteConesso().getId(),
                         Session.getSessioneCorrente().getIdRiferimentoFilm(),
                         new Date());
         Prenotazione tmpPrenotazione;

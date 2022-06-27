@@ -15,7 +15,6 @@ import progetto.state.ModificaPasswordState;
 import progetto.state.VisualizzaDatiState;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -27,7 +26,7 @@ import java.util.Iterator;
 public class VisualizzaDati extends javax.swing.JPanel implements Cloneable {
     private Utente utenteCorrente;
     public VisualizzaDati() {
-        utenteCorrente = Session.getSessioneCorrente().getUtenteLoggato();
+        utenteCorrente = Session.getSessioneCorrente().getUtenteConesso();
         initComponents();
     }
     private void initComponents() {
@@ -80,7 +79,7 @@ public class VisualizzaDati extends javax.swing.JPanel implements Cloneable {
 
             if(new ControllerUtente().modifyUtente(utenteCorrente).equals("ok")){
                 new VisualizzaDatiState().doAction(Main.context);
-                Session.getSessioneCorrente().setUtenteLoggato(this.utenteCorrente);
+                Session.getSessioneCorrente().setUtenteConesso(this.utenteCorrente);
             }else{
                 JOptionPane.showMessageDialog(null, "Controllare i dati immessi");
             }
@@ -129,7 +128,7 @@ public class VisualizzaDati extends javax.swing.JPanel implements Cloneable {
                             proizioneModificata.setPostiLiberi(proizioneModificata.getPostiLiberi()+postiDaLiberare.length);
                             new ControllerProiezione().modifyProiezione(proizioneModificata);
 
-                            if(Session.getSessioneCorrente().getUtenteLoggato().getTipo().equals("D")){
+                            if(Session.getSessioneCorrente().getUtenteConesso().getTipo().equals("D")){
                                 String idTransazione = new ControllerTransazione().getTransazioneByIDPrenotazione(tmp.getId()).getIdTransazione();
                                 new ControllerTransazione().deleteTransazione(idTransazione);
                             }
@@ -160,7 +159,7 @@ public class VisualizzaDati extends javax.swing.JPanel implements Cloneable {
             bottoneSalva.setVisible(true);
         });
 
-        if(!Session.getSessioneCorrente().getUtenteLoggato().getTipo().equals("U") ){
+        if(!Session.getSessioneCorrente().getUtenteConesso().getTipo().equals("U") ){
             eliminaAccount.setVisible(false);
         }
         bottoneAnnulla.setVisible(false);

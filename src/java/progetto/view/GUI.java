@@ -35,14 +35,14 @@ public class GUI extends javax.swing.JFrame {
         filmMenu.addActionListener(evt -> new FilmState().doAction(Main.context));
         jMenuBar1.add(filmMenu);
 
-        if (Session.getSessioneCorrente().getUtenteLoggato().getTipo().equals("U")){
+        if (Session.getSessioneCorrente().getUtenteConesso().getTipo().equals("U")){
             prenotazioniMenu = new javax.swing.JMenuItem();
             prenotazioniMenu.setText("Prenotazioni"); //visibile solo per gli utenti
             prenotazioniMenu.addActionListener(evt-> new PrenotazioniState().doAction(Main.context));
             jMenuBar1.add(prenotazioniMenu);
         }
 
-        if (Session.getSessioneCorrente().getUtenteLoggato().getTipo().equals("D")){
+        if (Session.getSessioneCorrente().getUtenteConesso().getTipo().equals("D")){
             gestioneBigliettiMenu = new javax.swing.JMenuItem();
             gestioneBigliettiMenu.setText("Gestione Biglietti"); //visibile solo per i dipendenti
             gestioneBigliettiMenu.addActionListener(evt-> new PrenotazioniState().doAction(Main.context));
@@ -53,7 +53,7 @@ public class GUI extends javax.swing.JFrame {
             jMenuBar1.add(accettazioneBiglietti);
         }
 
-        if (Session.getSessioneCorrente().getUtenteLoggato().getTipo().equals("A")){
+        if (Session.getSessioneCorrente().getUtenteConesso().getTipo().equals("A")){
             visualizzaVendite = new javax.swing.JMenuItem();
             visualizzaDipendenti = new javax.swing.JMenuItem();
             inserisciFilm = new javax.swing.JMenuItem();

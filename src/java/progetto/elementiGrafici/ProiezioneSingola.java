@@ -38,7 +38,7 @@ public class ProiezioneSingola extends javax.swing.JPanel {
         jLabel2.setText("Sala: "+datiProiezione.getIdSala()+"      posti disponibili: "+datiProiezione.getPostiLiberi());
         prezzoField.setEditable(false);
 
-        if(Session.getSessioneCorrente().getUtenteLoggato().getTipo().equals("A")){
+        if(Session.getSessioneCorrente().getUtenteConesso().getTipo().equals("A")){
             jButton1.setText("Modifica");
             jButton1.addActionListener(evt ->{
                 if(!prezzoField.isEditable()){
