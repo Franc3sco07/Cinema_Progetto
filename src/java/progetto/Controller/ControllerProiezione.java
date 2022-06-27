@@ -112,7 +112,7 @@ public class ControllerProiezione {
 
     /**
      * Funzione che presa in input una data e un idFilm, restituisce tutte le proiezioni successive a quella data
-     * @param idFilm 
+     * @param idFilm
      * @param data
      * @return
      */
