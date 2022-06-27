@@ -56,9 +56,9 @@ public class ControllerPrenotazione {
 
     /**
      * funzione che preso in input un id e una data, restituisce tutte le proiezioni dell'utente successive alla data
-     * @param IDutente
-     * @param data
-     * @return
+     * @param IDutente utente di cui si vogliono sapere le prenotazioni
+     * @param data data da cui cercare
+     * @return una collezione contenenti tutte le prenotazioni dell'utente disponibili
      */
     public Collection<Prenotazione> getPrenotazioniByIDgeneratoreAfterDate(String IDutente, Date data){
         BufferedReader in = Gestione_db.getTable(tableName);
@@ -72,8 +72,8 @@ public class ControllerPrenotazione {
 
     /**
      * funzione che preso in input un id film restituisce le prenotazioni associate
-     * @param IDfilm
-     * @return
+     * @param IDfilm id del film di cui ci interessa la lista di proizioni
+     * @return la collezione delle prenotazioni
      */
     public Collection<Prenotazione> getPrenotazioniByIDFilm(String IDfilm){
         ArrayList<Prenotazione> prenotazioni = new ArrayList<>();
@@ -129,12 +129,12 @@ public class ControllerPrenotazione {
     }
 
     /**
-     * Funzione che preso in input un idUtente e una data, restituisce gli id dei film con una prenotazione nello stesso giorno
-     * @param idUtente
-     * @param data
-     * @return
+     * Funzione che preso in input un idUtente e una data, restituisce gli id dei film con una prenotazione datta dall'utente nello stesso giorno
+     * @param idUtente l'id dell'utente di cui ci interessano le prenotazioni
+     * @param data la data in cui deve esserci una prenotazione
+     * @return una collezione contenete gli id dei film che ci interressa
      */
-    public Collection<String> getIdFilmINSameDay(String idUtente,Date data){
+    public Collection<String> getIdFilmByIdUtenteInADay(String idUtente, Date data){
         HashSet<String> idFilms = new HashSet<>();
         BufferedReader in = Gestione_db.getTable(tableName);
         Prenotazione tmp;
@@ -157,12 +157,12 @@ public class ControllerPrenotazione {
 
     /**
      * Funzione che preso in input un idUtente, idFIlm e una data, restituisce la lista di prenotazioni dello stesso giorno
-     * @param idUtente
-     * @param idFilm
-     * @param data
-     * @return
+     * @param idUtente l'id dell'utente che ha effettuato la prenotazione
+     * @param idFilm l'id del film che ci interessa
+     * @param data la data in cui ci interessano che ci sia una prenotazione
+     * @return una collezione contente tutte le prenotazioni cercate
      */
-    public Collection<Prenotazione> getPrenotazioniByIDFilmInSameDate(String idUtente,String idFilm, Date data){
+    public Collection<Prenotazione> getPrenotazioniByIDFilmInADay(String idUtente, String idFilm, Date data){
         ArrayList<Prenotazione> proiezioni = new ArrayList<>();
         BufferedReader in = Gestione_db.getTable(tableName);
         Prenotazione tmp;
@@ -187,8 +187,8 @@ public class ControllerPrenotazione {
 
     /**
      * Funzioni che gestisce l'inserimento di una prenotazione
-     * @param prenotazione
-     * @return
+     * @param prenotazione stringa con le informazioni delle nuova prenotazione
+     * @return conferma
      */
     public String insertPrenotazione(String prenotazione){
         return Gestione_db.insertRow(tableName, prenotazione);
@@ -196,8 +196,8 @@ public class ControllerPrenotazione {
 
     /**
      * Funzioni che gestisce l'eliminazione di una prenotazione
-     * @param IDprenotazione
-     * @return
+     * @param IDprenotazione id della prenotazione che si vuole eliminare
+     * @return conferma
      */
     public String deletePrenotazione(String IDprenotazione){
         return Gestione_db.deleteRow(IDprenotazione, tableName);
@@ -205,8 +205,8 @@ public class ControllerPrenotazione {
 
     /**
      * Funzioni che gestisce la modifica di una prenotazione
-     * @param prenotazioneModificata
-     * @return
+     * @param prenotazioneModificata l'oggetto modifiacato
+     * @return conferma
      */
     public String modifyPrenotazione(Prenotazione prenotazioneModificata){
         return Gestione_db.modifyRow(prenotazioneModificata.getId(), tableName, prenotazioneModificata.toString() );
@@ -214,8 +214,8 @@ public class ControllerPrenotazione {
 
     /**
      * Funzione che data una stringa con le informazioni di una prenotazione, lo trasforma in un oggetto di tipo Prenotazione
-     * @param prenotazioneString
-     * @return
+     * @param prenotazioneString stringa con le informazioni delle nuova prenotazione
+     * @return un oggetto prenotazione con le informazioni di una prenotazione
      */
     private Prenotazione stringToPrenotazione(String prenotazioneString){
         String[] datiPrenotazione = prenotazioneString.split(",");

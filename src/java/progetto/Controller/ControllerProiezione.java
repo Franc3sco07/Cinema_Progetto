@@ -22,8 +22,8 @@ public class ControllerProiezione {
 
     /**
      * Funzione che presa a paramento un id proiezione restituisca una proiezione
-     * @param IDProiezione
-     * @return
+     * @param IDProiezione id della proiezione che ci interessa
+     * @return la proiezione con l'id desiderato
      */
     public Proiezione getProiezioneByID(String IDProiezione){
         return stringToProiezione(Gestione_db.getRow( tableName, IDProiezione));
@@ -31,8 +31,8 @@ public class ControllerProiezione {
 
     /**
      * Funzione che presa in input un id film, restituisce le proiezioni di quel film
-     * @param IDfilm
-     * @return
+     * @param IDfilm id del film di cui ci interessano le proiezioni
+     * @return una collezione contenenti le proiezioni
      */
     public Collection<Proiezione> getProiezioneByIDFilm(String IDfilm){
         ArrayList<Proiezione> proiezioni = new ArrayList<>();
@@ -62,9 +62,9 @@ public class ControllerProiezione {
 
     /**
      * Funzione che presa in input un id film e una data, restituisce le proiezioni di quel film in quel giorno
-     * @param IDfilm
-     * @param data
-     * @return
+     * @param IDfilm id del film di cui ci interessano le proiezioni
+     * @param data data in della proiezione
+     * @return collezione di proiezioni del film nella giorno scelto
      */
     public Collection<Proiezione> getProiezioneByIDFilmInADay(String IDfilm,Date data){
         ArrayList<Proiezione> proiezioni = new ArrayList<>();
@@ -88,8 +88,8 @@ public class ControllerProiezione {
 
     /**
      * Funzione che presa in input una data, restituisce tutti gli id dei film che hanno una proiezione in quel giorno
-     * @param data
-     * @return
+     * @param data giorno in cui ci interessa che un film abbia una proiezione
+     * @return una collezione contenente gli id dei film che hanno una proiezione in quel giorno
      */
     public Collection<String> getAllIdFilmInADay (Date data){
         HashSet<String> idFilms = new HashSet<>();
@@ -112,7 +112,7 @@ public class ControllerProiezione {
 
     /**
      * Funzione che presa in input una data e un idFilm, restituisce tutte le proiezioni successive a quella data
-     * @param idFilm
+     * @param idFilm 
      * @param data
      * @return
      */

@@ -64,7 +64,7 @@ public class VisualizzaPrenotazioni extends javax.swing.JPanel {
         JPanel panelloFilm = new JPanel();
         panelloFilm.setLayout(new BoxLayout(panelloFilm, BoxLayout.Y_AXIS));
         String idUtente = Session.getSessioneCorrente().getUtenteConesso().getId();
-        Collection<String> listaFilm = new ControllerPrenotazione().getIdFilmINSameDay(idUtente,new Date());
+        Collection<String> listaFilm = new ControllerPrenotazione().getIdFilmByIdUtenteInADay(idUtente,new Date());
         Collection<Film> filmDisponibili = new ControllerFilm().getAllFilmsByIdList(listaFilm );
         int i = 0;
 
