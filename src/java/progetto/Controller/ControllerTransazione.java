@@ -9,10 +9,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Iterator;
+import java.util.*;
 
 /**
  * Classe ControllerTransazione
@@ -30,10 +27,15 @@ public class ControllerTransazione {
 
     public Transazione getTransazioneByIDPrenotazione(String idPrenotazione){
         BufferedReader in = Gestione_db.getTable(tableName);
-        return in.lines().parallel()
-                .map(s -> stringToTransazione(s))
-                .filter(s-> s.getIdPrenotazione().equals(idPrenotazione.trim()))
-                .findFirst().get();
+        try{
+            return in.lines().parallel()
+                    .map(s -> stringToTransazione(s))
+                    .filter(s-> s.getIdPrenotazione().equals(idPrenotazione.trim()))
+                    .findFirst().get();
+        }catch(NoSuchElementException e){
+            return null;
+        }
+
     }
 
     public Collection<Transazione> getAllTransazioni(){

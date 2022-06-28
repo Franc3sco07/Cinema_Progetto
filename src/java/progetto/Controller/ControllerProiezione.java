@@ -142,9 +142,10 @@ public class ControllerProiezione {
      * @return un oggetto proiezione con le informazioni della stringa
      */
     public Proiezione stringToProiezione (String proiezione){
+        System.out.println(proiezione);
         String[] proizioneDati = proiezione.split(",");
         Date d = null;
-        if(proizioneDati.length>1){
+        if(proizioneDati.length>2){
             try {
                 d = ValidatoreCampi.DATEFORMAT.parse(proizioneDati[4]);
                 return new Proiezione(proizioneDati[0],

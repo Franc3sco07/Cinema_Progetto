@@ -6,6 +6,7 @@ import progetto.Controller.ControllerProiezione;
 import progetto.Controller.ControllerTransazione;
 import progetto.Main;
 import progetto.Session;
+import progetto.elementiGrafici.PrenotazioneSingola;
 import progetto.functions.GestioneFile;
 import progetto.functions.TraduttoreMatrice;
 import progetto.functions.TrasformatoreArrayList;
@@ -87,6 +88,7 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
                 posti[postiDaCambiare[i][0]][postiDaCambiare[i][1]] = 3;
                 postiSelezionati.add(postiDaCambiare[i][0]+":"+postiDaCambiare[i][1]+";");
             }
+
         }
         //fine
 
@@ -124,9 +126,12 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
                             int numbers[][] = TraduttoreMatrice.stringToMatrice(name) ;
                             posti[numbers[0][0]][numbers[0][1]] = 1;
                             if(postiSelezionati.size() < 1){
-
                                 jButton1.setToolTipText("Seleziona un posto prima di continuare");
                                 jButton1.setEnabled(false);
+                            }
+                            if(!jButton1.isEnabled()){
+                                jButton1.setToolTipText(null);
+                                jButton1.setEnabled(true);
                             }
                             source.setBackground(cambiato);
                         }else{
@@ -187,10 +192,14 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
                 jPanel1.add(tmp);
             }
         }
-
-        jButton1.setText("Prenota");
+        if(Main.context.getState() instanceof ModificaPrenotazioneState){
+            jButton1.setText("Modifica");
+            jButton1.setToolTipText("Modifica la prenotazione prima di continuare");
+        }else{
+            jButton1.setText("Prenota");
+            jButton1.setToolTipText("Seleziona un posto prima di continuare");
+        }
         jButton1.setEnabled(false);
-        jButton1.setToolTipText("Seleziona un posto prima di continuare");
         jButton1.addActionListener(evt -> {
             if(postiSelezionati.size()>0) {
 
@@ -204,13 +213,13 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
                     prenotazioneMod.setPrezzo(prezzoTotale);
                     prenotazioneMod.setPostoAssegnato(TrasformatoreArrayList.arrayListToStringMat(postiSelezionati));
                     new ControllerPrenotazione().modifyPrenotazione(prenotazioneMod);
-
+                    JOptionPane.showMessageDialog(null, "Modifica effettuata con sucesso!\n Verrai reindirizzato alle prenotazioni\");
                     if (Session.getSessioneCorrente().getUtenteConesso().getTipo().equals("D")) {
-
                         Transazione transazioneMod = new ControllerTransazione().getTransazioneByIDPrenotazione(prenotazioneMod.getId());
                         transazioneMod.setImporto(prezzoTotale);
                         new ControllerTransazione().modifyTransazione(transazioneMod);
                     }
+                    new PrenotazioniState().doAction(Main.context);
                 } else {
 
                     String prenotazione = Session.getSessioneCorrente().getUtenteConesso().getId()
@@ -229,14 +238,14 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
                                 + "," + prezzoTotale;
                         new ControllerTransazione().insertTransazione(transazione);
                     }
+                    JOptionPane.showMessageDialog(null, "Prenotazione effettuata con sucesso!\n Verrai reindirizzato al catalogo film");
+                    new FilmState().doAction(Main.context);
                 }
-
-                Proiezione modified = new ControllerProiezione().getProiezioneByID(Session.getSessioneCorrente().getIdRiferimentoProiezione());
+                Proiezione modified = new ControllerProiezione().getProiezioneByID(proizioneId);
                 modified.setPostiAttualiOccupati(posti);
                 modified.setPostiLiberi(modified.getPostiLiberi() - postiSelezionati.size());
                 new ControllerProiezione().modifyProiezione(modified);
-                JOptionPane.showMessageDialog(null, "Prenotazione effettuata con sucesso!\n Verrai reindirizzato al catalogo film");
-                new FilmState().doAction(Main.context);
+
             }
 
         });
