@@ -20,18 +20,16 @@ public class ControllerSala {
 
     /**
      * Funzione che preso in input un id sala restituisce un Sala
-     * @param IDsala
-     * @return
+     * @param IDsala id della sala che ci interessa
+     * @return la sala desiderata
      */
 
     public Sala getSalaByID(String IDsala){
         String stringaSala = Gestione_db.getRow(tableName, IDsala);
-
         String[] datiFilm = stringaSala.split(",");
         if (datiFilm.length > 1) {
             return stringToSala( stringaSala );
         }
-
         return null;
     }
 
@@ -54,13 +52,13 @@ public class ControllerSala {
 
     /**
      * Funzione che restituisce tutte le sale
-     * @return
+     * @return una collezione con tutte le sale
      */
     public Collection<Sala> getAllSala(){
         BufferedReader in = Gestione_db.getTable(tableName);
         return in.lines().parallel()
                 .map(s -> stringToSala(s))
-                .collect(ArrayList::new,ArrayList::add,ArrayList::addAll);
+                .toList();
     }
 
     /**

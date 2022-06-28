@@ -34,9 +34,9 @@ public class Sala {
         int thisIdSala = Integer.parseInt(this.id.trim());
         int idDaConfrontare =  Integer.parseInt(daConfrontare.getId().trim());
         if (thisIdSala<idDaConfrontare){
-            return 1;
-        } else if (thisIdSala>idDaConfrontare) {
             return -1;
+        } else if (thisIdSala>idDaConfrontare) {
+            return 1;
         }else{
             return 0;
     }

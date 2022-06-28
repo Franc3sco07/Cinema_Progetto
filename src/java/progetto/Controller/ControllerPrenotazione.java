@@ -62,12 +62,11 @@ public class ControllerPrenotazione {
      */
     public Collection<Prenotazione> getPrenotazioniByIDgeneratoreAfterDate(String IDutente, Date data){
         BufferedReader in = Gestione_db.getTable(tableName);
-        return  in.lines()
-                    .parallel()
-                        .map(s -> stringToPrenotazione(s))
-                            .filter(x-> x.getIdGeneratore().trim().equals(IDutente.trim())
+        return  in.lines().parallel()
+                    .map(s -> stringToPrenotazione(s))
+                    .filter(x-> x.getIdGeneratore().trim().equals(IDutente.trim())
                                     && FunzionalitaDate.dateSuccesive(data,x.getData()))
-                                .collect(ArrayList::new,ArrayList::add,ArrayList::addAll);
+                    .toList();
     }
 
     /**
@@ -76,56 +75,20 @@ public class ControllerPrenotazione {
      * @return la collezione delle prenotazioni
      */
     public Collection<Prenotazione> getPrenotazioniByIDFilm(String IDfilm){
-        ArrayList<Prenotazione> prenotazioni = new ArrayList<>();
         BufferedReader in = Gestione_db.getTable(tableName);
-
-        try {
-            String l;
-            while ((l = in.readLine()) != null) {
-                prenotazioni.add(stringToPrenotazione( l ));
-            }
-        }
-        catch (FileNotFoundException e){}
-        catch (IOException e){}
-
-        ArrayList<Prenotazione> prenotazioniByIDFilm = new ArrayList<>();
-        Prenotazione prenotazioniTemp;
-
-        for(Iterator<Prenotazione> iterator = prenotazioni.iterator(); iterator.hasNext();){
-            prenotazioniTemp = iterator.next();
-            if (IDfilm.trim().equals(prenotazioniTemp.getIdFilm().trim())) {
-                prenotazioniByIDFilm.add(prenotazioniTemp);
-            }
-        }
-
-        return prenotazioniByIDFilm;
+        return in.lines().parallel()
+                .map(s -> stringToPrenotazione(s))
+                .filter(s -> s.getIdFilm().equals(IDfilm.trim()))
+                .toList();
     }
 
     public Collection<Prenotazione> getPrenotazioneByIDProiezione(String IDProiezione){
-        ArrayList<Prenotazione> prenotazioni = new ArrayList<>();
 
         BufferedReader in = Gestione_db.getTable(tableName);
-        try {
-            String l;
-            while ((l = in.readLine()) != null) {
-                prenotazioni.add(stringToPrenotazione( l ));
-            }
-        }
-        catch (FileNotFoundException e){}
-        catch (IOException e){}
-
-
-        ArrayList<Prenotazione> prenotazioniByIDProiezione = new ArrayList<>();
-        Prenotazione prenotazioniTemp ;
-
-        for(Iterator<Prenotazione> iterator = prenotazioni.iterator(); iterator.hasNext();){
-            prenotazioniTemp = iterator.next();
-            if (IDProiezione.trim().equals(prenotazioniTemp.getIdProiezione().trim())) {
-                prenotazioniByIDProiezione.add(prenotazioniTemp);
-            }
-        }
-
-        return prenotazioniByIDProiezione;
+        return  in.lines().parallel()
+                .map(s -> stringToPrenotazione(s))
+                .filter(s -> s.getIdProiezione().equals(IDProiezione.trim()))
+                .toList();
     }
 
     /**
@@ -135,54 +98,31 @@ public class ControllerPrenotazione {
      * @return una collezione contenete gli id dei film che ci interressa
      */
     public Collection<String> getIdFilmByIdUtenteInADay(String idUtente, Date data){
-        HashSet<String> idFilms = new HashSet<>();
         BufferedReader in = Gestione_db.getTable(tableName);
-        Prenotazione tmp;
-        try {
-            String l;
-            while ((l = in.readLine()) != null) {
-                tmp = stringToPrenotazione(l);
-                if(tmp.getIdGeneratore().equals(idUtente) &&
-                        FunzionalitaDate.stessoGiorno(data,tmp.getData()) &&
-                        FunzionalitaDate.dateSuccesive(data,tmp.getData())){
-                    idFilms.add(tmp.getIdFilm());
-                }
-            }
-            return idFilms;
-        }
-        catch (FileNotFoundException e){}
-        catch (IOException e){}
-        return null;
+        return in.lines().parallel()
+                .map(s -> stringToPrenotazione(s))
+                .filter(s -> s.getId().equals(idUtente.trim()) &&
+                        FunzionalitaDate.stessoGiorno(data,s.getData()))
+                .map(s -> s.getIdFilm())
+                .distinct().toList();
     }
 
     /**
-     * Funzione che preso in input un idUtente, idFIlm e una data, restituisce la lista di prenotazioni dello stesso giorno
+     * Funzione che preso in input un idUtente, idFIlm e una data, restituisce la lista di prenotazioni dello stesso giorno di dell utente per il film dcelto
      * @param idUtente l'id dell'utente che ha effettuato la prenotazione
      * @param idFilm l'id del film che ci interessa
      * @param data la data in cui ci interessano che ci sia una prenotazione
      * @return una collezione contente tutte le prenotazioni cercate
      */
     public Collection<Prenotazione> getPrenotazioniByIDFilmInADay(String idUtente, String idFilm, Date data){
-        ArrayList<Prenotazione> proiezioni = new ArrayList<>();
         BufferedReader in = Gestione_db.getTable(tableName);
-        Prenotazione tmp;
-        try {
-            String l;
-            while ((l = in.readLine()) != null) {
-                tmp = stringToPrenotazione(l);
-                if(tmp.getIdGeneratore().equals(idUtente) &&
-                        tmp.getIdFilm().equals(idFilm)    &&
-                        FunzionalitaDate.stessoGiorno(data,tmp.getData()) &&
-                        FunzionalitaDate.dateSuccesive(data,tmp.getData())){
-                    proiezioni.add(tmp);
-                }
-            }
-            return proiezioni;
-        }
-        catch (FileNotFoundException e){}
-        catch (IOException e){}
-
-        return null;
+        return in.lines().parallel()
+                .map(s -> stringToPrenotazione(s))
+                .filter(s -> s.getId().equals(idUtente.trim()) &&
+                        FunzionalitaDate.stessoGiorno(data,s.getData()) &&
+                        FunzionalitaDate.dateSuccesive(data,s.getData()) &&
+                        s.getIdFilm().equals(idFilm.trim()))
+                .toList();
     }
 
     /**

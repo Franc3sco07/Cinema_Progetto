@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 /**
  * Classe ControllerFilm
@@ -21,7 +22,7 @@ public class ControllerFilm {
         BufferedReader in = Gestione_db.getTable(tableName);
         return in.lines().parallel()
                 .map(s -> stringToFilm(s))
-                .collect(ArrayList::new,ArrayList::add,ArrayList::addAll);
+                .toList();
     }
 
     /**
@@ -34,7 +35,7 @@ public class ControllerFilm {
         return in.lines().parallel()
                 .map(s -> stringToFilm(s))
                 .filter(x-> idFilms.contains(x.getId()))
-                .collect(ArrayList::new,ArrayList::add,ArrayList::addAll);
+                .toList();
     }
 
     /**
@@ -56,19 +57,11 @@ public class ControllerFilm {
      * @return una collezione di stringhe in formato "id,NomeFilm"
      */
     public Collection<String> getAllFilmNameAndId(){
-        ArrayList<String> films = new ArrayList<>();
         BufferedReader in = Gestione_db.getTable(tableName);
-        Film tmp;
-        try {
-            String l;
-            while ((l = in.readLine()) != null) {
-                    tmp = stringToFilm(l);
-                    films.add(tmp.getId()+", "+tmp.getNome());
-                }
-
-            }catch (FileNotFoundException e){}
-        catch (IOException e){}
-        return films;
+        return in.lines().parallel()
+                .map(s -> stringToFilm(s))
+                .map(s -> s.getId()+","+s.getNome())
+                .toList();
     }
 
     /**

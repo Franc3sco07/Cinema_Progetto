@@ -13,7 +13,6 @@ import javax.swing.table.DefaultTableModel;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Properties;
 
@@ -49,10 +48,8 @@ public class VisualizzaVendite extends javax.swing.JPanel {
             Date dataInizio = (Date) datePickerInizio.getModel().getValue();
             Date dataFine = FunzionalitaDate.giornoDopo((Date) datePickerFine.getModel().getValue());
             String filmId = ((String) jComboBox1.getSelectedItem()).split(",")[0];
-            Collection<Double> vendite;
             do{
-                vendite = new ControllerTransazione().getAllVenditeByIDFilmInADay(filmId,dataInizio);
-                Double totVendite = vendite.stream().mapToDouble(Double::doubleValue).sum();
+                Double totVendite = new ControllerTransazione().getTotataleVenditeByIDFilmInADay(filmId,dataInizio);
                 modelloVendite.addRow(new String[]{(ValidatoreCampi.NOTIMEFORMAT.format(dataInizio)),formatoDouble.format(totVendite)+" €"});
                 dataInizio = FunzionalitaDate.giornoDopo(dataInizio);
             }while(FunzionalitaDate.dateSuccesive(dataInizio,dataFine));

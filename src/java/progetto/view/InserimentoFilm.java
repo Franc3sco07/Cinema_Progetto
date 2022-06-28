@@ -223,10 +223,10 @@ public class InserimentoFilm extends javax.swing.JPanel {
 
         orarioLabel.setText("Seleziona orari proiezione");
 
-        ArrayList <String> ids =  new ControllerSala().getAllSala().stream()
+        Collection <String> ids =  new ControllerSala().getAllSala().stream()
                 .sorted(Sala::comapareTo)
-                        .map(x-> x.getId())
-                                .collect(ArrayList::new,ArrayList::add,ArrayList::addAll);
+                .map(x-> x.getId())
+                .toList();
 
         String[]  idSale  =ids.toArray(new String[0]);
         nomeSala.setModel(new DefaultComboBoxModel<>(idSale));

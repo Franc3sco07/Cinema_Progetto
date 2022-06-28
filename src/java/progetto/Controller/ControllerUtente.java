@@ -42,21 +42,11 @@ public class ControllerUtente {
      */
     public Utente login(String email, String password){
         BufferedReader in = Gestione_db.getTable(tableName);
-        Utente utente;
-
-        try {
-            String l;
-            while ((l = in.readLine()) != null) {
-                utente = stringToUtente(l);
-                if( utente.getEmail().equals(email) && utente.getPassword().equals(password)){
-                    return utente;
-                }
-            }
-        }
-        catch (FileNotFoundException e){}
-        catch (IOException e){}
-
-        return null;
+        return in.lines().parallel()
+                .map(s -> stringToUtente(s))
+                .filter(s-> s.getEmail().equals(email.trim()) &&
+                            s.getPassword().equals(password.trim()))
+                .findFirst().get();
     }
 
 
@@ -103,24 +93,11 @@ public class ControllerUtente {
      * @return
      */
     public boolean checkEmail(String email){
-        ArrayList<Utente> utenti = new ArrayList<>();
-
         BufferedReader in = Gestione_db.getTable(tableName);
-        try {
-            String l;
-            while ((l = in.readLine()) != null) {
-                utenti.add(stringToUtente( l ));
-            }
-        }
-        catch (FileNotFoundException e){}
-        catch (IOException e){}
-
-        for(Iterator<Utente> iterator = utenti.iterator(); iterator.hasNext();){
-            if (email.equals(iterator.next().getEmail())) {
-                return false;
-            }
-        }
-        return true;
+        return in.lines().parallel()
+                .map(s -> stringToUtente(s))
+                .filter(s -> s.getEmail().equals(email.trim()))
+                .toList().isEmpty();
     }
 
     /**
@@ -129,22 +106,12 @@ public class ControllerUtente {
      * @return
      */
     public Collection<Utente> getAllStaff(String idAdmin){
-        HashSet<Utente> staff = new HashSet<>();
         BufferedReader in = Gestione_db.getTable(tableName);
-        Utente tmp;
-        try {
-            String l;
-            while ((l = in.readLine()) != null) {
-                tmp = stringToUtente(l);
-                if( !tmp.getTipo().equals("U") && !tmp.getId().equals(idAdmin) ){
-                    staff.add(tmp);
-                }
-            }
-            return staff;
-        }
-        catch (FileNotFoundException e){}
-        catch (IOException e){}
-        return null;
+        return in.lines().parallel()
+                .map(s -> stringToUtente(s))
+                .filter(s -> !s.getTipo().equals("U") &&
+                            !s.getId().equals(idAdmin.trim()))
+                .toList();
     }
 
 

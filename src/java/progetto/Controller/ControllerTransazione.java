@@ -23,28 +23,17 @@ public class ControllerTransazione {
     private final String tableName = "Transazione.csv";
 
     /**
-     * Funzione che preso a parametro un id prenotazione restituisce una transazione
-     * @param idPrenotazione
-     * @return
+     * Funzione che preso a parametro un id di una prenotazione restituisce la transazione a essa collegata transazione
+     * @param idPrenotazione l'id della prenotazione di cui vogliamo sapere la transazione
+     * @return la transazione da noi cercata
      */
 
     public Transazione getTransazioneByIDPrenotazione(String idPrenotazione){
-        Transazione tmp;
         BufferedReader in = Gestione_db.getTable(tableName);
-        try {
-            String l;
-            while ((l = in.readLine()) != null) {
-                tmp = stringToTransazione(l);
-                if(tmp.getIdPrenotazione().equals(idPrenotazione)){
-                    return tmp;
-                }
-            }
-        }
-        catch (FileNotFoundException e){}
-        catch (IOException e){}
-
-        return null;
-
+        return in.lines().parallel()
+                .map(s -> stringToTransazione(s))
+                .filter(s-> s.getIdPrenotazione().equals(idPrenotazione.trim()))
+                .findFirst().get();
     }
 
     public Collection<Transazione> getAllTransazioni(){
@@ -68,6 +57,8 @@ public class ControllerTransazione {
         ArrayList<Transazione> transazioni = new ArrayList<>();
 
         BufferedReader in = Gestione_db.getTable(tableName);
+
+
         try {
             String l;
             while ((l = in.readLine()) != null) {
@@ -94,29 +85,18 @@ public class ControllerTransazione {
 
     /**
      * Funzione che presa a parametro un id film e una data, restituisce tutte le relative vendite giornaliere
-     * @param IDfilm
-     * @param data
-     * @return
+     * @param IDfilm id film di cui ci interessano le vendite
+     * @param data data in cui deve essere avvenuta la vendita
+     * @return la vendita totale del film nella giornata scelta
      */
-    public Collection<Double> getAllVenditeByIDFilmInADay(String IDfilm, Date data ){
-        ArrayList<Double> vendite = new ArrayList<>();
-        Transazione tmp;
+    public Double getTotataleVenditeByIDFilmInADay(String IDfilm, Date data ){
         BufferedReader in = Gestione_db.getTable(tableName);
-        try {
-            String l;
-            while ((l = in.readLine()) != null) {
-                tmp = stringToTransazione( l );
-                if(tmp.getIdFilm().equals(IDfilm) && FunzionalitaDate.stessoGiorno(data,tmp.getData())){
-                    vendite.add(Double.parseDouble(tmp.getImporto().trim()));
-                }
-
-            }
-            return vendite;
-        }
-        catch (FileNotFoundException e){}
-        catch (IOException e){}
-        return null;
-
+        return in.lines().parallel()
+                .map(s -> stringToTransazione(s))
+                .filter(s-> s.getIdFilm().equals(IDfilm.trim()) &&
+                            FunzionalitaDate.stessoGiorno(data,s.getData()))
+                .map(s-> Double.parseDouble(s.getImporto()))
+                .reduce(0.0,Double::sum);
     }
 
     /**
@@ -155,7 +135,6 @@ public class ControllerTransazione {
 
     private Transazione stringToTransazione ( String stringTransazione){
         String[] datiTransazione =stringTransazione.split(",");
-
         try {
             Date d = ValidatoreCampi.DATEFORMAT.parse(datiTransazione[3]);
             return new Transazione(datiTransazione[0],datiTransazione[1],datiTransazione[2],d,datiTransazione[4]);
