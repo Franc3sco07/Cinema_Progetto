@@ -101,7 +101,7 @@ public class ControllerPrenotazione {
         BufferedReader in = Gestione_db.getTable(tableName);
         return in.lines().parallel()
                 .map(s -> stringToPrenotazione(s))
-                .filter(s -> s.getId().equals(idUtente.trim()) &&
+                .filter(s -> s.getIdGeneratore().equals(idUtente.trim()) &&
                         FunzionalitaDate.stessoGiorno(data,s.getData()))
                 .map(s -> s.getIdFilm())
                 .distinct().toList();
@@ -118,7 +118,7 @@ public class ControllerPrenotazione {
         BufferedReader in = Gestione_db.getTable(tableName);
         return in.lines().parallel()
                 .map(s -> stringToPrenotazione(s))
-                .filter(s -> s.getId().equals(idUtente.trim()) &&
+                .filter(s -> s.getIdGeneratore().equals(idUtente.trim()) &&
                         FunzionalitaDate.stessoGiorno(data,s.getData()) &&
                         FunzionalitaDate.dateSuccesive(data,s.getData()) &&
                         s.getIdFilm().equals(idFilm.trim()))

@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 
 public class GestioneFile {
@@ -18,10 +19,6 @@ public class GestioneFile {
         try {
             FileReader w = new FileReader(path);
             BufferedReader in = new BufferedReader(w);
-
-            // w.close(); // questo lo puoi sistemare con un try with resource
-            // in.close();
-
             return in;
         } catch (IOException e) {
         }
@@ -29,14 +26,13 @@ public class GestioneFile {
         return null;
     }
 
-    public static String writeFile(String path, ArrayList<String> dati) {
+    public static String writeFile(String path, Collection<String> dati) {
         try {
             FileWriter w = new FileWriter(path);
             BufferedWriter in = new BufferedWriter(w);
 
             for (Iterator<String> iterator = dati.iterator(); iterator.hasNext(); ) {
                 String line = iterator.next();
-
                 if (iterator.hasNext()) {
                     in.write(line);
                     in.newLine();
@@ -44,7 +40,6 @@ public class GestioneFile {
                     in.write(line);
                 }
             }
-
             in.close();
             return "ok";
 
@@ -54,24 +49,12 @@ public class GestioneFile {
         return "errore in scrittura";
     }
 
-    public static Boolean readExceptID(String ID, String path, ArrayList<String> dati) {
+    public static Boolean readExceptID(String ID, String path, Collection<String> dati) {
         try {
             BufferedReader file = GestioneFile.openFile(path);
-
-            boolean trovato = false;
-
-            String l;
-            while ((l = file.readLine()) != null) {
-                String[] line = l.split(",");
-
-                if (!line[0].equals(ID)) {
-                    dati.add(l);
-                    //System.out.println(l);
-                } else {
-                    trovato = true;
-                }
-            }
-            return trovato;
+            return dati.addAll(file.lines().parallel()
+                    .filter(s-> !s.split(",")[0].equals(ID))
+                    .toList());
         } catch (FileNotFoundException e) {
         } catch (IOException e) {
         }
@@ -95,8 +78,6 @@ public class GestioneFile {
 
     public static ImageIcon apriImmagine(String nomeFile ) {
             return new ImageIcon(PERCORSOGRAFICA+nomeFile);
-
-
     }
 
 }

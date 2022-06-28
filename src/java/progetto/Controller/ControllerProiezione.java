@@ -142,7 +142,6 @@ public class ControllerProiezione {
      * @return un oggetto proiezione con le informazioni della stringa
      */
     public Proiezione stringToProiezione (String proiezione){
-        System.out.println(proiezione);
         String[] proizioneDati = proiezione.split(",");
         Date d = null;
         if(proizioneDati.length>2){

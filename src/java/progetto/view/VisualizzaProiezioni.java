@@ -27,7 +27,6 @@ import java.util.Iterator;
  */
 public class VisualizzaProiezioni extends javax.swing.JPanel {
 
-
     public VisualizzaProiezioni() {
         initComponents();
     }
@@ -42,12 +41,15 @@ public class VisualizzaProiezioni extends javax.swing.JPanel {
             if(!Session.getSessioneCorrente().getUtenteConesso().getTipo().equals("D")){
 
                 listaProiezione = new ControllerProiezione().getAllProiezioneByIdFilmAfterDate(Session.getSessioneCorrente().getIdRiferimentoFilm(),oggi);
+
             }else{
 
                 listaProiezione = new ControllerProiezione().getProiezioneByIDFilmInADay(Session.getSessioneCorrente().getIdRiferimentoFilm(),oggi);
             }
 
-            listaProiezione = listaProiezione.stream().sorted(Proiezione::compareTo).collect(ArrayList::new,ArrayList::add,ArrayList::addAll);
+
+
+            listaProiezione = listaProiezione.stream().sorted(Proiezione::compareTo).toList();
             Proiezione tmpProiezione;
             int i = 0;
             for (Iterator<Proiezione> iterator = listaProiezione.iterator(); iterator.hasNext(); ){

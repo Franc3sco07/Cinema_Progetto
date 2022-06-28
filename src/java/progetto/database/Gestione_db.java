@@ -16,7 +16,6 @@ public class Gestione_db {
 
     public static BufferedReader getTable(String tableName) {
         try{
-
             BufferedReader f = GestioneFile.openFile(relativePath+tableName);
             f.readLine();
             return f;
@@ -44,7 +43,6 @@ public class Gestione_db {
 
             if (GestioneFile.readExceptID(ID, relativePath+tableName, dati)){
                 dati.add(modifyElement);
-
                 return GestioneFile.writeFile(relativePath+tableName, dati);
             } else {
                 return "errore nella modifica dell'elemento";
@@ -56,8 +54,23 @@ public class Gestione_db {
         try {
             BufferedReader file = GestioneFile.openFile(relativePath+tableName);
 
-            ArrayList<String> dati = new ArrayList<>();
-            int MaxID = 0;
+            Collection<String> dati = new ArrayList<>(file.lines().parallel().toList())  ;
+
+            int MaxID = dati.parallelStream()
+                             .filter(s -> ValidatoreCampi.isNumeric(s.split(",")[0].trim()))
+                    .map(s -> Integer.parseInt(s.split(",")[0].trim()))
+                    .max(Integer::compareTo).get();
+            dati.add( (MaxID+1) + "," + insertElement );
+
+            String mess = GestioneFile.writeFile(relativePath+tableName, dati);
+            if(mess.equals("ok")){
+                return ""+ ++MaxID;
+            }
+            return mess;
+
+
+
+            /*int MaxID = 0;
 
             String l;
             while ((l = file.readLine()) != null) {
@@ -74,7 +87,7 @@ public class Gestione_db {
             if(mess.equals("ok")){
                 return ""+ ++MaxID;
             }
-            return mess;
+            return mess;*/
 
         } catch (FileNotFoundException e) {
         } catch (IOException e) {

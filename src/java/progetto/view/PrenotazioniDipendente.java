@@ -25,7 +25,8 @@ public class PrenotazioniDipendente extends javax.swing.JPanel{
         Collection<Prenotazione> listaPrenotazioni = new ControllerPrenotazione()
                 .getPrenotazioniByIDFilmInADay(Session.getSessioneCorrente().getUtenteConesso().getId(),
                         Session.getSessioneCorrente().getIdRiferimentoFilm(),
-                        new Date());
+                        new Date())
+                .stream().sorted(Prenotazione::compareTo).toList();
         Prenotazione tmpPrenotazione;
         System.out.println("prenotazioni dipendente");
 

@@ -19,6 +19,9 @@ import progetto.state.*;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * Classe GestionePrenotazionePosti
@@ -26,7 +29,7 @@ import java.util.ArrayList;
  */
 
 public class GestionePrenotazionePosti extends javax.swing.JPanel {
-    private ArrayList postiSelezionati = new ArrayList();
+    private ArrayList<String> postiSelezionati = new ArrayList();
     private String imgNome = "poltrona2.png";
     private Color selezionato = new Color(0,125,0);
     private Color cambiato = new Color(125,125,0);
@@ -192,6 +195,7 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
                 jPanel1.add(tmp);
             }
         }
+
         if(Main.context.getState() instanceof ModificaPrenotazioneState){
             jButton1.setText("Modifica");
             jButton1.setToolTipText("Modifica la prenotazione prima di continuare");
@@ -208,12 +212,16 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
                 String prezzoTotale = new String("" + prezzo).replace(",", "\\.");
 
                 if (Main.context.getState() instanceof ModificaPrenotazioneState) {
+                    for (String itr : postiSelezionati) {
+                        int[][] p = TraduttoreMatrice.stringToMatrice(itr);
+                        posti[p[0][0]][p[0][1]] = 2;
+                    }
 
                     Prenotazione prenotazioneMod = new ControllerPrenotazione().getPrenotazioneById(Session.getSessioneCorrente().getIdRiferimentoProiezione());
                     prenotazioneMod.setPrezzo(prezzoTotale);
                     prenotazioneMod.setPostoAssegnato(TrasformatoreArrayList.arrayListToStringMat(postiSelezionati));
                     new ControllerPrenotazione().modifyPrenotazione(prenotazioneMod);
-                    JOptionPane.showMessageDialog(null, "Modifica effettuata con sucesso!\n Verrai reindirizzato alle prenotazioni\");
+                    JOptionPane.showMessageDialog(null, "Modifica effettuata con sucesso!\n Verrai reindirizzato alle prenotazioni\n");
                     if (Session.getSessioneCorrente().getUtenteConesso().getTipo().equals("D")) {
                         Transazione transazioneMod = new ControllerTransazione().getTransazioneByIDPrenotazione(prenotazioneMod.getId());
                         transazioneMod.setImporto(prezzoTotale);

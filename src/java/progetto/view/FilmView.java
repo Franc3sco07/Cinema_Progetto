@@ -41,16 +41,12 @@ public class FilmView extends javax.swing.JPanel {
             filmDisponibili = new ControllerFilm().getAllFilmsByIdList(idFilm);
         }
         Film tmpFilm;
-        int i = 0;
         //generazione in grafica dei dei vari film
-        for (Iterator<Film> iterator = filmDisponibili.iterator(); iterator.hasNext(); ){
-            tmpFilm = iterator.next();
-            JPanel j = new FilmSingolo(tmpFilm);
-            infoPannello.add(j);
-            j.setOpaque(false);
-            i++;
-            j.setBorder(new MatteBorder(0,0,1,0, Color.gray));
-        }
+        filmDisponibili.stream()
+                .map(s ->  generazioneFilm(s) )
+                .forEach(s -> infoPannello.add(s));
+
+        int i = filmDisponibili.size();
         for (;i<4;i++){
             JPanel j = new FilmVuoto();
             infoPannello.add(j);
@@ -72,6 +68,11 @@ public class FilmView extends javax.swing.JPanel {
 
     }
 
+    private JPanel generazioneFilm (Film filmDaGenerare){
+        JPanel j = new FilmSingolo(filmDaGenerare);
+        j.setBorder(new MatteBorder(0,0,1,0, Color.gray));
+        return j;
+    }
 
     private javax.swing.JScrollPane jScrollPane1;
 

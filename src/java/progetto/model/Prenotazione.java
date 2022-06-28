@@ -25,7 +25,7 @@ public class Prenotazione {
     public String getId() { return id; }
 
     public String getIdGeneratore() {
-        return idGeneratore;
+        return idGeneratore.trim();
     }
 
     public String getIdFilm() {
@@ -59,7 +59,9 @@ public class Prenotazione {
     public int compareTo (Prenotazione daConfrontare){       // da rivedere
         if(FunzionalitaDate.stessaData(this.data,daConfrontare.data))
         {
-            return 0;
+            Integer thisId = Integer.parseInt(this.id);
+            Integer daConfrontareId = Integer.parseInt(daConfrontare.getId());
+            return thisId.compareTo(daConfrontareId);
         }
         if(FunzionalitaDate.dateSuccesive(daConfrontare.data,this.data)){
             return 1;
