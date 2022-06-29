@@ -17,7 +17,7 @@ import java.util.*;
  */
 
 public class ControllerTransazione {
-    private final String tableName = "Transazione.csv";
+    private final String tableName = "transazione.csv";
 
     /**
      * Funzione che preso a parametro un id di una prenotazione restituisce la transazione a essa collegata transazione

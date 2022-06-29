@@ -2,13 +2,7 @@ Il csv (database) sarà suddiviso in questo modo:
 
 --------------------------------------------------------------------------------------------
 Utente:
-IDUtente, nome, cognome, e-mail, numeroCellulare, codiceFiscale, passwordUtente
-
-Amministratore:
-IDAmministratore, nome, cognome, e-mail, numeroCellulare, codiceFiscale, passwordAmministratore
-
-Dipendente:
-IDDipendente, nome, cognome, e-mail, numeroCellulare, codiceFiscale, passwordDipendente
+IDUtente, tipo ,nome, cognome, e-mail, numeroCellulare, codiceFiscale, passwordUtente
 
 Film:
 IDFilm, nome, locandina, info, prezzo
@@ -17,7 +11,7 @@ locandina -> percorso relativo
 prezzoBase -> prezzo base
 
 Proiezione:
-IDProiezione, IDFilm, prezzo, data, IDsala, postiLiberi, disposizionePosti
+IDProiezione, IDFilm, IDsala, prezzo, data, postiLiberi, disposizionePosti
 
 prezzo -> prezzo che varia per ogni proiezione
 
@@ -26,19 +20,13 @@ IDsala, numeroPosti, disposizionePosti
 
 disposizionePosti -> una matrice
 
-Biglietto: #Prenotazione
-IDBiglietto, IDGeneratore, IDFilm, IDProiezione, IDtransazione, postoAssegnato
-
-Transazione:
-IDtransazione, metodo, IDFilm, data, importo
-
-postoAssegnato -> posizione della matrice
-metodo -> pagamentoContanti - pagamentoOnline
+Prenotazione: #Biglietto
+IDPrenotazione, IDGeneratore, IDProiezione, IDFilm, data, prezzo, postoAssegnato
 
 IDGeneratore chi ha generato il biglietto
-IDGeneratore -> IDUtente(generato online), IDDipendente(generato dal dipendente) -> distinguibile con U+IDUtente e D+IDDipendente
+postoAssegnato -> posizione della matrice
+
+Transazione:
+IDtransazione, IDPrenotazione, IDFilm, data, importo
 
 --------------------------------------------------------------------------------------------
-
-*Apportare modifica integrando dipendente e amministratore in utente
-eventualmente gestire con pattern chain of responsability
