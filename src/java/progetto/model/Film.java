@@ -1,5 +1,7 @@
 package progetto.model;
 
+import java.util.Locale;
+
 public class Film {
     private String id, nome, locandina, info, prezzo;
 
@@ -34,6 +36,16 @@ public class Film {
 
     public String getPrezzo() {
         return prezzo;
+    }
+
+    public int compareTo(Film daConfrontare){
+        int i = this.nome.toLowerCase().compareTo(daConfrontare.getNome().toLowerCase());
+        if(i!=0){
+            return i;
+        }
+        int thisId = Integer.parseInt(this.id);
+        int IDdaConfrontare  = Integer.parseInt((daConfrontare.getId()));
+        return thisId - IDdaConfrontare;
     }
 }
 

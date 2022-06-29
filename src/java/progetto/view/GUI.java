@@ -24,7 +24,7 @@ public class GUI extends javax.swing.JFrame {
     }
 
     /**
-     * Metodo per generare il menu in base al tipo di utente conesso
+     * Metodo per generare il menu in base al tipo di utente connesso
      */
     public void showMenu(){
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -84,7 +84,7 @@ public class GUI extends javax.swing.JFrame {
     }
 
     /**
-     * Metodo per eliminare il menu, e lo rimuoverlo dalla grafica
+     * Metodo per eliminare il menu, e rimuoverlo dalla grafica
      */
     public void hideMenu(){
         jMenuBar1 = null;
@@ -93,7 +93,7 @@ public class GUI extends javax.swing.JFrame {
 
     /**
      * Metodo per poter aggiornare la grafica
-     * @param nuovoPanello il panello che aggiornera la grafica
+     * @param nuovoPanello il panello che aggiornerà la grafica
      */
     public void aggiornaPannello(JPanel nuovoPanello){
         this.getContentPane().removeAll();

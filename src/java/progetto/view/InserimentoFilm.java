@@ -140,7 +140,6 @@ public class InserimentoFilm extends javax.swing.JPanel {
                             percorso.setBorder(new LineBorder(Color.red,2));
                             anteprimaLocandina.setIcon(null);
                         }
-
                     } catch (IOException e) {
                     }
                 }

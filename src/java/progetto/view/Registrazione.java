@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package progetto.view;
 
 import progetto.Main;
@@ -281,29 +276,31 @@ public class Registrazione extends javax.swing.JPanel {
     }
 
     private boolean controllaCampi(){
-        if( ((LineBorder)nomeField.getBorder()).getLineColor() != Color.green ){
+        try {
+            if( ((LineBorder)nomeField.getBorder()).getLineColor() != Color.green ){
+                return false;
+            }
+            if( ((LineBorder)cognomeField.getBorder()).getLineColor() != Color.green ){
+                return false;
+            }
+            if( ((LineBorder)emailField.getBorder()).getLineColor() != Color.green ){
+                return false;
+            }
+            if( ((LineBorder)codiceFiscaleField.getBorder()).getLineColor() != Color.green ){
+                return false;
+            }
+            if( ((LineBorder)numeroCellulareField.getBorder()).getLineColor() != Color.green ){
+                return false;
+            }
+            if( ((LineBorder)jPasswordField1.getBorder()).getLineColor() != Color.green ){
+                return false;
+            }
+            if( ((LineBorder)jPasswordField2.getBorder()).getLineColor() != Color.green ){
+                return false;
+            }
+        }catch(ClassCastException e){
             return false;
         }
-        if( ((LineBorder)cognomeField.getBorder()).getLineColor() != Color.green ){
-            return false;
-        }
-        if( ((LineBorder)emailField.getBorder()).getLineColor() != Color.green ){
-            return false;
-        }
-        if( ((LineBorder)codiceFiscaleField.getBorder()).getLineColor() != Color.green ){
-            return false;
-        }
-        if( ((LineBorder)numeroCellulareField.getBorder()).getLineColor() != Color.green ){
-            return false;
-        }
-        if( ((LineBorder)jPasswordField1.getBorder()).getLineColor() != Color.green ){
-            return false;
-        }
-        if( ((LineBorder)jPasswordField2.getBorder()).getLineColor() != Color.green ){
-            return false;
-        }
-
-
         return true;
     }
 

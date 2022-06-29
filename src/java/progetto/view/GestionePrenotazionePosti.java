@@ -18,6 +18,7 @@ import progetto.state.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -36,7 +37,7 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
     private ImageIcon icon  ;
     private final int panel_lunghezza = 770;
     private final int panel_altezza = 357;
-
+    private int[][] posti;
     private  String proizioneId;
 
     public GestionePrenotazionePosti() {
@@ -59,7 +60,7 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
             proizioneId = Session.getSessioneCorrente().getIdRiferimentoProiezione();
         }
 
-        int posti[][] = new ControllerProiezione().getProiezioneByID(proizioneId).getPostiAttualiOccupati();
+        posti = new ControllerProiezione().getProiezioneByID(proizioneId).getPostiAttualiOccupati();
         int righe = posti.length;
         int colonne = posti[0].length;
         icon = GestioneFile.apriImmagine(imgNome);
@@ -98,101 +99,36 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
         icon = new ImageIcon(newIcon);
         jPanel1 = new javax.swing.JPanel(new GridLayout(righe,colonne));
         jPanel1.setSize(lunghezza_finale,altezza_finale);
-        JButton tmp ;
+        JButton postoDaInserire ;
         // Creazione della sala nel panello, usando la matrice dei posti.
         // 0= corridoio , 1 = posto disponibile , 2 = posto occupato,  3 = posto già prenotato dall' utente (solo modifica)
         for(int x=0; x<righe;x++){
             for(int y=0;y<colonne;y++){
-                tmp = new JButton(icon);
-                tmp.setSize(new Dimension(icon.getIconWidth(),icon.getIconHeight()));
-                tmp.setBorder(null);
+                postoDaInserire = new JButton(icon);
+                postoDaInserire.setSize(new Dimension(icon.getIconWidth(),icon.getIconHeight()));
+                postoDaInserire.setBorder(null);
                 if(posti[x][y] == 0){
 
-                    tmp.setVisible(false);
+                    postoDaInserire.setVisible(false);
                 } else if (posti[x][y] == 2){
 
-                    tmp.setBackground(Color.RED);
-                    tmp.setEnabled(false);
-                    tmp.setToolTipText("Posto occupato");
+                    postoDaInserire.setBackground(Color.RED);
+                    postoDaInserire.setEnabled(false);
+                    postoDaInserire.setToolTipText("Posto occupato");
                 }else if(posti[x][y] == 3){
 
-                    tmp.setBackground(selezionato);
-                    tmp.setName(x+":"+y);
-                    tmp.setToolTipText("Annulla selezione");
-                    tmp.addActionListener(evt->{
-                        JButton source = (JButton) evt.getSource();
-                        if(source.getBackground()==selezionato){
-
-                            String name = source.getName();
-                            source.setToolTipText("Seleziona nuovamente posto "+source.getName().replaceAll(":",","));
-                            postiSelezionati.remove(name+";");
-                            int numbers[][] = TraduttoreMatrice.stringToMatrice(name) ;
-                            posti[numbers[0][0]][numbers[0][1]] = 1;
-                            if(postiSelezionati.size() < 1){
-                                jButton1.setToolTipText("Seleziona un posto prima di continuare");
-                                jButton1.setEnabled(false);
-                            }
-                            if(!jButton1.isEnabled()){
-                                jButton1.setToolTipText(null);
-                                jButton1.setEnabled(true);
-                            }
-                            source.setBackground(cambiato);
-                        }else{
-
-                            String name = source.getName();
-                            postiSelezionati.add(name+";");
-                            int numbers[][] = TraduttoreMatrice.stringToMatrice(name) ;
-                            posti[numbers[0][0]][numbers[0][1]] = 2;
-
-                            if(!jButton1.isEnabled()){
-                                jButton1.setToolTipText(null);
-                                jButton1.setEnabled(true);
-                            }
-
-                            source.setBackground(selezionato);
-                            source.setToolTipText("Annulla selezione");
-
-                        }
-                    });
+                    postoDaInserire.setBackground(selezionato);
+                    postoDaInserire.setName(x+":"+y);
+                    postoDaInserire.setToolTipText("Annulla selezione");
+                    postoDaInserire.addActionListener(this::gestoreBottonePostoPrenotato);
                 }else {
 
-                    tmp.setName(x+":"+y);
-                    tmp.setToolTipText("Seleziona posto "+x+","+y);
-                    tmp.addActionListener(evt -> {
-
-                        JButton source = (JButton) evt.getSource();
-                        if(source.getBackground()!=selezionato){
-                            String name = source.getName();
-                            postiSelezionati.add(name+";");
-                            int numbers[][] = TraduttoreMatrice.stringToMatrice(name) ;
-                            posti[numbers[0][0]][numbers[0][1]] = 2;
-
-                            if(!jButton1.isEnabled()){
-                                jButton1.setToolTipText(null);
-                                jButton1.setEnabled(true);
-                            }
-
-                            source.setBackground(selezionato);
-                            source.setToolTipText("Annulla selezione");
-                        }else{
-
-                            String name = source.getName();
-                            postiSelezionati.remove(name+";");
-                            int numbers[][] = TraduttoreMatrice.stringToMatrice(name) ;
-                            posti[numbers[0][0]][numbers[0][1]] = 1;
-                            source.setBackground(null);
-                            source.setToolTipText("Seleziona posto "+source.getName().replaceAll(":",","));
-                            if(postiSelezionati.size() < 1){
-
-                                jButton1.setToolTipText("Seleziona un posto prima di continuare");
-                                jButton1.setEnabled(false);
-                            }
-                        }
-
-                    });
+                    postoDaInserire.setName(x+":"+y);
+                    postoDaInserire.setToolTipText("Seleziona posto "+x+","+y);
+                    postoDaInserire.addActionListener(this::gestoreBottonePostoLibero);
                 }
 
-                jPanel1.add(tmp);
+                jPanel1.add(postoDaInserire);
             }
         }
 
@@ -300,6 +236,75 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }
+
+    private void gestoreBottonePostoLibero (ActionEvent evt){
+            JButton source = (JButton) evt.getSource();
+            if(source.getBackground()!=selezionato){
+                String name = source.getName();
+                postiSelezionati.add(name+";");
+                int numbers[][] = TraduttoreMatrice.stringToMatrice(name) ;
+                posti[numbers[0][0]][numbers[0][1]] = 2;
+
+                if(!jButton1.isEnabled()){
+                    jButton1.setToolTipText(null);
+                    jButton1.setEnabled(true);
+                }
+
+                source.setBackground(selezionato);
+                source.setToolTipText("Annulla selezione");
+            }else{
+
+                String name = source.getName();
+                postiSelezionati.remove(name+";");
+                int numbers[][] = TraduttoreMatrice.stringToMatrice(name) ;
+                posti[numbers[0][0]][numbers[0][1]] = 1;
+                source.setBackground(null);
+                source.setToolTipText("Seleziona posto "+source.getName().replaceAll(":",","));
+                if(postiSelezionati.size() < 1){
+
+                    jButton1.setToolTipText("Seleziona un posto prima di continuare");
+                    jButton1.setEnabled(false);
+                }
+            }
+        }
+
+    private void gestoreBottonePostoPrenotato (ActionEvent evt){
+        JButton source = (JButton) evt.getSource();
+        if(source.getBackground()==selezionato){
+
+            String name = source.getName();
+            source.setToolTipText("Seleziona nuovamente posto "+source.getName().replaceAll(":",","));
+            postiSelezionati.remove(name+";");
+            int numbers[][] = TraduttoreMatrice.stringToMatrice(name) ;
+            posti[numbers[0][0]][numbers[0][1]] = 1;
+            if(postiSelezionati.size() < 1){
+                jButton1.setToolTipText("Seleziona un posto prima di continuare");
+                jButton1.setEnabled(false);
+            }
+            if(!jButton1.isEnabled()){
+                jButton1.setToolTipText(null);
+                jButton1.setEnabled(true);
+            }
+            source.setBackground(cambiato);
+        }else{
+
+            String name = source.getName();
+            postiSelezionati.add(name+";");
+            int numbers[][] = TraduttoreMatrice.stringToMatrice(name) ;
+            posti[numbers[0][0]][numbers[0][1]] = 2;
+
+            if(!jButton1.isEnabled()){
+                jButton1.setToolTipText(null);
+                jButton1.setEnabled(true);
+            }
+            source.setBackground(selezionato);
+            source.setToolTipText("Annulla selezione");
+
+        }
+
+
+    }
+
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;

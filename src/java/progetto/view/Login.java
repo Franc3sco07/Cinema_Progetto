@@ -99,9 +99,7 @@ public class Login extends javax.swing.JPanel {
                                                 .addGroup(layout.createSequentialGroup()
                                                         .addGap(330)
                                                         .addComponent(login, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                )
-
-                                        )
+                                                ))
                                 .addContainerGap(40,40))
         );
 

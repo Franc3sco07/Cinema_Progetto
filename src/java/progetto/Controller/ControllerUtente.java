@@ -6,10 +6,7 @@ import progetto.model.Utente;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.util.*;
 
 /**
  * Classe ControllerUtente
@@ -42,11 +39,16 @@ public class ControllerUtente {
      */
     public Utente login(String email, String password){
         BufferedReader in = Gestione_db.getTable(tableName);
-        return in.lines().parallel()
-                .map(s -> stringToUtente(s))
-                .filter(s-> s.getEmail().equals(email.trim()) &&
+        try{
+            return in.lines().parallel()
+                    .map(s -> stringToUtente(s))
+                    .filter(s-> s.getEmail().equals(email.trim()) &&
                             s.getPassword().equals(password.trim()))
-                .findFirst().get();
+                    .findFirst().get();
+        }catch(NoSuchElementException e){
+            return null;
+        }
+
     }
 
 

@@ -59,7 +59,6 @@ public class AccettazioneBigliettiElettronici extends javax.swing.JPanel {
                 jPanel2 = new BigliettoSingolo(biglietto);
                 pannelloCarte.add(jPanel2);
 
-
                 cl.next(pannelloCarte);
 
             }else{

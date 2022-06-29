@@ -14,6 +14,7 @@ import java.awt.*;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.stream.Collectors;
 
 /**
  * Classe FilmView
@@ -43,7 +44,8 @@ public class FilmView extends javax.swing.JPanel {
         Film tmpFilm;
         //generazione in grafica dei dei vari film
         filmDisponibili.stream()
-                .map(s ->  generazioneFilm(s) )
+                .sorted(Film::compareTo)
+                .map(s ->  generazioneFilm(s))
                 .forEach(s -> infoPannello.add(s));
 
         int i = filmDisponibili.size();

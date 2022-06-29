@@ -49,20 +49,10 @@ public class VisualizzaProiezioni extends javax.swing.JPanel {
 
 
 
-            listaProiezione = listaProiezione.stream().sorted(Proiezione::compareTo).toList();
-            Proiezione tmpProiezione;
-            int i = 0;
-            for (Iterator<Proiezione> iterator = listaProiezione.iterator(); iterator.hasNext(); ){
-
-                tmpProiezione = iterator.next();
-                JPanel j = new ProiezioneSingola(tmpProiezione);
-                infoPannello.add(j);
-                j.setBorder(new MatteBorder(0,0,1,0, Color.gray));
-                j.setOpaque(false);
-                i++;
-            }
-            for(;i<7;i++){
-
+            listaProiezione.stream().sorted(Proiezione::compareTo)
+                    .map(x -> generatoreProiezioni(x))
+                    .forEach(x-> infoPannello.add(x));
+            for(int i = listaProiezione.size();i<7;i++){
                 JPanel j = new ProiezioneVuota();
                 infoPannello.add(j);
             }
@@ -98,6 +88,12 @@ public class VisualizzaProiezioni extends javax.swing.JPanel {
                                     .addComponent(jButton1)
                                     .addContainerGap())
             );
+    }
+
+    private JPanel generatoreProiezioni(Proiezione proiezione){
+        JPanel j = new ProiezioneSingola(proiezione);
+        j.setBorder(new MatteBorder(0,0,1,0, Color.gray));
+        return j;
     }
     private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
