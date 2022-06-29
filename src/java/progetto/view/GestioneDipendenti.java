@@ -14,6 +14,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Optional;
 
 /**
  * Classe GestioneDipendenti
@@ -32,16 +33,9 @@ public class GestioneDipendenti extends javax.swing.JPanel {
         infoPannello.setLayout(new BoxLayout(infoPannello, BoxLayout.Y_AXIS));
 
         Collection<Utente> staff = new ControllerUtente().getAllStaff(Session.getSessioneCorrente().getUtenteConesso().getId());
-        Utente tmpStaff;
-        staff = staff.stream().sorted(Utente::compareTo).collect(ArrayList::new,ArrayList::add,ArrayList::addAll);
-        //generazione in grafica dei dei vari dipedenti
-        for (Iterator<Utente> iterator = staff.iterator(); iterator.hasNext(); ){
-            tmpStaff = iterator.next();
-            JPanel j = new DipendenteSingolo(tmpStaff);
-            infoPannello.add(j);
-            j.setBorder(new MatteBorder(0,0,1,0, Color.gray));
-            j.setOpaque(false);
-        }
+        staff.stream().sorted(Utente::compareTo)
+                .map(s -> GenerazioneDipedente(s))
+                .forEach(s-> infoPannello.add(s));
 
         jScrollPane1 = new javax.swing.JScrollPane(infoPannello);
         jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -70,6 +64,12 @@ public class GestioneDipendenti extends javax.swing.JPanel {
         );
     }
 
+    private JPanel GenerazioneDipedente( Utente dipedente){
+        JPanel j = new DipendenteSingolo(dipedente);
+        j.setBorder(new MatteBorder(0,0,1,0, Color.gray));
+        return j;
+
+    }
     private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
 

@@ -13,12 +13,14 @@ import progetto.functions.ValidatoreCampi;
 import progetto.model.Film;
 import progetto.model.Prenotazione;
 import progetto.model.Proiezione;
+import progetto.model.Transazione;
 import progetto.state.ModificaPrenotazioneState;
 import progetto.state.PrenotazioniState;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.util.Optional;
 
 /**
  * Classe PrenotazioneSingola
@@ -43,12 +45,12 @@ public class PrenotazioneSingola extends javax.swing.JPanel {
         iconaFilm = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        Film filmPrenotazione = new ControllerFilm().getFilmByID(datiPrenotazione.getIdFilm());
+        Film filmPrenotazione = new ControllerFilm().getFilmByID(datiPrenotazione.getIdFilm()).get();
         //String nomeFilm = new .getNome();
         jLabel1.setText( filmPrenotazione.getNome()); // nome del film
-        Proiezione tmpProiezione = new ControllerProiezione().getProiezioneByID(datiPrenotazione.getIdProiezione());
-        if (tmpProiezione != null){
-            jLabel2.setText("Sala: "+tmpProiezione.getIdSala());
+        Optional<Proiezione> el = new ControllerProiezione().getProiezioneByID(datiPrenotazione.getIdProiezione());
+        if(el.isPresent()){
+            jLabel2.setText("Sala: "+el.get().getIdSala());
         }else{
             jLabel2.setText("Errore nella Sala");
         }
@@ -75,23 +77,30 @@ public class PrenotazioneSingola extends javax.swing.JPanel {
 
             if(res== 0){
                 new ControllerPrenotazione().deletePrenotazione(datiPrenotazione.getId());
-                Proiezione proizioneModificata = new ControllerProiezione().getProiezioneByID(datiPrenotazione.getIdProiezione());
-                int posti [][] = proizioneModificata.getPostiAttualiOccupati();
-                int postiDaLiberare[][] = TraduttoreMatrice.stringToMatrice(datiPrenotazione.getPostoAssegnato());
-                for (int i= 0; i<postiDaLiberare.length;i++){
-                    posti[postiDaLiberare[i][0]][postiDaLiberare[i][1]] = 1;
-                }
-                proizioneModificata.setPostiAttualiOccupati(posti);
-                proizioneModificata.setPostiLiberi(proizioneModificata.getPostiLiberi()+postiDaLiberare.length);
-                new ControllerProiezione().modifyProiezione(proizioneModificata);
+                Optional<Proiezione> el1 = new ControllerProiezione().getProiezioneByID(datiPrenotazione.getIdProiezione());
+                if(el1.isPresent()){
+                    Proiezione proizioneModificata = el1.get();
+                    int posti [][] = proizioneModificata.getPostiAttualiOccupati();
+                    int postiDaLiberare[][] = TraduttoreMatrice.stringToMatrice(datiPrenotazione.getPostoAssegnato());
+                    for (int i= 0; i<postiDaLiberare.length;i++){
+                        posti[postiDaLiberare[i][0]][postiDaLiberare[i][1]] = 1;
+                    }
+                    proizioneModificata.setPostiAttualiOccupati(posti);
+                    proizioneModificata.setPostiLiberi(proizioneModificata.getPostiLiberi()+postiDaLiberare.length);
+                    new ControllerProiezione().modifyProiezione(proizioneModificata);
 
-                if(Session.getSessioneCorrente().getUtenteConesso().getTipo().equals("D")){
-                    String idTransazione = new ControllerTransazione().getTransazioneByIDPrenotazione(datiPrenotazione.getId()).getIdTransazione();
-                    new ControllerTransazione().deleteTransazione(idTransazione);
-                }
+                    if(Session.getSessioneCorrente().getUtenteConesso().getTipo().equals("D")){
+                        Optional<Transazione> opTransazione = new ControllerTransazione().getTransazioneByIDPrenotazione(datiPrenotazione.getId());
+                        if(opTransazione.isPresent()){
+                            String idTransazione = opTransazione.get().getIdTransazione();
+                            new ControllerTransazione().deleteTransazione(idTransazione);
+                        }
 
-                new PrenotazioniState().doAction(Main.context);
-            }
+                    }
+
+                    new PrenotazioniState().doAction(Main.context);
+                }
+                }
         });
 
         jButton2.setText("modifica");

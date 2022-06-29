@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -22,6 +23,8 @@ public class ControllerFilm {
         BufferedReader in = Gestione_db.getTable(tableName);
         return in.lines().parallel()
                 .map(s -> stringToFilm(s))
+                .filter(s -> s.isPresent())
+                .map(s-> s.get())
                 .toList();
     }
 
@@ -34,6 +37,8 @@ public class ControllerFilm {
         BufferedReader in = Gestione_db.getTable(tableName);
         return in.lines().parallel()
                 .map(s -> stringToFilm(s))
+                .filter(s -> s.isPresent())
+                .map(s-> s.get())
                 .filter(x-> idFilms.contains(x.getId()))
                 .toList();
     }
@@ -43,13 +48,9 @@ public class ControllerFilm {
      * @param IDfilm id del film che si vuole cercare
      * @return il film richiesto
      */
-    public Film getFilmByID(String IDfilm){
+    public Optional<Film> getFilmByID(String IDfilm){
         String stringaFilm = Gestione_db.getRow(tableName, IDfilm);
-        String[] datiFilm = stringaFilm.split(",");
-        if (datiFilm.length > 1) {
-            return stringToFilm( stringaFilm );
-        }
-        return null;
+        return stringToFilm(stringaFilm);
     }
 
     /**
@@ -60,6 +61,8 @@ public class ControllerFilm {
         BufferedReader in = Gestione_db.getTable(tableName);
         return in.lines().parallel()
                 .map(s -> stringToFilm(s))
+                .filter(s -> s.isPresent())
+                .map(s-> s.get())
                 .map(s -> s.getId()+","+s.getNome())
                 .toList();
     }
@@ -89,8 +92,12 @@ public class ControllerFilm {
      * @param filmString Stringa con le informazioni del film
      * @return Un oggetto Film creato tramite le informazioni nella stringa
      */
-    private Film stringToFilm(String filmString){
+    private Optional<Film> stringToFilm(String filmString){
         String[] datiFilm = filmString.split(",");
-        return new Film(datiFilm[0], datiFilm[1], datiFilm[2], datiFilm[3], datiFilm[4]);
+        if(datiFilm.length>2){
+            Film elemento = new Film(datiFilm[0], datiFilm[1], datiFilm[2], datiFilm[3], datiFilm[4]);
+            return Optional.of(elemento);
+        }
+        return Optional.empty() ;
     }
 }

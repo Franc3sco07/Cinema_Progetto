@@ -287,7 +287,11 @@ public class InserimentoFilm extends javax.swing.JPanel {
                     Date dataFine = FunzionalitaDate.giornoDopo((Date) datePickerFine.getModel().getValue());
                     Date dataProiezione ;
                     String ora;
-                    Sala sala = new ControllerSala().getSalaByID((String)nomeSala.getSelectedItem());
+                    Optional<Sala> opSala = new ControllerSala().getSalaByID((String)nomeSala.getSelectedItem());
+                    if(opSala.isEmpty()){
+                        throw new IllegalArgumentException();
+                    }
+                    Sala sala = opSala.get();
                     String proiezione;
                     do{
 

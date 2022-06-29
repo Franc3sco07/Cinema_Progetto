@@ -68,27 +68,6 @@ public class Gestione_db {
             }
             return mess;
 
-
-
-            /*int MaxID = 0;
-
-            String l;
-            while ((l = file.readLine()) != null) {
-                String[] line = l.split(",");
-                dati.add(l);
-
-                if (ValidatoreCampi.isNumeric(line[0]) && Integer.parseInt(line[0]) > MaxID){
-                    MaxID = Integer.parseInt(line[0]);
-                }
-
-            }
-            dati.add( (MaxID+1) + "," + insertElement );
-            String mess = GestioneFile.writeFile(relativePath+tableName, dati);
-            if(mess.equals("ok")){
-                return ""+ ++MaxID;
-            }
-            return mess;*/
-
         } catch (FileNotFoundException e) {
         } catch (IOException e) {
         }

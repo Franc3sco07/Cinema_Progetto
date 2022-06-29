@@ -3,6 +3,8 @@ package progetto;
 import progetto.Controller.ControllerUtente;
 import progetto.model.Utente;
 
+import java.util.Optional;
+
 /**
  * Classe che gestisce la sessione dell'utente connesso
   */
@@ -15,19 +17,18 @@ public class Session {
     private Session(){
     }
 
-    public static Session logIn (String eMail, String password){
+    public static Boolean logIn (String eMail, String password){
         if(sessioneCorrente == null){
-            ControllerUtente utente = new ControllerUtente();
-            Utente tmp = utente.login( eMail.trim(), password.trim() );
-            if (tmp != null ){
+            Optional<Utente>  opUtente = new ControllerUtente().login( eMail.trim(), password.trim() );
+            if (opUtente.isPresent() ){
                 sessioneCorrente = new Session();
-                sessioneCorrente.utenteConesso = tmp;
-                return sessioneCorrente;
+                sessioneCorrente.utenteConesso = opUtente.get();
+                return true;
             }else{
-                return null;
+                return false;
             }
         }else{
-            return sessioneCorrente;
+            return true;
         }
     }
 

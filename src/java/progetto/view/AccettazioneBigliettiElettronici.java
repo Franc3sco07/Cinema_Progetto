@@ -11,6 +11,7 @@ import progetto.model.Transazione;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.util.Optional;
 
 /**
  * Classe AccettazioneBigliettiElettronici
@@ -38,16 +39,14 @@ public class AccettazioneBigliettiElettronici extends javax.swing.JPanel {
 
         jButton1.setText("Verifica");
         jButton1.addActionListener(evt ->{
-            Transazione usato = new ControllerTransazione().getTransazioneByIDPrenotazione(jTextField1.getText());
-
-            if( usato != null) {
+            Optional<Transazione> opTransazione = new ControllerTransazione().getTransazioneByIDPrenotazione(jTextField1.getText());
+            if( opTransazione.isPresent()) {
                 JOptionPane.showMessageDialog(null,"Il biglietto è stato già generato");
                 return;
             }
-
-            Prenotazione biglietto = new ControllerPrenotazione().getPrenotazioneById(jTextField1.getText());
-            if(biglietto != null){
-
+            Optional<Prenotazione> el =  new ControllerPrenotazione().getPrenotazioneById(jTextField1.getText());
+            if(el.isPresent()){
+                Prenotazione biglietto = el.get();
                 if(pannelloCarte.getComponentCount()>1){
                     pannelloCarte.remove(jPanel2);
                 }
@@ -79,17 +78,21 @@ public class AccettazioneBigliettiElettronici extends javax.swing.JPanel {
         jButton3.setText("Conferma");
         jButton3.setEnabled(false);
         jButton3.addActionListener(evt -> {
-            Prenotazione biglietto = new ControllerPrenotazione().getPrenotazioneById(jTextField1.getText());
-            String transazione = biglietto.getId()+ "," +
-                    biglietto.getIdFilm()+","+
-                    ValidatoreCampi.DATEFORMAT.format(biglietto.getData()) +","+
-                    biglietto.getPrezzo();
-            new ControllerTransazione().insertTransazione(transazione);
+            Optional<Prenotazione> el = new ControllerPrenotazione().getPrenotazioneById(jTextField1.getText());
+            if(el.isPresent()) {
+                Prenotazione biglietto = el.get();
+                String transazione = biglietto.getId() + "," +
+                        biglietto.getIdFilm() + "," +
+                        ValidatoreCampi.DATEFORMAT.format(biglietto.getData()) + "," +
+                        biglietto.getPrezzo();
+                new ControllerTransazione().insertTransazione(transazione);
 
-            jButton2.setEnabled(false);
-            jButton3.setEnabled(false);
-            jTextField1.setText("");
-            pannelloCarte.remove(jPanel2);
+                jButton2.setEnabled(false);
+                jButton3.setEnabled(false);
+                jTextField1.setText("");
+                pannelloCarte.remove(jPanel2);
+            }
+
         });
 
         pannelloCarte.setBorder(new LineBorder(Color.gray,2));

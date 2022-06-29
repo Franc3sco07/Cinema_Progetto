@@ -25,66 +25,16 @@ public class ControllerTransazione {
      * @return la transazione da noi cercata
      */
 
-    public Transazione getTransazioneByIDPrenotazione(String idPrenotazione){
+    public Optional<Transazione> getTransazioneByIDPrenotazione(String idPrenotazione){
         BufferedReader in = Gestione_db.getTable(tableName);
-        try{
-            return in.lines().parallel()
+        return in.lines().parallel()
                     .map(s -> stringToTransazione(s))
+                    .filter(s -> s.isPresent())
+                    .map(s-> s.get())
                     .filter(s-> s.getIdPrenotazione().equals(idPrenotazione.trim()))
-                    .findFirst().get();
-        }catch(NoSuchElementException e){
-            return null;
-        }
+                    .findFirst();
 
     }
-
-    public Collection<Transazione> getAllTransazioni(){
-        ArrayList<Transazione> transazioni = new ArrayList<Transazione>();
-
-        BufferedReader in = Gestione_db.getTable(tableName);
-        try {
-            String l;
-            while ((l = in.readLine()) != null) {
-                transazioni.add(stringToTransazione( l ));
-            }
-            return transazioni;
-        }
-        catch (FileNotFoundException e){}
-        catch (IOException e){}
-
-        return null;
-    }
-
-    public Collection<Transazione> getTransazioniByFilmID(String IDfilm){
-        ArrayList<Transazione> transazioni = new ArrayList<>();
-
-        BufferedReader in = Gestione_db.getTable(tableName);
-
-
-        try {
-            String l;
-            while ((l = in.readLine()) != null) {
-                transazioni.add(stringToTransazione( l ));
-            }
-        }
-        catch (FileNotFoundException e){}
-        catch (IOException e){}
-
-
-        ArrayList<Transazione> prenotazioniByFilmID = new ArrayList<>();
-        Transazione transazioniTemp ;
-
-        for(Iterator<Transazione> iterator = transazioni.iterator(); iterator.hasNext();){
-            //System.out.println(iterator.next());
-            transazioniTemp = iterator.next();
-            if (IDfilm.equals(transazioniTemp.getIdFilm())) {
-                prenotazioniByFilmID.add(transazioniTemp);
-            }
-        }
-
-        return prenotazioniByFilmID;
-    }
-
     /**
      * Funzione che presa a parametro un id film e una data, restituisce tutte le relative vendite giornaliere
      * @param IDfilm id film di cui ci interessano le vendite
@@ -95,6 +45,8 @@ public class ControllerTransazione {
         BufferedReader in = Gestione_db.getTable(tableName);
         return in.lines().parallel()
                 .map(s -> stringToTransazione(s))
+                .filter(s -> s.isPresent())
+                .map(s-> s.get())
                 .filter(s-> s.getIdFilm().equals(IDfilm.trim()) &&
                             FunzionalitaDate.stessoGiorno(data,s.getData()))
                 .map(s-> Double.parseDouble(s.getImporto()))
@@ -135,14 +87,19 @@ public class ControllerTransazione {
      * @return
      */
 
-    private Transazione stringToTransazione ( String stringTransazione){
+    private Optional<Transazione> stringToTransazione ( String stringTransazione){
         String[] datiTransazione =stringTransazione.split(",");
-        try {
-            Date d = ValidatoreCampi.DATEFORMAT.parse(datiTransazione[3]);
-            return new Transazione(datiTransazione[0],datiTransazione[1],datiTransazione[2],d,datiTransazione[4]);
-        } catch (ParseException e) {
-            return null;
+        if(datiTransazione.length > 2){
+            try {
+                Date d = ValidatoreCampi.DATEFORMAT.parse(datiTransazione[3]);
+                Transazione tr = new Transazione(datiTransazione[0],datiTransazione[1],datiTransazione[2],d,datiTransazione[4]);
+                return Optional.of(tr);
+            } catch (ParseException e) {
+                return Optional.empty();
+            }
         }
+        return Optional.empty();
+
     }
 
 

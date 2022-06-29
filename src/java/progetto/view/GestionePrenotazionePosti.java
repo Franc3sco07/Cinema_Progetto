@@ -19,10 +19,7 @@ import progetto.state.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.*;
 
 /**
  * Classe GestionePrenotazionePosti
@@ -54,13 +51,22 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
 
         if(Main.context.getState() instanceof ModificaPrenotazioneState){
             String idPrenotazione = Session.getSessioneCorrente().getIdRiferimentoProiezione();
-            Prenotazione pr = new ControllerPrenotazione().getPrenotazioneById(idPrenotazione);
-            proizioneId = pr.getIdProiezione();
+            Optional<Prenotazione> el = new ControllerPrenotazione().getPrenotazioneById(idPrenotazione);
+            if(el.isPresent()){
+                proizioneId = el.get().getIdProiezione();
+            }else{
+                throw new IllegalArgumentException();
+            }
         }else{
             proizioneId = Session.getSessioneCorrente().getIdRiferimentoProiezione();
         }
+        Optional<Proiezione> op = new ControllerProiezione().getProiezioneByID(proizioneId);
+        if(op.isPresent()){
+            posti = op.get().getPostiAttualiOccupati();
+        }else{
+            throw new IllegalArgumentException();
+        }
 
-        posti = new ControllerProiezione().getProiezioneByID(proizioneId).getPostiAttualiOccupati();
         int righe = posti.length;
         int colonne = posti[0].length;
         icon = GestioneFile.apriImmagine(imgNome);
@@ -86,13 +92,17 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
         //Gestione se la classe viene creata mentre si è nello state ModificaPrenotazioneState
         if(Main.context.getState() instanceof ModificaPrenotazioneState){
             String idPrenotazione = Session.getSessioneCorrente().getIdRiferimentoProiezione();
-            Prenotazione pr = new ControllerPrenotazione().getPrenotazioneById(idPrenotazione);
-            int [][] postiDaCambiare = TraduttoreMatrice.stringToMatrice(pr.getPostoAssegnato());
-            for(int i=0;i<postiDaCambiare.length;i++){
-                posti[postiDaCambiare[i][0]][postiDaCambiare[i][1]] = 3;
-                postiSelezionati.add(postiDaCambiare[i][0]+":"+postiDaCambiare[i][1]+";");
+            Optional<Prenotazione> op1 = new ControllerPrenotazione().getPrenotazioneById(idPrenotazione);
+            if(op1.isPresent()){
+                Prenotazione pr = op1.get();
+                int [][] postiDaCambiare = TraduttoreMatrice.stringToMatrice(pr.getPostoAssegnato());
+                for(int i=0;i<postiDaCambiare.length;i++){
+                    posti[postiDaCambiare[i][0]][postiDaCambiare[i][1]] = 3;
+                    postiSelezionati.add(postiDaCambiare[i][0]+":"+postiDaCambiare[i][1]+";");
+                }
+            }else{
+                throw new IllegalArgumentException();
             }
-
         }
         //fine
 
@@ -101,7 +111,10 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
         jPanel1.setSize(lunghezza_finale,altezza_finale);
         JButton postoDaInserire ;
         // Creazione della sala nel panello, usando la matrice dei posti.
-        // 0= corridoio , 1 = posto disponibile , 2 = posto occupato,  3 = posto già prenotato dall' utente (solo modifica)
+        // 0= corridoio
+        // 1 = posto disponibile
+        // 2 = posto occupato
+        // 3 = posto già prenotato dall' utente (solo modifica)
         for(int x=0; x<righe;x++){
             for(int y=0;y<colonne;y++){
                 postoDaInserire = new JButton(icon);
@@ -142,8 +155,11 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
         jButton1.setEnabled(false);
         jButton1.addActionListener(evt -> {
             if(postiSelezionati.size()>0) {
-
-                Proiezione proiezione = new ControllerProiezione().getProiezioneByID(proizioneId);
+                Optional<Proiezione> op2 = new ControllerProiezione().getProiezioneByID(proizioneId);
+                if(op2.isEmpty()){
+                    throw new IllegalArgumentException();
+                }
+                Proiezione proiezione = op2.get();
                 float prezzo = Float.parseFloat(proiezione.getPrezzo().trim()) * postiSelezionati.size();
                 String prezzoTotale = new String("" + prezzo).replace(",", "\\.");
 
@@ -153,17 +169,34 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
                         posti[p[0][0]][p[0][1]] = 2;
                     }
 
-                    Prenotazione prenotazioneMod = new ControllerPrenotazione().getPrenotazioneById(Session.getSessioneCorrente().getIdRiferimentoProiezione());
-                    prenotazioneMod.setPrezzo(prezzoTotale);
-                    prenotazioneMod.setPostoAssegnato(TrasformatoreArrayList.arrayListToStringMat(postiSelezionati));
-                    new ControllerPrenotazione().modifyPrenotazione(prenotazioneMod);
-                    JOptionPane.showMessageDialog(null, "Modifica effettuata con sucesso!\n Verrai reindirizzato alle prenotazioni\n");
-                    if (Session.getSessioneCorrente().getUtenteConesso().getTipo().equals("D")) {
-                        Transazione transazioneMod = new ControllerTransazione().getTransazioneByIDPrenotazione(prenotazioneMod.getId());
-                        transazioneMod.setImporto(prezzoTotale);
-                        new ControllerTransazione().modifyTransazione(transazioneMod);
+                    Optional<Prenotazione> op3 = new ControllerPrenotazione().getPrenotazioneById(Session.getSessioneCorrente().getIdRiferimentoProiezione());
+                    if(op3.isPresent()){
+                        Prenotazione prenotazioneMod = op3.get();
+                        prenotazioneMod.setPrezzo(prezzoTotale);
+                        prenotazioneMod.setPostoAssegnato(TrasformatoreArrayList.arrayListToStringMat(postiSelezionati));
+                        new ControllerPrenotazione().modifyPrenotazione(prenotazioneMod);
+                        JOptionPane.showMessageDialog(null, "Modifica effettuata con sucesso!\n Verrai reindirizzato alle prenotazioni\n");
+                        if (Session.getSessioneCorrente().getUtenteConesso().getTipo().equals("D")) {
+                            Optional<Transazione> opTransazione = new ControllerTransazione().getTransazioneByIDPrenotazione(prenotazioneMod.getId());
+                            if(opTransazione.isPresent()){
+                                Transazione transazioneMod = opTransazione.get() ;
+                                transazioneMod.setImporto(prezzoTotale);
+                                new ControllerTransazione().modifyTransazione(transazioneMod);
+                            }else{
+                                String transazione = prenotazioneMod.getId()
+                                        + "," + Session.getSessioneCorrente().getIdRiferimentoFilm()
+                                        + "," + ValidatoreCampi.DATEFORMAT.format(proiezione.getData())
+                                        + "," + prezzoTotale;
+                                new ControllerTransazione().insertTransazione(transazione);
+                            }
+
+                        }
+                        new PrenotazioniState().doAction(Main.context);
+                    }else{
+                        throw new IllegalArgumentException();
                     }
-                    new PrenotazioniState().doAction(Main.context);
+
+
                 } else {
 
                     String prenotazione = Session.getSessioneCorrente().getUtenteConesso().getId()
@@ -185,13 +218,16 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
                     JOptionPane.showMessageDialog(null, "Prenotazione effettuata con sucesso!\n Verrai reindirizzato al catalogo film");
                     new FilmState().doAction(Main.context);
                 }
-                Proiezione modified = new ControllerProiezione().getProiezioneByID(proizioneId);
-                modified.setPostiAttualiOccupati(posti);
-                modified.setPostiLiberi(modified.getPostiLiberi() - postiSelezionati.size());
-                new ControllerProiezione().modifyProiezione(modified);
-
+                Optional<Proiezione> op4 =  new ControllerProiezione().getProiezioneByID(proizioneId);
+                if(op4.isPresent()){
+                    Proiezione modified = op4.get();
+                    modified.setPostiAttualiOccupati(posti);
+                    modified.setPostiLiberi(modified.getPostiLiberi() - postiSelezionati.size());
+                    new ControllerProiezione().modifyProiezione(modified);
+                }else{
+                    throw new IllegalArgumentException();
+                }
             }
-
         });
 
         jButton2.setText("Indietro");

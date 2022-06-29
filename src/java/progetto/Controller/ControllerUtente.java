@@ -3,6 +3,7 @@ package progetto.Controller;
 import progetto.database.Gestione_db;
 import progetto.model.Utente;
 
+import javax.swing.text.html.Option;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -21,14 +22,9 @@ public class ControllerUtente {
      * @param IDUtente
      * @return
      */
-    public Utente getUtenteByID(String IDUtente){
+    public Optional<Utente>  getUtenteByID(String IDUtente){
         String stringaUtente = Gestione_db.getRow(tableName, IDUtente);
-
-        String[] datiFilm = stringaUtente.split(",");
-        if (datiFilm.length > 1) {
-            return stringToUtente( stringaUtente );
-        }
-        return null;
+        return stringToUtente( stringaUtente );
     }
 
     /**
@@ -37,17 +33,15 @@ public class ControllerUtente {
      * @param password
      * @return
      */
-    public Utente login(String email, String password){
+    public Optional<Utente> login(String email, String password){
         BufferedReader in = Gestione_db.getTable(tableName);
-        try{
-            return in.lines().parallel()
+        return in.lines().parallel()
                     .map(s -> stringToUtente(s))
+                    .filter(s -> s.isPresent())
+                    .map(s-> s.get())
                     .filter(s-> s.getEmail().equals(email.trim()) &&
                             s.getPassword().equals(password.trim()))
-                    .findFirst().get();
-        }catch(NoSuchElementException e){
-            return null;
-        }
+                    .findFirst();
 
     }
 
@@ -79,15 +73,7 @@ public class ControllerUtente {
         return Gestione_db.modifyRow(utenteModificato.getId(), tableName, utenteModificato.toString() );
     }
 
-    /**
-     * Funzione che data una stringa con le informazioni di un utente, lo trasforma in un oggetto di tipo Utente
-     * @param utenteString
-     * @return
-     */
-    private Utente stringToUtente(String utenteString){
-        String[] datiUtente = utenteString.split(",");
-        return new Utente(datiUtente[0], datiUtente[1], datiUtente[2], datiUtente[3], datiUtente[4], datiUtente[5], datiUtente[6], datiUtente[7]);
-    }
+
 
     /**
      * Funzione per verificare se un'email è già presente nel database
@@ -98,6 +84,8 @@ public class ControllerUtente {
         BufferedReader in = Gestione_db.getTable(tableName);
         return in.lines().parallel()
                 .map(s -> stringToUtente(s))
+                .filter(s -> s.isPresent())
+                .map(s-> s.get())
                 .filter(s -> s.getEmail().equals(email.trim()))
                 .toList().isEmpty();
     }
@@ -111,10 +99,26 @@ public class ControllerUtente {
         BufferedReader in = Gestione_db.getTable(tableName);
         return in.lines().parallel()
                 .map(s -> stringToUtente(s))
+                .filter(s -> s.isPresent())
+                .map(s-> s.get())
                 .filter(s -> !s.getTipo().equals("U") &&
                             !s.getId().equals(idAdmin.trim()))
                 .toList();
     }
 
+    /**
+     * Funzione che data una stringa con le informazioni di un utente, lo trasforma in un oggetto di tipo Utente
+     * @param utenteString
+     * @return
+     */
+    private Optional<Utente> stringToUtente(String utenteString){
+        String[] datiUtente = utenteString.split(",");
+        if(datiUtente.length>2){
+            Utente ut = new Utente(datiUtente[0], datiUtente[1], datiUtente[2], datiUtente[3], datiUtente[4], datiUtente[5], datiUtente[6], datiUtente[7]);
+            return Optional.of(ut);
+        }else{
+            return Optional.empty();
+        }
+    }
 
 }

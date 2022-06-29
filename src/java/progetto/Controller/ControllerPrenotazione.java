@@ -2,6 +2,7 @@ package progetto.Controller;
 import progetto.database.Gestione_db;
 import progetto.functions.FunzionalitaDate;
 import progetto.functions.ValidatoreCampi;
+import progetto.model.Film;
 import progetto.model.Prenotazione;
 
 import java.io.BufferedReader;
@@ -23,35 +24,8 @@ public class ControllerPrenotazione {
      * @param id id utente da cercare
      * @return l'utente con l'id desiderato o null se non presente
      */
-    public Prenotazione getPrenotazioneById (String id){
+    public Optional<Prenotazione> getPrenotazioneById (String id){
         return stringToPrenotazione(Gestione_db.getRow(tableName,id)) ;
-    }
-
-    public Collection<Prenotazione> getPrenotazioniByIDgeneratore(String IDutente){
-        ArrayList<Prenotazione> prenotazioni = new ArrayList<>();
-        BufferedReader in = Gestione_db.getTable(tableName);
-
-        try {
-            String l;
-            while ((l = in.readLine()) != null) {
-                prenotazioni.add(stringToPrenotazione(l));
-            }
-        }
-        catch (FileNotFoundException e){}
-        catch (IOException e){}
-
-        ArrayList<Prenotazione> prenotazioniByIDUtente = new ArrayList<>();
-        Prenotazione prenotazioniTemp ;
-
-        for(Iterator<Prenotazione> iterator = prenotazioni.iterator(); iterator.hasNext();){
-            //System.out.println(iterator.next());
-            prenotazioniTemp = iterator.next();
-            if (IDutente.trim().equals(prenotazioniTemp.getIdGeneratore().trim())) {
-                prenotazioniByIDUtente.add(prenotazioniTemp);
-            }
-        }
-
-        return prenotazioniByIDUtente;
     }
 
     /**
@@ -64,6 +38,8 @@ public class ControllerPrenotazione {
         BufferedReader in = Gestione_db.getTable(tableName);
         return  in.lines().parallel()
                     .map(s -> stringToPrenotazione(s))
+                    .filter(s -> s.isPresent())
+                    .map(s-> s.get())
                     .filter(x-> x.getIdGeneratore().trim().equals(IDutente.trim())
                                     && FunzionalitaDate.dateSuccesive(data,x.getData()))
                     .toList();
@@ -78,18 +54,12 @@ public class ControllerPrenotazione {
         BufferedReader in = Gestione_db.getTable(tableName);
         return in.lines().parallel()
                 .map(s -> stringToPrenotazione(s))
+                .filter(s -> s.isPresent())
+                .map(s-> s.get())
                 .filter(s -> s.getIdFilm().equals(IDfilm.trim()))
                 .toList();
     }
 
-    public Collection<Prenotazione> getPrenotazioneByIDProiezione(String IDProiezione){
-
-        BufferedReader in = Gestione_db.getTable(tableName);
-        return  in.lines().parallel()
-                .map(s -> stringToPrenotazione(s))
-                .filter(s -> s.getIdProiezione().equals(IDProiezione.trim()))
-                .toList();
-    }
 
     /**
      * Funzione che preso in input un idUtente e una data, restituisce gli id dei film con una prenotazione datta dall'utente nello stesso giorno
@@ -101,6 +71,8 @@ public class ControllerPrenotazione {
         BufferedReader in = Gestione_db.getTable(tableName);
         return in.lines().parallel()
                 .map(s -> stringToPrenotazione(s))
+                .filter(s -> s.isPresent())
+                .map(s-> s.get())
                 .filter(s -> s.getIdGeneratore().equals(idUtente.trim()) &&
                         FunzionalitaDate.stessoGiorno(data,s.getData()))
                 .map(s -> s.getIdFilm())
@@ -118,6 +90,8 @@ public class ControllerPrenotazione {
         BufferedReader in = Gestione_db.getTable(tableName);
         return in.lines().parallel()
                 .map(s -> stringToPrenotazione(s))
+                .filter(s -> s.isPresent())
+                .map(s-> s.get())
                 .filter(s -> s.getIdGeneratore().equals(idUtente.trim()) &&
                         FunzionalitaDate.stessoGiorno(data,s.getData()) &&
                         FunzionalitaDate.dateSuccesive(data,s.getData()) &&
@@ -157,21 +131,21 @@ public class ControllerPrenotazione {
      * @param prenotazioneString stringa con le informazioni delle nuova prenotazione
      * @return un oggetto prenotazione con le informazioni di una prenotazione
      */
-    private Prenotazione stringToPrenotazione(String prenotazioneString){
+    private Optional<Prenotazione> stringToPrenotazione(String prenotazioneString){
         String[] datiPrenotazione = prenotazioneString.split(",");
         Date d = null;
         if (datiPrenotazione.length>1){
             try{
                 d = ValidatoreCampi.DATEFORMAT.parse(datiPrenotazione[4]);
             } catch (ParseException e) {
-                System.out.println("Errore ParseException");
-                System.out.println(datiPrenotazione);
-                return null;
+
+                return Optional.empty();
 
             }
-            return new Prenotazione(datiPrenotazione[0], datiPrenotazione[1], datiPrenotazione[2], datiPrenotazione[3], d, datiPrenotazione[5], datiPrenotazione[6]);
+            Prenotazione elemento = new Prenotazione(datiPrenotazione[0], datiPrenotazione[1], datiPrenotazione[2], datiPrenotazione[3], d, datiPrenotazione[5], datiPrenotazione[6]);
+            return  Optional.of(elemento);
         }
-        return null;
+        return Optional.empty();
         
 
     }

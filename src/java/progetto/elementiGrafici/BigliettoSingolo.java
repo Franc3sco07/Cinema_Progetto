@@ -13,10 +13,13 @@ import progetto.functions.GestioneFile;
 import progetto.functions.ValidatoreCampi;
 import progetto.model.Film;
 import progetto.model.Prenotazione;
+import progetto.model.Proiezione;
 import progetto.model.Utente;
 
+import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.util.Optional;
 
 public class BigliettoSingolo extends javax.swing.JPanel {
     private Prenotazione biglietto;
@@ -26,10 +29,21 @@ public class BigliettoSingolo extends javax.swing.JPanel {
 
     public BigliettoSingolo(Prenotazione biglietto) {
         this.biglietto = biglietto;
-        this.infoFilm = new ControllerFilm().getFilmByID(this.biglietto.getIdFilm());
-        this.infoUtente = new ControllerUtente().getUtenteByID(this.biglietto.getIdGeneratore());
-        this.idSala = new ControllerProiezione().getProiezioneByID(this.biglietto.getIdProiezione()).getIdSala();
-        initComponents();
+        Optional<Film> opInfoFilm = new ControllerFilm().getFilmByID(this.biglietto.getIdFilm());
+        Optional<Proiezione>  opInfoProiezione = new ControllerProiezione().getProiezioneByID(this.biglietto.getIdProiezione());
+        Optional<Utente> opInfoUtente = new ControllerUtente().getUtenteByID(this.biglietto.getIdGeneratore());
+        if(opInfoFilm.isPresent() &&
+            opInfoProiezione.isPresent() &&
+            opInfoUtente.isPresent()){
+            this.infoFilm = opInfoFilm.get();
+            this.infoUtente = opInfoUtente.get() ;
+            this.idSala = opInfoProiezione.get().getIdSala();
+            initComponents();
+        }else{
+            throw new IllegalArgumentException();
+        }
+
+
     }
 
     private void initComponents() {

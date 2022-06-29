@@ -25,7 +25,7 @@ public class ControllerProiezione {
      * @param IDProiezione id della proiezione che ci interessa
      * @return la proiezione con l'id desiderato
      */
-    public Proiezione getProiezioneByID(String IDProiezione){
+    public Optional<Proiezione> getProiezioneByID(String IDProiezione){
         return stringToProiezione(Gestione_db.getRow( tableName, IDProiezione));
     }
 
@@ -39,6 +39,8 @@ public class ControllerProiezione {
         return in.lines()
                 .parallel()
                 .map(s -> stringToProiezione(s))
+                .filter(s -> s.isPresent())
+                .map(s-> s.get())
                 .filter(s -> s.getIdFilm().equals(IDfilm.trim()))
                 .toList();
     }
@@ -54,6 +56,8 @@ public class ControllerProiezione {
         return in.lines()
                 .parallel()
                 .map(s -> stringToProiezione(s))
+                .filter(s -> s.isPresent())
+                .map(s-> s.get())
                 .filter(s -> s.getIdFilm().equals(IDfilm.trim()) &&
                         FunzionalitaDate.stessoGiorno(data,s.getData()) &&
                         FunzionalitaDate.dateSuccesive(data,s.getData()) )
@@ -71,6 +75,8 @@ public class ControllerProiezione {
         return in.lines()
                 .parallel()
                 .map(s -> stringToProiezione(s))
+                .filter(s -> s.isPresent())
+                .map(s-> s.get())
                 .filter(s -> FunzionalitaDate.stessoGiorno(data,s.getData()) &&
                         FunzionalitaDate.dateSuccesive(data,s.getData()))
                 .map(s-> s.getIdFilm())
@@ -89,6 +95,8 @@ public class ControllerProiezione {
         return in.lines()
                 .parallel()
                 .map(s -> stringToProiezione(s))
+                .filter(s -> s.isPresent())
+                .map(s-> s.get())
                 .filter(s -> s.getIdFilm().equals(idFilm.trim()) &&
                         FunzionalitaDate.dateSuccesive(data,s.getData()))
                 .toList();
@@ -103,6 +111,8 @@ public class ControllerProiezione {
         BufferedReader in = Gestione_db.getTable(tableName);
         return in.lines().parallel()
                 .map(s -> stringToProiezione(s))
+                .filter(s -> s.isPresent())
+                .map(s-> s.get())
                 .filter(s -> FunzionalitaDate.dateSuccesive(data,s.getData()) )
                 .map(s -> s.getIdFilm())
                 .distinct().toList();
@@ -141,26 +151,26 @@ public class ControllerProiezione {
      * @param proiezione Stringa contentente le informazioni della proiezione
      * @return un oggetto proiezione con le informazioni della stringa
      */
-    public Proiezione stringToProiezione (String proiezione){
+    public Optional<Proiezione> stringToProiezione (String proiezione){
         String[] proizioneDati = proiezione.split(",");
         Date d = null;
         if(proizioneDati.length>2){
             try {
                 d = ValidatoreCampi.DATEFORMAT.parse(proizioneDati[4]);
-                return new Proiezione(proizioneDati[0],
+                Proiezione pr = new Proiezione(proizioneDati[0],
                         proizioneDati[1],
                         proizioneDati[2],
                         proizioneDati[3],
                         d,
                         Integer.parseInt(proizioneDati[5].trim()),
                         TraduttoreMatrice.stringToMatrice(proizioneDati[6]));
+                return Optional.of(pr);
             } catch (ParseException e) {
-                System.out.println("Errore ParseException");
-                System.out.println(proizioneDati);
-                return null;
+
+                return Optional.empty();
             }
         }else{
-            return null;
+            return Optional.empty();
         }
     }
 

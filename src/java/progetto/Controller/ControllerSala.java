@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 
 /**
  * Classe ControllerSala
@@ -24,32 +25,10 @@ public class ControllerSala {
      * @return la sala desiderata
      */
 
-    public Sala getSalaByID(String IDsala){
+    public Optional<Sala> getSalaByID(String IDsala){
         String stringaSala = Gestione_db.getRow(tableName, IDsala);
-        String[] datiFilm = stringaSala.split(",");
-        if (datiFilm.length > 1) {
-            return stringToSala( stringaSala );
-        }
-        return null;
+        return stringToSala( stringaSala );
     }
-
-    public Collection<String> getAllIdSala(){
-
-        ArrayList<String> idSale = new ArrayList<>();
-
-        BufferedReader in = Gestione_db.getTable(tableName);
-        try {
-            String l;
-            while ((l = in.readLine()) != null) {
-                idSale.add(stringToSala(l).getId());
-            }
-        }
-        catch (FileNotFoundException e){}
-        catch (IOException e){}
-
-        return idSale;
-    }
-
     /**
      * Funzione che restituisce tutte le sale
      * @return una collezione con tutte le sale
@@ -58,6 +37,8 @@ public class ControllerSala {
         BufferedReader in = Gestione_db.getTable(tableName);
         return in.lines().parallel()
                 .map(s -> stringToSala(s))
+                .filter(s -> s.isPresent())
+                .map(s-> s.get())
                 .toList();
     }
 
@@ -66,9 +47,14 @@ public class ControllerSala {
      * @param salaString
      * @return
      */
-    private Sala stringToSala(String salaString){
+    private Optional<Sala> stringToSala(String salaString){
         String[] datiSala = salaString.split(",");
-        return new Sala(datiSala[0], Integer.parseInt(datiSala[1].trim()), TraduttoreMatrice.stringToMatrice(datiSala[2]));
+        if(datiSala.length > 2){
+            Sala sl = new Sala(datiSala[0], Integer.parseInt(datiSala[1].trim()), TraduttoreMatrice.stringToMatrice(datiSala[2]));
+            return Optional.of(sl);
+        }else{
+            return Optional.empty();
+        }
     }
 
 }

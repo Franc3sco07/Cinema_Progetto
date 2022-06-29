@@ -9,15 +9,18 @@ import progetto.Session;
 import progetto.functions.TraduttoreMatrice;
 import progetto.model.Prenotazione;
 import progetto.model.Proiezione;
+import progetto.model.Transazione;
 import progetto.model.Utente;
 import progetto.state.LoginState;
 import progetto.state.ModificaPasswordState;
 import progetto.state.VisualizzaDatiState;
 
 import javax.swing.*;
+import javax.swing.text.html.Option;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.Optional;
 
 /**
  * Classe VisualizzaDati
@@ -117,7 +120,11 @@ public class VisualizzaDati extends javax.swing.JPanel implements Cloneable {
 
                         for (Iterator<Prenotazione> iterator = prenotazioni.iterator(); iterator.hasNext(); ){
                             tmp = iterator.next();
-                            Proiezione proizioneModificata = new ControllerProiezione().getProiezioneByID(tmp.getIdProiezione());
+                            Optional<Proiezione> op = new ControllerProiezione().getProiezioneByID(tmp.getIdProiezione());
+                            if (op.isEmpty()){
+                                throw new IllegalArgumentException();
+                            }
+                            Proiezione proizioneModificata = op.get();
                             int posti [][] = proizioneModificata.getPostiAttualiOccupati();
                             int postiDaLiberare[][] = TraduttoreMatrice.stringToMatrice(tmp.getPostoAssegnato());
                             for (int i= 0; i<postiDaLiberare.length;i++){
@@ -129,8 +136,12 @@ public class VisualizzaDati extends javax.swing.JPanel implements Cloneable {
                             new ControllerProiezione().modifyProiezione(proizioneModificata);
 
                             if(Session.getSessioneCorrente().getUtenteConesso().getTipo().equals("D")){
-                                String idTransazione = new ControllerTransazione().getTransazioneByIDPrenotazione(tmp.getId()).getIdTransazione();
-                                new ControllerTransazione().deleteTransazione(idTransazione);
+                                Optional<Transazione> opTransazione = new ControllerTransazione().getTransazioneByIDPrenotazione(tmp.getId());
+                                if(opTransazione.isPresent()){
+                                    String idTransazione = opTransazione.get().getIdTransazione();
+                                    new ControllerTransazione().deleteTransazione(idTransazione);
+                                }
+
                             }
                         }
                         prenotazioni.stream().forEach(x-> new ControllerPrenotazione().deletePrenotazione(x.getId()));

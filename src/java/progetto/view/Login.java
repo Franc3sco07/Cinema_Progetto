@@ -67,7 +67,7 @@ public class Login extends javax.swing.JPanel {
 
         login.setText("Login");
         login.addActionListener(evt -> {
-            if(Session.logIn(emailField.getText(),new String(passwordField.getPassword()) )!= null) {
+            if(Session.logIn(emailField.getText(),new String(passwordField.getPassword()) )) {
                 new FilmState().doAction(Main.context);
                 Main.frame.showMenu();
             }else{
