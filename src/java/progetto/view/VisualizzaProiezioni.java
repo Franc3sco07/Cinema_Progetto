@@ -8,8 +8,10 @@ package progetto.view;
 import progetto.Controller.ControllerProiezione;
 import progetto.Main;
 import progetto.Session;
+import progetto.elementiGrafici.FilmSingolo;
 import progetto.elementiGrafici.ProiezioneSingola;
 import progetto.elementiGrafici.ProiezioneVuota;
+import progetto.model.Film;
 import progetto.model.Proiezione;
 import progetto.state.FilmState;
 
@@ -95,6 +97,8 @@ public class VisualizzaProiezioni extends javax.swing.JPanel {
         j.setBorder(new MatteBorder(0,0,1,0, Color.gray));
         return j;
     }
+
+
     private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
 }

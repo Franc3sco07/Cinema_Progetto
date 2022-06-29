@@ -2,10 +2,13 @@ package progetto.view;
 
 import progetto.Controller.ControllerPrenotazione;
 import progetto.Session;
+import progetto.elementiGrafici.FilmSingolo;
 import progetto.elementiGrafici.PrenotazioneSingola;
+import progetto.model.Film;
 import progetto.model.Prenotazione;
 
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.util.Collection;
 import java.util.Date;
@@ -27,16 +30,9 @@ public class PrenotazioniDipendente extends javax.swing.JPanel{
                         Session.getSessioneCorrente().getIdRiferimentoFilm(),
                         new Date())
                 .stream().sorted(Prenotazione::compareTo).toList();
-        Prenotazione tmpPrenotazione;
-        System.out.println("prenotazioni dipendente");
-
-        for (Iterator<Prenotazione> iterator = listaPrenotazioni.iterator(); iterator.hasNext(); ){
-            tmpPrenotazione = iterator.next();
-            JPanel j = new PrenotazioneSingola(tmpPrenotazione);
-            j.setBorder(BorderFactory.createLineBorder(Color.black));
-            prenotazioni.add(j);
-            j.setOpaque(false);
-        }
+        listaPrenotazioni.stream()
+                .map(s-> generaPrenotazione(s))
+                .forEach(s ->prenotazioni.add(s));
         jScrollPane1 = new javax.swing.JScrollPane(prenotazioni);
         jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
@@ -44,7 +40,7 @@ public class PrenotazioniDipendente extends javax.swing.JPanel{
         this.setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 753, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 790, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -52,5 +48,10 @@ public class PrenotazioniDipendente extends javax.swing.JPanel{
         );
     }
 
+    private JPanel generaPrenotazione(Prenotazione pr){
+        JPanel j = new PrenotazioneSingola(pr);
+        j.setBorder(new MatteBorder(0,0,1,0, Color.gray));
+        return j;
+    }
     private javax.swing.JScrollPane jScrollPane1;
 }
