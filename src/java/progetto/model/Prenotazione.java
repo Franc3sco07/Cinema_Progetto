@@ -21,10 +21,34 @@ public class Prenotazione {
         this.data = data;
     }
 
-    @Override
-    public String toString() { return id + ',' + idGeneratore + ',' + idProiezione + ',' + idFilm + ',' + ValidatoreCampi.DATEFORMAT.format(data) + "," + prezzo + "," + postoAssegnato; }
+    /**
+     * Funzione che data una stringa con le informazioni di una prenotazione, lo trasforma in un oggetto di tipo Prenotazione
+     *
+     * @param prenotazioneString stringa con le informazioni delle nuova prenotazione
+     * @return un oggetto prenotazione con le informazioni di una prenotazione
+     */
+    public static Optional<Prenotazione> stringToPrenotazione(String prenotazioneString) {
+        String[] datiPrenotazione = prenotazioneString.split(",");
+        Date d;
+        if (datiPrenotazione.length > 1) {
+            try {
+                d = ValidatoreCampi.DATEFORMAT.parse(datiPrenotazione[4]);
+                Prenotazione elemento = new Prenotazione(datiPrenotazione[0], datiPrenotazione[1], datiPrenotazione[2], datiPrenotazione[3], d, datiPrenotazione[5], datiPrenotazione[6]);
+                return Optional.of(elemento);
+            } catch (ParseException e) {
+            }
+        }
+        return Optional.empty();
+    }
 
-    public String getId() { return id; }
+    @Override
+    public String toString() {
+        return id + ',' + idGeneratore + ',' + idProiezione + ',' + idFilm + ',' + ValidatoreCampi.DATEFORMAT.format(data) + "," + prezzo + "," + postoAssegnato;
+    }
+
+    public String getId() {
+        return id;
+    }
 
     public String getIdGeneratore() {
         return idGeneratore.trim();
@@ -38,56 +62,36 @@ public class Prenotazione {
         return idProiezione;
     }
 
-    public String getPrezzo(){
+    public String getPrezzo() {
         return prezzo;
-    }
-
-    public String getPostoAssegnato() {
-        return postoAssegnato;
-    }
-
-    public Date getData() {
-        return data;
-    }
-
-    public void setPostoAssegnato(String postoAssegnato) {
-        this.postoAssegnato = postoAssegnato;
     }
 
     public void setPrezzo(String prezzo) {
         this.prezzo = prezzo;
     }
 
-    public int compareTo (Prenotazione daConfrontare){       // da rivedere
-        if(FunzionalitaDate.stessaData(this.data,daConfrontare.data))
-        {
+    public String getPostoAssegnato() {
+        return postoAssegnato;
+    }
+
+    public void setPostoAssegnato(String postoAssegnato) {
+        this.postoAssegnato = postoAssegnato;
+    }
+
+    public Date getData() {
+        return data;
+    }
+
+    public int compareTo(Prenotazione daConfrontare) {       // da rivedere
+        if (FunzionalitaDate.stessaData(this.data, daConfrontare.data)) {
             Integer thisId = Integer.parseInt(this.id);
             Integer daConfrontareId = Integer.parseInt(daConfrontare.getId());
             return thisId.compareTo(daConfrontareId);
         }
-        if(FunzionalitaDate.dateSuccesive(daConfrontare.data,this.data)){
+        if (FunzionalitaDate.dateSuccesive(daConfrontare.data, this.data)) {
             return 1;
-        }else{
+        } else {
             return -1;
         }
-    }
-
-    /**
-     * Funzione che data una stringa con le informazioni di una prenotazione, lo trasforma in un oggetto di tipo Prenotazione
-     * @param prenotazioneString stringa con le informazioni delle nuova prenotazione
-     * @return un oggetto prenotazione con le informazioni di una prenotazione
-     */
-    public static Optional<Prenotazione> stringToPrenotazione(String prenotazioneString){
-        String[] datiPrenotazione = prenotazioneString.split(",");
-        Date d ;
-        if (datiPrenotazione.length>1){
-            try{
-                d = ValidatoreCampi.DATEFORMAT.parse(datiPrenotazione[4]);
-                Prenotazione elemento = new Prenotazione(datiPrenotazione[0], datiPrenotazione[1], datiPrenotazione[2], datiPrenotazione[3], d, datiPrenotazione[5], datiPrenotazione[6]);
-                return  Optional.of(elemento);
-            } catch (ParseException e) {
-            }
-        }
-        return Optional.empty();
     }
 }

@@ -15,9 +15,25 @@ public class Sala {
         this.disposizionePosti = disposizionePosti;
     }
 
+    /**
+     * Funzione che data una stringa con le informazioni di una sala, lo trasforma in un oggetto di tipo Sala
+     *
+     * @param salaString
+     * @return
+     */
+    public static Optional<Sala> stringToSala(String salaString) {
+        String[] datiSala = salaString.split(",");
+        if (datiSala.length > 2) {
+            Sala sl = new Sala(datiSala[0], Integer.parseInt(datiSala[1].trim()), TraduttoreMatrice.stringToMatrice(datiSala[2]));
+            return Optional.of(sl);
+        } else {
+            return Optional.empty();
+        }
+    }
+
     @Override
     public String toString() {
-        return id + ',' + numeroPosti + ',' + TraduttoreMatrice.matriceToString(disposizionePosti) ;
+        return id + ',' + numeroPosti + ',' + TraduttoreMatrice.matriceToString(disposizionePosti);
     }
 
     public String getId() {
@@ -32,33 +48,17 @@ public class Sala {
         return disposizionePosti;
     }
 
-    public  int comapareTo(Sala daConfrontare){
+    public int comapareTo(Sala daConfrontare) {
         int thisIdSala = Integer.parseInt(this.id.trim());
-        int idDaConfrontare =  Integer.parseInt(daConfrontare.getId().trim());
-        if (thisIdSala<idDaConfrontare){
+        int idDaConfrontare = Integer.parseInt(daConfrontare.getId().trim());
+        if (thisIdSala < idDaConfrontare) {
             return -1;
-        } else if (thisIdSala>idDaConfrontare) {
+        } else if (thisIdSala > idDaConfrontare) {
             return 1;
-        }else{
+        } else {
             return 0;
-    }
-    }
-
-    /**
-     * Funzione che data una stringa con le informazioni di una sala, lo trasforma in un oggetto di tipo Sala
-     * @param salaString
-     * @return
-     */
-    public static Optional<Sala> stringToSala(String salaString){
-        String[] datiSala = salaString.split(",");
-        if(datiSala.length > 2){
-            Sala sl = new Sala(datiSala[0], Integer.parseInt(datiSala[1].trim()), TraduttoreMatrice.stringToMatrice(datiSala[2]));
-            return Optional.of(sl);
-        }else{
-            return Optional.empty();
         }
     }
-
 
 
 }

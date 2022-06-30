@@ -1,20 +1,18 @@
 package progetto.functions;
 
-import progetto.Main;
-
 import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageInputStream;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
 public class GestioneFile {
 
     private static final String PERCORSOGRAFICA = "Immagini/";
+    private static final String imaggineErrore = "errore.png";
+
     public static BufferedReader openFile(String path) throws IOException {
         try {
             FileReader w = new FileReader(path);
@@ -53,7 +51,7 @@ public class GestioneFile {
         try {
             BufferedReader file = GestioneFile.openFile(path);
             return dati.addAll(file.lines().parallel()
-                    .filter(s-> !s.split(",")[0].equals(ID))
+                    .filter(s -> !s.split(",")[0].equals(ID))
                     .toList());
         } catch (FileNotFoundException e) {
         } catch (IOException e) {
@@ -61,14 +59,14 @@ public class GestioneFile {
         return false;
     }
 
-    public static Boolean salvaImmagine(Image immagine, String nomeFile ) {
+    public static Boolean salvaImmagine(Image immagine, String nomeFile) {
         try {
             BufferedImage immagineBuffered = new BufferedImage(immagine.getWidth(null), immagine.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-            immagineBuffered.getGraphics().drawImage(immagine,0,0,null );
+            immagineBuffered.getGraphics().drawImage(immagine, 0, 0, null);
             ImageIcon icon = new ImageIcon(immagineBuffered);
-            File fileImmagine = new File(PERCORSOGRAFICA+nomeFile) ;
+            File fileImmagine = new File(PERCORSOGRAFICA + nomeFile);
             fileImmagine.createNewFile();
-            return ImageIO.write(immagineBuffered,"png",fileImmagine);
+            return ImageIO.write(immagineBuffered, "png", fileImmagine);
         } catch (IOException e) {
             System.out.println("ERRORE IO");
             return false;
@@ -76,8 +74,14 @@ public class GestioneFile {
 
     }
 
-    public static ImageIcon apriImmagine(String nomeFile ) {
-            return new ImageIcon(PERCORSOGRAFICA+nomeFile);
+    public static ImageIcon apriImmagine(String nomeFile) {
+        ImageIcon icon = new ImageIcon(PERCORSOGRAFICA + nomeFile);
+        if(icon.getIconWidth() != -1){
+            return icon;
+        }else{
+            return new ImageIcon(PERCORSOGRAFICA + imaggineErrore);
+        }
+
     }
 
 }

@@ -16,7 +16,7 @@ public class ValidatoreCampi {
         return true;
     }
 
-    public static boolean isValidString(String stringa){ //verificare nome e cognome, stringa costituita solo da caratteri
+    public static boolean isValidString(String stringa) { //verificare nome e cognome, stringa costituita solo da caratteri
         // if (!stringa.matches("[a-zA-Z0 \\s]*")) {
         if (!stringa.matches("([a-zA-Z]+( ?))+")) {
             return false;
@@ -24,7 +24,7 @@ public class ValidatoreCampi {
         return true;
     }
 
-    public static boolean isValidPassword(String pass){
+    public static boolean isValidPassword(String pass) {
         if (!pass.matches("((?=.+\\d)(?=.+[a-z])(?=.+[A-Z])(?=.+[&%@#?!$]).{6,20})")) {//\d{2,}[&%@#?!$]{1,}
             return false; //[a-zA-Z]{6,}[\d]{2,}
         }//CiaoAA99&, cia77o&AA
@@ -32,15 +32,15 @@ public class ValidatoreCampi {
     }
 
     // codice fiscale tipo: RSSMRA85T10A562S
-    public static boolean isValidCodiceFiscale(String codiceFiscale){
+    public static boolean isValidCodiceFiscale(String codiceFiscale) {
         if (!codiceFiscale.matches("^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$")) {
             return false;
         }
         return true;
     }
 
-    public static boolean isValidNumberCell( String number ) {
-        if (!number.matches("[0-9]{10}")){
+    public static boolean isValidNumberCell(String number) {
+        if (!number.matches("[0-9]{10}")) {
             return false;
         }
         return true;

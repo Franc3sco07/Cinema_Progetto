@@ -18,19 +18,22 @@ public class ControllerSala {
 
     /**
      * Funzione che preso in input un id sala restituisce un Sala
+     *
      * @param IDsala id della sala che ci interessa
      * @return la sala desiderata
      */
 
-    public Optional<Sala> getSalaByID(String IDsala){
+    public Optional<Sala> getSalaByID(String IDsala) {
         String stringaSala = Gestione_db.getRow(tableName, IDsala);
-        return Sala.stringToSala( stringaSala );
+        return Sala.stringToSala(stringaSala);
     }
+
     /**
      * Funzione che restituisce tutte le sale
+     *
      * @return una collezione con tutte le sale
      */
-    public Collection<Sala> getAllSala(){
+    public Collection<Sala> getAllSala() {
         Optional<BufferedReader> optionalBufferedReader = Gestione_db.getTable(tableName);
         if (optionalBufferedReader.isPresent()) {
             BufferedReader in = optionalBufferedReader.get();
@@ -39,11 +42,10 @@ public class ControllerSala {
                     .filter(s -> s.isPresent())
                     .map(s -> s.get())
                     .toList();
-        }else{
+        } else {
             return new ArrayList<>();
         }
     }
-
 
 
 }

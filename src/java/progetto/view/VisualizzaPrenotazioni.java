@@ -1,21 +1,19 @@
-
 package progetto.view;
 
 import progetto.Controller.ControllerFilm;
 import progetto.Controller.ControllerPrenotazione;
 import progetto.Session;
-import progetto.elementiGrafici.*;
+import progetto.elementiGrafici.FilmSingolo;
+import progetto.elementiGrafici.FilmVuoto;
+import progetto.elementiGrafici.PrenotazioneSingola;
 import progetto.model.Film;
 import progetto.model.Prenotazione;
-import progetto.model.Proiezione;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.stream.Collectors;
 
 /**
  * Classe VisualizzaPrenotazioni
@@ -23,19 +21,21 @@ import java.util.stream.Collectors;
  * La classe funzionerà in maniera differente in base al tipo di utente connesso: utente o dipendente
  */
 public class VisualizzaPrenotazioni extends javax.swing.JPanel {
+    private javax.swing.JScrollPane jScrollPane1;
+
     public VisualizzaPrenotazioni() {
         initComponents();
     }
 
     private void initComponents() {
-        if(Session.getSessioneCorrente().getUtenteConesso().getTipo().equals("U") ){
+        if (Session.getSessioneCorrente().getUtenteConesso().getTipo().equals("U")) {
             prenotazioniUtente();
-        }else{
+        } else {
             prenotazioniDipendente();
         }
     }
 
-    private void prenotazioniUtente(){
+    private void prenotazioniUtente() {
         JPanel prenotazioni = new JPanel();
         prenotazioni.setLayout(new BoxLayout(prenotazioni, BoxLayout.Y_AXIS));
 
@@ -61,17 +61,17 @@ public class VisualizzaPrenotazioni extends javax.swing.JPanel {
         );
     }
 
-    private void prenotazioniDipendente(){
+    private void prenotazioniDipendente() {
         JPanel panelloFilm = new JPanel();
         panelloFilm.setLayout(new BoxLayout(panelloFilm, BoxLayout.Y_AXIS));
         String idUtente = Session.getSessioneCorrente().getUtenteConesso().getId();
-        Collection<String> listaFilm = new ControllerPrenotazione().getIdFilmByIdUtenteInADay(idUtente,new Date());
-        Collection<Film> filmDisponibili = new ControllerFilm().getAllFilmsByIdList(listaFilm );
+        Collection<String> listaFilm = new ControllerPrenotazione().getIdFilmByIdUtenteInADay(idUtente, new Date());
+        Collection<Film> filmDisponibili = new ControllerFilm().getAllFilmsByIdList(listaFilm);
         int i = filmDisponibili.size();
         filmDisponibili.stream()
                 .map(s -> generazioneFilm(s))
                 .forEach(s -> panelloFilm.add(s));
-        for (;i<4;i++){
+        for (; i < 4; i++) {
             JPanel j = new FilmVuoto();
             panelloFilm.add(j);
         }
@@ -91,15 +91,15 @@ public class VisualizzaPrenotazioni extends javax.swing.JPanel {
         );
     }
 
-    private JPanel generazionePrenotazione(Prenotazione prenotazioneDaGenerare){
+    private JPanel generazionePrenotazione(Prenotazione prenotazioneDaGenerare) {
         JPanel j = new PrenotazioneSingola(prenotazioneDaGenerare);
-        j.setBorder(new MatteBorder(0,0,1,0, Color.gray));
+        j.setBorder(new MatteBorder(0, 0, 1, 0, Color.gray));
         return j;
     }
-    private JPanel generazioneFilm (Film filmDaGenerare){
+
+    private JPanel generazioneFilm(Film filmDaGenerare) {
         JPanel j = new FilmSingolo(filmDaGenerare);
-        j.setBorder(new MatteBorder(0,0,1,0, Color.gray));
+        j.setBorder(new MatteBorder(0, 0, 1, 0, Color.gray));
         return j;
     }
-    private javax.swing.JScrollPane jScrollPane1;
 }

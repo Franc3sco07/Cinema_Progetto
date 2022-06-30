@@ -4,7 +4,7 @@ import progetto.Main;
 import progetto.Session;
 import progetto.view.FilmView;
 
-public class FilmState implements State{
+public class FilmState implements State {
     @Override
     public void doAction(Context context) {
         context.setState(this);

@@ -8,6 +8,10 @@ package progetto.elementiGrafici;
 
 public class ProiezioneVuota extends javax.swing.JPanel {
 
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JTextField prezzoField;
     public ProiezioneVuota() {
         initComponents();
     }
@@ -31,7 +35,7 @@ public class ProiezioneVuota extends javax.swing.JPanel {
                         .addGroup(layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(prezzoField,javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(prezzoField, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(5, 5, 5)
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
@@ -56,10 +60,4 @@ public class ProiezioneVuota extends javax.swing.JPanel {
                                 .addContainerGap())
         );
     }
-
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-
-    private javax.swing.JTextField prezzoField;
 }

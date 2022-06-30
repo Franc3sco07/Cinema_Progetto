@@ -6,7 +6,10 @@ package progetto.elementiGrafici;
  * utilizzata per far si che i pannelli FilmSingolo abbiano le stesse dimensioni
  */
 
-public class FilmVuoto  extends javax.swing.JPanel {
+public class FilmVuoto extends javax.swing.JPanel {
+
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
 
     public FilmVuoto() {
         initComponents();
@@ -43,8 +46,5 @@ public class FilmVuoto  extends javax.swing.JPanel {
                                 .addContainerGap(43, Short.MAX_VALUE))
         );
     }
-
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
 
 }

@@ -2,9 +2,7 @@ package progetto.view;
 
 import progetto.Controller.ControllerPrenotazione;
 import progetto.Session;
-import progetto.elementiGrafici.FilmSingolo;
 import progetto.elementiGrafici.PrenotazioneSingola;
-import progetto.model.Film;
 import progetto.model.Prenotazione;
 
 import javax.swing.*;
@@ -12,16 +10,18 @@ import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
 
 /**
  * Classe PrenotazioniDipendente
  * Gestione della prenotazione da parte del dipendente
  */
-public class PrenotazioniDipendente extends javax.swing.JPanel{
+public class PrenotazioniDipendente extends javax.swing.JPanel {
+    private javax.swing.JScrollPane jScrollPane1;
+
     public PrenotazioniDipendente() {
         initComponents();
     }
+
     private void initComponents() {
         JPanel prenotazioni = new JPanel();
         prenotazioni.setLayout(new BoxLayout(prenotazioni, BoxLayout.Y_AXIS));
@@ -31,8 +31,8 @@ public class PrenotazioniDipendente extends javax.swing.JPanel{
                         new Date())
                 .stream().sorted(Prenotazione::compareTo).toList();
         listaPrenotazioni.stream()
-                .map(s-> generaPrenotazione(s))
-                .forEach(s ->prenotazioni.add(s));
+                .map(s -> generaPrenotazione(s))
+                .forEach(s -> prenotazioni.add(s));
         jScrollPane1 = new javax.swing.JScrollPane(prenotazioni);
         jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
@@ -48,10 +48,9 @@ public class PrenotazioniDipendente extends javax.swing.JPanel{
         );
     }
 
-    private JPanel generaPrenotazione(Prenotazione pr){
+    private JPanel generaPrenotazione(Prenotazione pr) {
         JPanel j = new PrenotazioneSingola(pr);
-        j.setBorder(new MatteBorder(0,0,1,0, Color.gray));
+        j.setBorder(new MatteBorder(0, 0, 1, 0, Color.gray));
         return j;
     }
-    private javax.swing.JScrollPane jScrollPane1;
 }

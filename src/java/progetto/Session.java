@@ -7,32 +7,32 @@ import java.util.Optional;
 
 /**
  * Classe che gestisce la sessione dell'utente connesso
-  */
+ */
 
 public class Session {
+    private static Session sessioneCorrente;
     private Utente utenteConesso;
     private String idRiferimentoFilm, IdRiferimentoProiezione;
-    private static Session sessioneCorrente;
 
-    private Session(){
+    private Session() {
     }
 
-    public static Boolean logIn (String eMail, String password){
-        if(sessioneCorrente == null){
-            Optional<Utente>  opUtente = new ControllerUtente().login( eMail.trim(), password.trim() );
-            if (opUtente.isPresent() ){
+    public static Boolean logIn(String eMail, String password) {
+        if (sessioneCorrente == null) {
+            Optional<Utente> opUtente = new ControllerUtente().login(eMail.trim(), password.trim());
+            if (opUtente.isPresent()) {
                 sessioneCorrente = new Session();
                 sessioneCorrente.utenteConesso = opUtente.get();
                 return true;
-            }else{
+            } else {
                 return false;
             }
-        }else{
+        } else {
             return true;
         }
     }
 
-    public static Session getSessioneCorrente(){
+    public static Session getSessioneCorrente() {
         return sessioneCorrente;
     }
 
@@ -40,28 +40,28 @@ public class Session {
         return utenteConesso;
     }
 
-    public String getIdRiferimentoFilm() {
-        return idRiferimentoFilm;
+    public void setUtenteConesso(Utente utenteConesso) {
+        this.utenteConesso = utenteConesso;
     }
 
-    public String getIdRiferimentoProiezione() {
-        return IdRiferimentoProiezione;
+    public String getIdRiferimentoFilm() {
+        return idRiferimentoFilm;
     }
 
     public void setIdRiferimentoFilm(String idRiferimentoFilm) {
         this.idRiferimentoFilm = idRiferimentoFilm;
     }
 
+    public String getIdRiferimentoProiezione() {
+        return IdRiferimentoProiezione;
+    }
+
     public void setIdRiferimentoProiezione(String idRiferimentoProiezione) {
         this.IdRiferimentoProiezione = idRiferimentoProiezione;
     }
 
-    public void logOut (){
+    public void logOut() {
         utenteConesso = null;
         sessioneCorrente = null;
-    }
-
-    public void setUtenteConesso(Utente utenteConesso) {
-        this.utenteConesso = utenteConesso;
     }
 }
