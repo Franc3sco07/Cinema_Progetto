@@ -26,7 +26,7 @@ public class ControllerProiezione {
      * @return la proiezione con l'id desiderato
      */
     public Optional<Proiezione> getProiezioneByID(String IDProiezione){
-        return stringToProiezione(Gestione_db.getRow( tableName, IDProiezione));
+        return Proiezione.stringToProiezione(Gestione_db.getRow( tableName, IDProiezione));
     }
 
     /**
@@ -35,14 +35,19 @@ public class ControllerProiezione {
      * @return una collezione contenenti le proiezioni
      */
     public Collection<Proiezione> getProiezioneByIDFilm(String IDfilm){
-        BufferedReader in = Gestione_db.getTable(tableName);
-        return in.lines()
-                .parallel()
-                .map(s -> stringToProiezione(s))
-                .filter(s -> s.isPresent())
-                .map(s-> s.get())
-                .filter(s -> s.getIdFilm().equals(IDfilm.trim()))
-                .toList();
+        Optional<BufferedReader> optionalBufferedReader = Gestione_db.getTable(tableName);
+        if (optionalBufferedReader.isPresent()) {
+            BufferedReader in = optionalBufferedReader.get();
+            return in.lines()
+                    .parallel()
+                    .map(s -> Proiezione.stringToProiezione(s))
+                    .filter(s -> s.isPresent())
+                    .map(s -> s.get())
+                    .filter(s -> s.getIdFilm().equals(IDfilm.trim()))
+                    .toList();
+        }else{
+            return new ArrayList<>();
+        }
     }
 
     /**
@@ -52,16 +57,22 @@ public class ControllerProiezione {
      * @return collezione di proiezioni del film nella giorno scelto
      */
     public Collection<Proiezione> getProiezioneByIDFilmInADay(String IDfilm,Date data){
-        BufferedReader in = Gestione_db.getTable(tableName);
-        return in.lines()
-                .parallel()
-                .map(s -> stringToProiezione(s))
-                .filter(s -> s.isPresent())
-                .map(s-> s.get())
-                .filter(s -> s.getIdFilm().equals(IDfilm.trim()) &&
-                        FunzionalitaDate.stessoGiorno(data,s.getData()) &&
-                        FunzionalitaDate.dateSuccesive(data,s.getData()) )
-                .toList();
+        Optional<BufferedReader> optionalBufferedReader = Gestione_db.getTable(tableName);
+        if (optionalBufferedReader.isPresent()) {
+            BufferedReader in = optionalBufferedReader.get();
+            return in.lines()
+                    .parallel()
+                    .map(s -> Proiezione.stringToProiezione(s))
+                    .filter(s -> s.isPresent())
+                    .map(s -> s.get())
+                    .filter(s -> s.getIdFilm().equals(IDfilm.trim()) &&
+                            FunzionalitaDate.stessoGiorno(data, s.getData()) &&
+                            FunzionalitaDate.dateSuccesive(data, s.getData()))
+                    .toList();
+        }else{
+            return new ArrayList<>();
+        }
+
     }
 
     /**
@@ -70,17 +81,21 @@ public class ControllerProiezione {
      * @return una collezione contenente gli id dei film che hanno una proiezione in quel giorno
      */
     public Collection<String> getAllIdFilmInADay (Date data){
-        HashSet<String> idFilms = new HashSet<>();
-        BufferedReader in = Gestione_db.getTable(tableName);
-        return in.lines()
-                .parallel()
-                .map(s -> stringToProiezione(s))
-                .filter(s -> s.isPresent())
-                .map(s-> s.get())
-                .filter(s -> FunzionalitaDate.stessoGiorno(data,s.getData()) &&
-                        FunzionalitaDate.dateSuccesive(data,s.getData()))
-                .map(s-> s.getIdFilm())
-                .distinct().toList();
+        Optional<BufferedReader> optionalBufferedReader = Gestione_db.getTable(tableName);
+        if (optionalBufferedReader.isPresent()) {
+            BufferedReader in = optionalBufferedReader.get();
+            return in.lines()
+                    .parallel()
+                    .map(s -> Proiezione.stringToProiezione(s))
+                    .filter(s -> s.isPresent())
+                    .map(s -> s.get())
+                    .filter(s -> FunzionalitaDate.stessoGiorno(data, s.getData()) &&
+                            FunzionalitaDate.dateSuccesive(data, s.getData()))
+                    .map(s -> s.getIdFilm())
+                    .distinct().toList();
+        }else{
+            return new ArrayList<>();
+        }
     }
 
     /**
@@ -90,16 +105,20 @@ public class ControllerProiezione {
      * @return una collezione di proiezioni del film
      */
     public Collection<Proiezione> getAllProiezioneByIdFilmAfterDate(String idFilm, Date data){
-        ArrayList<Proiezione> proiezioni = new ArrayList<>();
-        BufferedReader in = Gestione_db.getTable(tableName);
-        return in.lines()
-                .parallel()
-                .map(s -> stringToProiezione(s))
-                .filter(s -> s.isPresent())
-                .map(s-> s.get())
-                .filter(s -> s.getIdFilm().equals(idFilm.trim()) &&
-                        FunzionalitaDate.dateSuccesive(data,s.getData()))
-                .toList();
+        Optional<BufferedReader> optionalBufferedReader = Gestione_db.getTable(tableName);
+        if (optionalBufferedReader.isPresent()) {
+            BufferedReader in = optionalBufferedReader.get();
+            return in.lines()
+                    .parallel()
+                    .map(s -> Proiezione.stringToProiezione(s))
+                    .filter(s -> s.isPresent())
+                    .map(s -> s.get())
+                    .filter(s -> s.getIdFilm().equals(idFilm.trim()) &&
+                            FunzionalitaDate.dateSuccesive(data, s.getData()))
+                    .toList();
+        }else{
+            return new ArrayList<>();
+        }
     }
 
     /**
@@ -108,20 +127,25 @@ public class ControllerProiezione {
      * @return una collezione d'id di film che abbiano almeno una proiezione disponibile
      */
     public Collection<String> getAllIdFilmAfterDate(Date data){
-        BufferedReader in = Gestione_db.getTable(tableName);
-        return in.lines().parallel()
-                .map(s -> stringToProiezione(s))
-                .filter(s -> s.isPresent())
-                .map(s-> s.get())
-                .filter(s -> FunzionalitaDate.dateSuccesive(data,s.getData()) )
-                .map(s -> s.getIdFilm())
-                .distinct().toList();
+        Optional<BufferedReader> optionalBufferedReader = Gestione_db.getTable(tableName);
+        if (optionalBufferedReader.isPresent()) {
+            BufferedReader in = optionalBufferedReader.get();
+            return in.lines().parallel()
+                    .map(s -> Proiezione.stringToProiezione(s))
+                    .filter(s -> s.isPresent())
+                    .map(s -> s.get())
+                    .filter(s -> FunzionalitaDate.dateSuccesive(data, s.getData()))
+                    .map(s -> s.getIdFilm())
+                    .distinct().toList();
+        }else{
+            return new ArrayList<>();
+        }
     }
 
     /**
      * Funzione che gestisce l'inserimento di una proiezione
      * @param proiezione stringa contenente le informazioni della nuova proiezione
-     * @return confernma
+     * @return messaggio di conferma, se è stato inserito ritorna l'id dell'elemento
      */
 
     public String insertProiezione(String proiezione){
@@ -146,32 +170,6 @@ public class ControllerProiezione {
         return Gestione_db.modifyRow(proiezioneModificata.getId(), tableName, proiezioneModificata.toString());
     }
 
-    /**
-     * Funzione che data una stringa con le informazioni di una proiezione, lo trasforma in un oggetto di tipo Proiezione
-     * @param proiezione Stringa contentente le informazioni della proiezione
-     * @return un oggetto proiezione con le informazioni della stringa
-     */
-    public Optional<Proiezione> stringToProiezione (String proiezione){
-        String[] proizioneDati = proiezione.split(",");
-        Date d = null;
-        if(proizioneDati.length>2){
-            try {
-                d = ValidatoreCampi.DATEFORMAT.parse(proizioneDati[4]);
-                Proiezione pr = new Proiezione(proizioneDati[0],
-                        proizioneDati[1],
-                        proizioneDati[2],
-                        proizioneDati[3],
-                        d,
-                        Integer.parseInt(proizioneDati[5].trim()),
-                        TraduttoreMatrice.stringToMatrice(proizioneDati[6]));
-                return Optional.of(pr);
-            } catch (ParseException e) {
 
-                return Optional.empty();
-            }
-        }else{
-            return Optional.empty();
-        }
-    }
 
 }

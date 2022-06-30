@@ -14,16 +14,16 @@ import java.util.*;
 public class Gestione_db {
     private static final String relativePath = "Database/";
 
-    public static BufferedReader getTable(String tableName) {
+    public static Optional<BufferedReader> getTable(String tableName) {
         try{
             BufferedReader f = GestioneFile.openFile(relativePath+tableName);
             f.readLine();
-            return f;
+            return Optional.of(f);
         }
         catch (FileNotFoundException e) {}
         catch (IOException e) { }
 
-        return null;
+        return Optional.empty();
     }
 
     public static String deleteRow(String ID, String tableName ) {

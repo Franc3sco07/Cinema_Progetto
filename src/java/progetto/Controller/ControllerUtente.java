@@ -24,7 +24,7 @@ public class ControllerUtente {
      */
     public Optional<Utente>  getUtenteByID(String IDUtente){
         String stringaUtente = Gestione_db.getRow(tableName, IDUtente);
-        return stringToUtente( stringaUtente );
+        return Utente.stringToUtente( stringaUtente );
     }
 
     /**
@@ -34,22 +34,26 @@ public class ControllerUtente {
      * @return
      */
     public Optional<Utente> login(String email, String password){
-        BufferedReader in = Gestione_db.getTable(tableName);
-        return in.lines().parallel()
-                    .map(s -> stringToUtente(s))
+        Optional<BufferedReader> optionalBufferedReader = Gestione_db.getTable(tableName);
+        if (optionalBufferedReader.isPresent()) {
+            BufferedReader in = optionalBufferedReader.get();
+            return in.lines().parallel()
+                    .map(s -> Utente.stringToUtente(s))
                     .filter(s -> s.isPresent())
-                    .map(s-> s.get())
-                    .filter(s-> s.getEmail().equals(email.trim()) &&
+                    .map(s -> s.get())
+                    .filter(s -> s.getEmail().equals(email.trim()) &&
                             s.getPassword().equals(password.trim()))
                     .findFirst();
+        }else{
+            return Optional.empty();
+        }
 
     }
-
 
     /**
      * Funzione per gestire l'inserimento di un utente
      * @param nuovoUtente
-     * @return
+     * @return messaggio di conferma, se è stato inserito ritorna l'id dell'elemento
      */
     public String insertUtente(String nuovoUtente){
         return Gestione_db.insertRow(tableName, nuovoUtente);
@@ -73,21 +77,24 @@ public class ControllerUtente {
         return Gestione_db.modifyRow(utenteModificato.getId(), tableName, utenteModificato.toString() );
     }
 
-
-
     /**
      * Funzione per verificare se un'email è già presente nel database
      * @param email
      * @return
      */
     public boolean checkEmail(String email){
-        BufferedReader in = Gestione_db.getTable(tableName);
-        return in.lines().parallel()
-                .map(s -> stringToUtente(s))
-                .filter(s -> s.isPresent())
-                .map(s-> s.get())
-                .filter(s -> s.getEmail().equals(email.trim()))
-                .toList().isEmpty();
+        Optional<BufferedReader> optionalBufferedReader = Gestione_db.getTable(tableName);
+        if (optionalBufferedReader.isPresent()) {
+            BufferedReader in = optionalBufferedReader.get();
+            return in.lines().parallel()
+                    .map(s -> Utente.stringToUtente(s))
+                    .filter(s -> s.isPresent())
+                    .map(s -> s.get())
+                    .filter(s -> s.getEmail().equals(email.trim()))
+                    .toList().isEmpty();
+        }else{
+            return false;
+        }
     }
 
     /**
@@ -96,29 +103,21 @@ public class ControllerUtente {
      * @return
      */
     public Collection<Utente> getAllStaff(String idAdmin){
-        BufferedReader in = Gestione_db.getTable(tableName);
-        return in.lines().parallel()
-                .map(s -> stringToUtente(s))
-                .filter(s -> s.isPresent())
-                .map(s-> s.get())
-                .filter(s -> !s.getTipo().equals("U") &&
+        Optional<BufferedReader> optionalBufferedReader = Gestione_db.getTable(tableName);
+        if (optionalBufferedReader.isPresent()) {
+            BufferedReader in = optionalBufferedReader.get();
+            return in.lines().parallel()
+                    .map(s -> Utente.stringToUtente(s))
+                    .filter(s -> s.isPresent())
+                    .map(s -> s.get())
+                    .filter(s -> !s.getTipo().equals("U") &&
                             !s.getId().equals(idAdmin.trim()))
-                .toList();
-    }
-
-    /**
-     * Funzione che data una stringa con le informazioni di un utente, lo trasforma in un oggetto di tipo Utente
-     * @param utenteString
-     * @return
-     */
-    private Optional<Utente> stringToUtente(String utenteString){
-        String[] datiUtente = utenteString.split(",");
-        if(datiUtente.length>2){
-            Utente ut = new Utente(datiUtente[0], datiUtente[1], datiUtente[2], datiUtente[3], datiUtente[4], datiUtente[5], datiUtente[6], datiUtente[7]);
-            return Optional.of(ut);
+                    .toList();
         }else{
-            return Optional.empty();
+            return new ArrayList<>();
         }
     }
+
+
 
 }

@@ -1,6 +1,10 @@
 package progetto.model;
 
+import progetto.functions.ValidatoreCampi;
+
+import java.text.ParseException;
 import java.util.Date;
+import java.util.Optional;
 
 public class Transazione {
     private String idTransazione, idFilm, idPrenotazione,importo;
@@ -45,5 +49,23 @@ public class Transazione {
 
     public void setImporto(String importo) {
         this.importo = importo;
+    }
+
+    /**
+     * Funzione che data una stringa con le informazioni di una transazione, lo trasforma in un oggetto di tipo Transazione
+     * @param stringTransazione
+     * @return
+     */
+    public static Optional<Transazione> stringToTransazione (String stringTransazione){
+        String[] datiTransazione =stringTransazione.split(",");
+        if(datiTransazione.length > 2){
+            try {
+                Date d = ValidatoreCampi.DATEFORMAT.parse(datiTransazione[3]);
+                Transazione tr = new Transazione(datiTransazione[0],datiTransazione[1],datiTransazione[2],d,datiTransazione[4]);
+                return Optional.of(tr);
+            } catch (ParseException e) {
+            }
+        }
+        return Optional.empty();
     }
 }

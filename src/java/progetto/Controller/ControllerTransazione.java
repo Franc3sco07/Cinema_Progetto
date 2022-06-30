@@ -2,14 +2,12 @@ package progetto.Controller;
 
 import progetto.database.Gestione_db;
 import progetto.functions.FunzionalitaDate;
-import progetto.functions.ValidatoreCampi;
 import progetto.model.Transazione;
 
+
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.text.*;
 import java.util.*;
+
 
 /**
  * Classe ControllerTransazione
@@ -24,15 +22,20 @@ public class ControllerTransazione {
      * @param idPrenotazione l'id della prenotazione di cui vogliamo sapere la transazione
      * @return la transazione da noi cercata
      */
-
     public Optional<Transazione> getTransazioneByIDPrenotazione(String idPrenotazione){
-        BufferedReader in = Gestione_db.getTable(tableName);
-        return in.lines().parallel()
-                    .map(s -> stringToTransazione(s))
+        Optional<BufferedReader> optionalBufferedReader = Gestione_db.getTable(tableName);
+        if (optionalBufferedReader.isPresent()) {
+            BufferedReader in = optionalBufferedReader.get();
+            return in.lines().parallel()
+                    .map(s -> Transazione.stringToTransazione(s))
                     .filter(s -> s.isPresent())
-                    .map(s-> s.get())
-                    .filter(s-> s.getIdPrenotazione().equals(idPrenotazione.trim()))
+                    .map(s -> s.get())
+                    .filter(s -> s.getIdPrenotazione().equals(idPrenotazione.trim()))
                     .findFirst();
+        }else{
+            return Optional.empty();
+        }
+
 
     }
     /**
@@ -42,15 +45,20 @@ public class ControllerTransazione {
      * @return la vendita totale del film nella giornata scelta
      */
     public Double getTotataleVenditeByIDFilmInADay(String IDfilm, Date data ){
-        BufferedReader in = Gestione_db.getTable(tableName);
-        return in.lines().parallel()
-                .map(s -> stringToTransazione(s))
-                .filter(s -> s.isPresent())
-                .map(s-> s.get())
-                .filter(s-> s.getIdFilm().equals(IDfilm.trim()) &&
-                            FunzionalitaDate.stessoGiorno(data,s.getData()))
-                .map(s-> Double.parseDouble(s.getImporto()))
-                .reduce(0.0,Double::sum);
+        Optional<BufferedReader> optionalBufferedReader = Gestione_db.getTable(tableName);
+        if (optionalBufferedReader.isPresent()) {
+            BufferedReader in = optionalBufferedReader.get();
+            return in.lines().parallel()
+                    .map(s -> Transazione.stringToTransazione(s))
+                    .filter(s -> s.isPresent())
+                    .map(s -> s.get())
+                    .filter(s -> s.getIdFilm().equals(IDfilm.trim()) &&
+                            FunzionalitaDate.stessoGiorno(data, s.getData()))
+                    .map(s -> Double.parseDouble(s.getImporto()))
+                    .reduce(0.0, Double::sum);
+        }else{
+            return 0.0;
+        }
     }
 
     /**
@@ -65,10 +73,9 @@ public class ControllerTransazione {
     /**
      * Funzione utilizzata per gestire l'inserimento di una transazione
      * @param transazione
-     * @return
+     * @return messaggio di conferma, se è stato inserito ritorna l'id dell'elemento
      */
     public String insertTransazione(String transazione){
-        //System.out.println("CAIO");
         return Gestione_db.insertRow(tableName, transazione);
     }
 
@@ -81,26 +88,7 @@ public class ControllerTransazione {
         return Gestione_db.modifyRow(transazioneModificata.getIdTransazione(), tableName, transazioneModificata.toString() );
     }
 
-    /**
-     * Funzione che data una stringa con le informazioni di una transazione, lo trasforma in un oggetto di tipo Transazione
-     * @param stringTransazione
-     * @return
-     */
 
-    private Optional<Transazione> stringToTransazione ( String stringTransazione){
-        String[] datiTransazione =stringTransazione.split(",");
-        if(datiTransazione.length > 2){
-            try {
-                Date d = ValidatoreCampi.DATEFORMAT.parse(datiTransazione[3]);
-                Transazione tr = new Transazione(datiTransazione[0],datiTransazione[1],datiTransazione[2],d,datiTransazione[4]);
-                return Optional.of(tr);
-            } catch (ParseException e) {
-                return Optional.empty();
-            }
-        }
-        return Optional.empty();
-
-    }
 
 
 }

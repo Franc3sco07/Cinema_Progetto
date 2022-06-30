@@ -25,7 +25,7 @@ public class ControllerPrenotazione {
      * @return l'utente con l'id desiderato o null se non presente
      */
     public Optional<Prenotazione> getPrenotazioneById (String id){
-        return stringToPrenotazione(Gestione_db.getRow(tableName,id)) ;
+        return Prenotazione.stringToPrenotazione(Gestione_db.getRow(tableName,id)) ;
     }
 
     /**
@@ -35,14 +35,20 @@ public class ControllerPrenotazione {
      * @return una collezione contenenti tutte le prenotazioni dell'utente disponibili
      */
     public Collection<Prenotazione> getPrenotazioniByIDgeneratoreAfterDate(String IDutente, Date data){
-        BufferedReader in = Gestione_db.getTable(tableName);
-        return  in.lines().parallel()
-                    .map(s -> stringToPrenotazione(s))
+        Optional<BufferedReader> optionalBufferedReader = Gestione_db.getTable(tableName);
+        if (optionalBufferedReader.isPresent()) {
+            BufferedReader in = optionalBufferedReader.get();
+            return in.lines().parallel()
+                    .map(s -> Prenotazione.stringToPrenotazione(s))
                     .filter(s -> s.isPresent())
-                    .map(s-> s.get())
-                    .filter(x-> x.getIdGeneratore().trim().equals(IDutente.trim())
-                                    && FunzionalitaDate.dateSuccesive(data,x.getData()))
+                    .map(s -> s.get())
+                    .filter(x -> x.getIdGeneratore().trim().equals(IDutente.trim())
+                            && FunzionalitaDate.dateSuccesive(data, x.getData()))
                     .toList();
+        }else{
+            return new ArrayList<>();
+        }
+
     }
 
     /**
@@ -51,14 +57,21 @@ public class ControllerPrenotazione {
      * @return la collezione delle prenotazioni
      */
     public Collection<Prenotazione> getPrenotazioniByIDFilm(String IDfilm){
-        BufferedReader in = Gestione_db.getTable(tableName);
+        Optional<BufferedReader> optionalBufferedReader = Gestione_db.getTable(tableName);
+        if (optionalBufferedReader.isPresent()){
+            BufferedReader in = optionalBufferedReader.get();
         return in.lines().parallel()
-                .map(s -> stringToPrenotazione(s))
+                .map(s -> Prenotazione.stringToPrenotazione(s))
                 .filter(s -> s.isPresent())
                 .map(s-> s.get())
                 .filter(s -> s.getIdFilm().equals(IDfilm.trim()))
                 .toList();
-    }
+        }else{
+            return new ArrayList<>();
+        }
+
+
+        }
 
 
     /**
@@ -68,15 +81,20 @@ public class ControllerPrenotazione {
      * @return una collezione contenete gli id dei film che ci interressa
      */
     public Collection<String> getIdFilmByIdUtenteInADay(String idUtente, Date data){
-        BufferedReader in = Gestione_db.getTable(tableName);
-        return in.lines().parallel()
-                .map(s -> stringToPrenotazione(s))
-                .filter(s -> s.isPresent())
-                .map(s-> s.get())
-                .filter(s -> s.getIdGeneratore().equals(idUtente.trim()) &&
-                        FunzionalitaDate.stessoGiorno(data,s.getData()))
-                .map(s -> s.getIdFilm())
-                .distinct().toList();
+        Optional<BufferedReader> optionalBufferedReader = Gestione_db.getTable(tableName);
+        if (optionalBufferedReader.isPresent()) {
+            BufferedReader in = optionalBufferedReader.get();
+            return in.lines().parallel()
+                    .map(s -> Prenotazione.stringToPrenotazione(s))
+                    .filter(s -> s.isPresent())
+                    .map(s -> s.get())
+                    .filter(s -> s.getIdGeneratore().equals(idUtente.trim()) &&
+                            FunzionalitaDate.stessoGiorno(data, s.getData()))
+                    .map(s -> s.getIdFilm())
+                    .distinct().toList();
+        }else{
+            return new ArrayList<>();
+        }
     }
 
     /**
@@ -87,22 +105,27 @@ public class ControllerPrenotazione {
      * @return una collezione contente tutte le prenotazioni cercate
      */
     public Collection<Prenotazione> getPrenotazioniByIDFilmInADay(String idUtente, String idFilm, Date data){
-        BufferedReader in = Gestione_db.getTable(tableName);
-        return in.lines().parallel()
-                .map(s -> stringToPrenotazione(s))
-                .filter(s -> s.isPresent())
-                .map(s-> s.get())
-                .filter(s -> s.getIdGeneratore().equals(idUtente.trim()) &&
-                        FunzionalitaDate.stessoGiorno(data,s.getData()) &&
-                        FunzionalitaDate.dateSuccesive(data,s.getData()) &&
-                        s.getIdFilm().equals(idFilm.trim()))
-                .toList();
+        Optional<BufferedReader> optionalBufferedReader = Gestione_db.getTable(tableName);
+        if (optionalBufferedReader.isPresent()) {
+            BufferedReader in = optionalBufferedReader.get();
+            return in.lines().parallel()
+                    .map(s -> Prenotazione.stringToPrenotazione(s))
+                    .filter(s -> s.isPresent())
+                    .map(s -> s.get())
+                    .filter(s -> s.getIdGeneratore().equals(idUtente.trim()) &&
+                            FunzionalitaDate.stessoGiorno(data, s.getData()) &&
+                            FunzionalitaDate.dateSuccesive(data, s.getData()) &&
+                            s.getIdFilm().equals(idFilm.trim()))
+                    .toList();
+        }else{
+            return new ArrayList<>();
+        }
     }
 
     /**
      * Funzioni che gestisce l'inserimento di una prenotazione
      * @param prenotazione stringa con le informazioni delle nuova prenotazione
-     * @return conferma
+     * @return messaggio di conferma, se è stato inserito ritorna l'id dell'elemento
      */
     public String insertPrenotazione(String prenotazione){
         return Gestione_db.insertRow(tableName, prenotazione);
@@ -126,28 +149,6 @@ public class ControllerPrenotazione {
         return Gestione_db.modifyRow(prenotazioneModificata.getId(), tableName, prenotazioneModificata.toString() );
     }
 
-    /**
-     * Funzione che data una stringa con le informazioni di una prenotazione, lo trasforma in un oggetto di tipo Prenotazione
-     * @param prenotazioneString stringa con le informazioni delle nuova prenotazione
-     * @return un oggetto prenotazione con le informazioni di una prenotazione
-     */
-    private Optional<Prenotazione> stringToPrenotazione(String prenotazioneString){
-        String[] datiPrenotazione = prenotazioneString.split(",");
-        Date d = null;
-        if (datiPrenotazione.length>1){
-            try{
-                d = ValidatoreCampi.DATEFORMAT.parse(datiPrenotazione[4]);
-            } catch (ParseException e) {
 
-                return Optional.empty();
-
-            }
-            Prenotazione elemento = new Prenotazione(datiPrenotazione[0], datiPrenotazione[1], datiPrenotazione[2], datiPrenotazione[3], d, datiPrenotazione[5], datiPrenotazione[6]);
-            return  Optional.of(elemento);
-        }
-        return Optional.empty();
-        
-
-    }
 
 }

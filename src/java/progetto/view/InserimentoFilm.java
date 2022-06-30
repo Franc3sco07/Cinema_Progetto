@@ -85,7 +85,7 @@ public class InserimentoFilm extends javax.swing.JPanel {
         modelFine.setDate(tmp.getYear(),tmp.getMonthValue() -1,tmp.getDayOfMonth());
         datePanelInizio.addActionListener(evt -> {
 
-            if(FunzionalitaDate.dateSuccesive((Date)datePickerInizio.getModel().getValue(), new Date())){// || FunzionalitaDate.stessaData(new Date(),(Date)datePickerFine.getModel().getValue()) ){
+            if(FunzionalitaDate.dateSuccesive((Date)datePickerInizio.getModel().getValue(), new Date())){
                 LocalDate inizioFilm= new Date().toInstant()
                         .atZone(ZoneId.systemDefault())
                         .toLocalDate();

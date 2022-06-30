@@ -2,6 +2,8 @@ package progetto.model;
 
 import progetto.functions.TraduttoreMatrice;
 
+import java.util.Optional;
+
 public class Sala {
     private String id;
     private int numeroPosti;
@@ -40,6 +42,21 @@ public class Sala {
         }else{
             return 0;
     }
+    }
+
+    /**
+     * Funzione che data una stringa con le informazioni di una sala, lo trasforma in un oggetto di tipo Sala
+     * @param salaString
+     * @return
+     */
+    public static Optional<Sala> stringToSala(String salaString){
+        String[] datiSala = salaString.split(",");
+        if(datiSala.length > 2){
+            Sala sl = new Sala(datiSala[0], Integer.parseInt(datiSala[1].trim()), TraduttoreMatrice.stringToMatrice(datiSala[2]));
+            return Optional.of(sl);
+        }else{
+            return Optional.empty();
+        }
     }
 
 

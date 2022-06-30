@@ -19,14 +19,6 @@ import java.util.stream.Collectors;
 public class ControllerFilm {
     private final String tableName = "film.csv";
 
-    public Collection<Film> getAllFilms(){
-        BufferedReader in = Gestione_db.getTable(tableName);
-        return in.lines().parallel()
-                .map(s -> stringToFilm(s))
-                .filter(s -> s.isPresent())
-                .map(s-> s.get())
-                .toList();
-    }
 
     /**
      * Funzione che data una collezione di idFilm, restituisce una collezione con i film corrispondenti agli id
@@ -34,13 +26,19 @@ public class ControllerFilm {
      * @return una collezione con i film cercati
      */
     public Collection<Film> getAllFilmsByIdList (Collection<String> idFilms){
-        BufferedReader in = Gestione_db.getTable(tableName);
-        return in.lines().parallel()
-                .map(s -> stringToFilm(s))
-                .filter(s -> s.isPresent())
-                .map(s-> s.get())
-                .filter(x-> idFilms.contains(x.getId()))
-                .toList();
+        Optional<BufferedReader> optionalBufferedReader = Gestione_db.getTable(tableName);
+        if (optionalBufferedReader.isPresent()){
+            BufferedReader in = optionalBufferedReader.get();
+            return in.lines().parallel()
+                    .map(s -> Film.stringToFilm(s))
+                    .filter(s -> s.isPresent())
+                    .map(s-> s.get())
+                    .filter(x-> idFilms.contains(x.getId()))
+                    .toList();
+        }else{
+            return new ArrayList<>() ;
+        }
+
     }
 
     /**
@@ -50,7 +48,7 @@ public class ControllerFilm {
      */
     public Optional<Film> getFilmByID(String IDfilm){
         String stringaFilm = Gestione_db.getRow(tableName, IDfilm);
-        return stringToFilm(stringaFilm);
+        return Film.stringToFilm(stringaFilm);
     }
 
     /**
@@ -58,19 +56,24 @@ public class ControllerFilm {
      * @return una collezione di stringhe in formato "id,NomeFilm"
      */
     public Collection<String> getAllFilmNameAndId(){
-        BufferedReader in = Gestione_db.getTable(tableName);
-        return in.lines().parallel()
-                .map(s -> stringToFilm(s))
-                .filter(s -> s.isPresent())
-                .map(s-> s.get())
-                .map(s -> s.getId()+","+s.getNome())
-                .toList();
+        Optional<BufferedReader> optionalBufferedReader = Gestione_db.getTable(tableName);
+        if (optionalBufferedReader.isPresent()) {
+            BufferedReader in = optionalBufferedReader.get();
+            return in.lines().parallel()
+                    .map(s -> Film.stringToFilm(s))
+                    .filter(s -> s.isPresent())
+                    .map(s -> s.get())
+                    .map(s -> s.getId() + "," + s.getNome())
+                    .toList();
+        }else{
+            return new ArrayList<>();
+        }
     }
 
     /**
      * Data una stringa con tutte le informazioni del film, procederà con l'inserimento del db
      * @param film stringa con informazioni del film da aggiungere
-     * @return messaggio di conferma
+     * @return messaggio di conferma, se è stato inserito ritorna l'id dell'elemento
      */
     public String insertFilm(String film){
         return Gestione_db.insertRow(tableName, film);
@@ -85,19 +88,6 @@ public class ControllerFilm {
         return Gestione_db.deleteRow(IDfilm, tableName);
     }
 
-    public String modifyFilm(Film filmModificato){ return Gestione_db.modifyRow(filmModificato.getId(), tableName, filmModificato.toString() ); }
 
-    /**
-     * Funzione che data una stringa con le informazioni di un film, lo trasforma in un oggetto di tipo Film
-     * @param filmString Stringa con le informazioni del film
-     * @return Un oggetto Film creato tramite le informazioni nella stringa
-     */
-    private Optional<Film> stringToFilm(String filmString){
-        String[] datiFilm = filmString.split(",");
-        if(datiFilm.length>2){
-            Film elemento = new Film(datiFilm[0], datiFilm[1], datiFilm[2], datiFilm[3], datiFilm[4]);
-            return Optional.of(elemento);
-        }
-        return Optional.empty() ;
-    }
+
 }

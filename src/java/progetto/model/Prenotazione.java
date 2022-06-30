@@ -3,7 +3,9 @@ package progetto.model;
 import progetto.functions.FunzionalitaDate;
 import progetto.functions.ValidatoreCampi;
 
+import java.text.ParseException;
 import java.util.Date;
+import java.util.Optional;
 
 public class Prenotazione {
     String id, idGeneratore, idProiezione, idFilm, postoAssegnato, prezzo;
@@ -68,5 +70,24 @@ public class Prenotazione {
         }else{
             return -1;
         }
+    }
+
+    /**
+     * Funzione che data una stringa con le informazioni di una prenotazione, lo trasforma in un oggetto di tipo Prenotazione
+     * @param prenotazioneString stringa con le informazioni delle nuova prenotazione
+     * @return un oggetto prenotazione con le informazioni di una prenotazione
+     */
+    public static Optional<Prenotazione> stringToPrenotazione(String prenotazioneString){
+        String[] datiPrenotazione = prenotazioneString.split(",");
+        Date d ;
+        if (datiPrenotazione.length>1){
+            try{
+                d = ValidatoreCampi.DATEFORMAT.parse(datiPrenotazione[4]);
+                Prenotazione elemento = new Prenotazione(datiPrenotazione[0], datiPrenotazione[1], datiPrenotazione[2], datiPrenotazione[3], d, datiPrenotazione[5], datiPrenotazione[6]);
+                return  Optional.of(elemento);
+            } catch (ParseException e) {
+            }
+        }
+        return Optional.empty();
     }
 }

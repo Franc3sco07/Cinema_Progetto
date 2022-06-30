@@ -1,5 +1,7 @@
 package progetto.model;
 
+import java.util.Optional;
+
 public class Utente {
 
     private String id, tipo, nome, cognome, numeroCellulare, email, codiceFiscale, password ;
@@ -101,5 +103,20 @@ public class Utente {
 
         return 0;
 
+    }
+
+    /**
+     * Funzione che data una stringa con le informazioni di un utente, lo trasforma in un oggetto di tipo Utente
+     * @param utenteString
+     * @return
+     */
+    public static Optional<Utente> stringToUtente(String utenteString){
+        String[] datiUtente = utenteString.split(",");
+        if(datiUtente.length>2){
+            Utente ut = new Utente(datiUtente[0], datiUtente[1], datiUtente[2], datiUtente[3], datiUtente[4], datiUtente[5], datiUtente[6], datiUtente[7]);
+            return Optional.of(ut);
+        }else{
+            return Optional.empty();
+        }
     }
 }
