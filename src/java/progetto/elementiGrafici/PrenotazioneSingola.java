@@ -9,12 +9,9 @@ import progetto.Session;
 import progetto.functions.GestioneFile;
 import progetto.functions.TraduttoreMatrice;
 import progetto.functions.ValidatoreCampi;
-import progetto.model.Film;
-import progetto.model.Prenotazione;
-import progetto.model.Proiezione;
-import progetto.model.Transazione;
-import progetto.state.ModificaPrenotazioneState;
-import progetto.state.PrenotazioniState;
+import progetto.model.*;
+import progetto.state.prenotazione.ModificaPrenotazioneState;
+import progetto.state.prenotazione.PrenotazioniState;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -36,6 +33,7 @@ public class PrenotazioneSingola extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel iconaFilm;
+
     public PrenotazioneSingola(Prenotazione datiPrenotazione) {
         this.datiPrenotazione = datiPrenotazione;
         initComponents();
@@ -96,7 +94,7 @@ public class PrenotazioneSingola extends javax.swing.JPanel {
                     proizioneModificata.setPostiLiberi(proizioneModificata.getPostiLiberi() + postiDaLiberare.length);
                     new ControllerProiezione().modifyProiezione(proizioneModificata);
 
-                    if (Session.getSessioneCorrente().getUtenteConesso().getTipo().equals("D")) {
+                    if (Session.getSessioneCorrente().getUtenteConesso().getTipo().equals(TipiUtente.DIPENDENTE.tipo)) {
                         Optional<Transazione> opTransazione = new ControllerTransazione().getTransazioneByIDPrenotazione(datiPrenotazione.getId());
                         if (opTransazione.isPresent()) {
                             String idTransazione = opTransazione.get().getIdTransazione();

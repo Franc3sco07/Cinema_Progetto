@@ -8,6 +8,7 @@ package progetto.elementiGrafici;
 import progetto.Controller.ControllerFilm;
 import progetto.Controller.ControllerProiezione;
 import progetto.Controller.ControllerUtente;
+import progetto.ecezzioni.BigliettoInfoException;
 import progetto.functions.GestioneFile;
 import progetto.functions.ValidatoreCampi;
 import progetto.model.Film;
@@ -33,7 +34,8 @@ public class BigliettoSingolo extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    public BigliettoSingolo(Prenotazione biglietto) {
+
+    public BigliettoSingolo(Prenotazione biglietto) throws BigliettoInfoException {
         this.biglietto = biglietto;
         Optional<Film> opInfoFilm = new ControllerFilm().getFilmByID(this.biglietto.getIdFilm());
         Optional<Proiezione> opInfoProiezione = new ControllerProiezione().getProiezioneByID(this.biglietto.getIdProiezione());
@@ -46,7 +48,7 @@ public class BigliettoSingolo extends javax.swing.JPanel {
             this.idSala = opInfoProiezione.get().getIdSala();
             initComponents();
         } else {
-            throw new IllegalArgumentException();
+            throw new BigliettoInfoException("Dati mancati del biglietto");
         }
 
 

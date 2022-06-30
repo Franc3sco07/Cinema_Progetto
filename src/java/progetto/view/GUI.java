@@ -2,7 +2,15 @@ package progetto.view;
 
 import progetto.Main;
 import progetto.Session;
-import progetto.state.*;
+import progetto.model.TipiUtente;
+import progetto.state.accesso.LoginState;
+import progetto.state.amministrazione.admin.GestioneDipendentiState;
+import progetto.state.amministrazione.admin.InserimentoFilmState;
+import progetto.state.amministrazione.admin.VisualizzaVenditeState;
+import progetto.state.amministrazione.dipendente.AccettazioneBigliettiState;
+import progetto.state.film.FilmState;
+import progetto.state.prenotazione.PrenotazioniState;
+import progetto.state.profilo.VisualizzaDatiState;
 
 import javax.swing.*;
 
@@ -21,6 +29,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuLogout;
     private javax.swing.JMenuItem inserisciFilm;
     private javax.swing.JMenuItem accettazioneBiglietti;
+
     public GUI() {
         initComponents();
         this.getContentPane().removeAll();
@@ -44,14 +53,14 @@ public class GUI extends javax.swing.JFrame {
         filmMenu.addActionListener(evt -> new FilmState().doAction(Main.context));
         jMenuBar1.add(filmMenu);
 
-        if (Session.getSessioneCorrente().getUtenteConesso().getTipo().equals("U")) {
+        if (Session.getSessioneCorrente().getUtenteConesso().getTipo().equals(TipiUtente.UTENTE.tipo)) {
             prenotazioniMenu = new javax.swing.JMenuItem();
             prenotazioniMenu.setText("Prenotazioni"); //visibile solo per gli utenti
             prenotazioniMenu.addActionListener(evt -> new PrenotazioniState().doAction(Main.context));
             jMenuBar1.add(prenotazioniMenu);
         }
 
-        if (Session.getSessioneCorrente().getUtenteConesso().getTipo().equals("D")) {
+        if (Session.getSessioneCorrente().getUtenteConesso().getTipo().equals(TipiUtente.DIPENDENTE.tipo)) {
             gestioneBigliettiMenu = new javax.swing.JMenuItem();
             gestioneBigliettiMenu.setText("Gestione Biglietti"); //visibile solo per i dipendenti
             gestioneBigliettiMenu.addActionListener(evt -> new PrenotazioniState().doAction(Main.context));
@@ -62,7 +71,7 @@ public class GUI extends javax.swing.JFrame {
             jMenuBar1.add(accettazioneBiglietti);
         }
 
-        if (Session.getSessioneCorrente().getUtenteConesso().getTipo().equals("A")) {
+        if (Session.getSessioneCorrente().getUtenteConesso().getTipo().equals(TipiUtente.ADMIN.tipo)) {
             visualizzaVendite = new javax.swing.JMenuItem();
             visualizzaDipendenti = new javax.swing.JMenuItem();
             inserisciFilm = new javax.swing.JMenuItem();

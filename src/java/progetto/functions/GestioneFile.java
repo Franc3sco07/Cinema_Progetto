@@ -76,9 +76,9 @@ public class GestioneFile {
 
     public static ImageIcon apriImmagine(String nomeFile) {
         ImageIcon icon = new ImageIcon(PERCORSOGRAFICA + nomeFile);
-        if(icon.getIconWidth() != -1){
+        if (icon.getIconWidth() != -1) {
             return icon;
-        }else{
+        } else {
             return new ImageIcon(PERCORSOGRAFICA + imaggineErrore);
         }
 

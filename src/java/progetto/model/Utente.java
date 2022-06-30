@@ -3,7 +3,6 @@ package progetto.model;
 import java.util.Optional;
 
 public class Utente {
-
     private String id, tipo, nome, cognome, numeroCellulare, email, codiceFiscale, password;
 
     public Utente(String id, String tipo, String nome, String cognome, String email, String numeroCellulare, String codiceFiscale, String password) {

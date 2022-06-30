@@ -2,8 +2,9 @@ package progetto.elementiGrafici;
 
 import progetto.Controller.ControllerUtente;
 import progetto.Main;
+import progetto.model.TipiUtente;
 import progetto.model.Utente;
-import progetto.state.GestioneDipendentiState;
+import progetto.state.amministrazione.admin.GestioneDipendentiState;
 
 import javax.swing.*;
 
@@ -20,6 +21,7 @@ public class DipendenteSingolo extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+
     public DipendenteSingolo(Utente dipendenteStaff) {
         this.utente = dipendenteStaff;
         initComponents();
@@ -54,11 +56,11 @@ public class DipendenteSingolo extends javax.swing.JPanel {
 
         });
 
-        if (utente.getTipo().equals("D")) {
+        if (utente.getTipo().equals(TipiUtente.DIPENDENTE.tipo)) {
             jButton2.setText("promuovi");
             jButton2.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    utente.setTipo("A");
+                    utente.setTipo(TipiUtente.ADMIN.tipo);
                     new ControllerUtente().modifyUtente(utente);
                     new GestioneDipendentiState().doAction(Main.context);
                 }
@@ -66,7 +68,7 @@ public class DipendenteSingolo extends javax.swing.JPanel {
         } else {
             jButton2.setText("demansiona");
             jButton2.addActionListener(evt -> {
-                utente.setTipo("D");
+                utente.setTipo(TipiUtente.DIPENDENTE.tipo);
                 new ControllerUtente().modifyUtente(utente);
                 new GestioneDipendentiState().doAction(Main.context);
             });

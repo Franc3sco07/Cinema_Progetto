@@ -1,6 +1,7 @@
 package progetto.Controller;
 
 import progetto.database.Gestione_db;
+import progetto.model.TipiUtente;
 import progetto.model.Utente;
 
 import java.io.BufferedReader;
@@ -116,7 +117,7 @@ public class ControllerUtente {
                     .map(s -> Utente.stringToUtente(s))
                     .filter(s -> s.isPresent())
                     .map(s -> s.get())
-                    .filter(s -> !s.getTipo().equals("U") &&
+                    .filter(s -> !s.getTipo().equals(TipiUtente.UTENTE.tipo) &&
                             !s.getId().equals(idAdmin.trim()))
                     .toList();
         } else {

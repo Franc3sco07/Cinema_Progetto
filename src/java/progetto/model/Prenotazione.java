@@ -30,7 +30,7 @@ public class Prenotazione {
     public static Optional<Prenotazione> stringToPrenotazione(String prenotazioneString) {
         String[] datiPrenotazione = prenotazioneString.split(",");
         Date d;
-        if (datiPrenotazione.length > 1) {
+        if (datiPrenotazione.length > 2) {
             try {
                 d = ValidatoreCampi.DATEFORMAT.parse(datiPrenotazione[4]);
                 Prenotazione elemento = new Prenotazione(datiPrenotazione[0], datiPrenotazione[1], datiPrenotazione[2], datiPrenotazione[3], d, datiPrenotazione[5], datiPrenotazione[6]);
