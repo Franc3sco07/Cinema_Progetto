@@ -21,15 +21,15 @@ public class InserimentoDipendente extends javax.swing.JPanel {
 
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JPasswordField jPasswordField2;
+    private javax.swing.JLabel labelNome;
+    private javax.swing.JLabel labelCognome;
+    private javax.swing.JLabel labelEmail;
+    private javax.swing.JLabel labelCF;
+    private javax.swing.JLabel labelCellulare;
+    private javax.swing.JLabel labelPass;
+    private javax.swing.JLabel labelVPass;
+    private javax.swing.JPasswordField passwordField;
+    private javax.swing.JPasswordField verificaPasswordField;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField nomeField;
@@ -46,13 +46,13 @@ public class InserimentoDipendente extends javax.swing.JPanel {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        labelNome = new javax.swing.JLabel();
+        labelCognome = new javax.swing.JLabel();
+        labelEmail = new javax.swing.JLabel();
+        labelCF = new javax.swing.JLabel();
+        labelCellulare = new javax.swing.JLabel();
+        labelPass = new javax.swing.JLabel();
+        labelVPass = new javax.swing.JLabel();
         nomeField = new javax.swing.JTextField();
         cognomeField = new javax.swing.JTextField();
         emailField = new javax.swing.JTextField();
@@ -60,26 +60,23 @@ public class InserimentoDipendente extends javax.swing.JPanel {
         numeroCellulareField = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jPasswordField2 = new javax.swing.JPasswordField();
+        passwordField = new javax.swing.JPasswordField();
+        verificaPasswordField = new javax.swing.JPasswordField();
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
 
-        jLabel1.setText("nome");
+        labelNome.setText("nome");
 
-        jLabel2.setText("cognome");
+        labelCognome.setText("cognome");
 
-        jLabel3.setText("e-mail");
+        labelEmail.setText("e-mail");
 
-        jLabel4.setText("codice fiscale");
+        labelCF.setText("codice fiscale");
 
-        jLabel5.setText("numero cellulare");
+        labelCellulare.setText("numero cellulare");
 
-        jLabel6.setText("password");
+        labelPass.setText("password");
 
-        jLabel7.setText("verifica password");
+        labelVPass.setText("verifica password");
 
         nomeField.setText("");
         nomeField.addFocusListener(new FocusListener() {
@@ -137,7 +134,6 @@ public class InserimentoDipendente extends javax.swing.JPanel {
             }
         });
 
-
         codiceFiscaleField.setText(""); // codice fiscale
         codiceFiscaleField.addFocusListener(new FocusListener() {
             @Override
@@ -170,9 +166,9 @@ public class InserimentoDipendente extends javax.swing.JPanel {
             }
         });
 
-        jPasswordField1.setText("");
-        jPasswordField1.setToolTipText("<html>La password deve contenere almeno:<ul><li>un carattere speciale;</li><li>una lettere maiuscola;</li><li>una lettere minuscola;</li><li>un numero;</li></ul>e deve essere lunga tra 6 a 20 caratteri</html>");
-        jPasswordField1.addFocusListener(new FocusListener() {
+        passwordField.setText("");
+        passwordField.setToolTipText("<html>La password deve contenere almeno:<ul><li>un carattere speciale;</li><li>una lettere maiuscola;</li><li>una lettere minuscola;</li><li>un numero;</li></ul>e deve essere lunga tra 6 a 20 caratteri</html>");
+        passwordField.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
             }
@@ -180,28 +176,28 @@ public class InserimentoDipendente extends javax.swing.JPanel {
             @Override
             public void focusLost(FocusEvent e) {
 
-                if (ValidatoreCampi.isValidPassword(new String(jPasswordField1.getPassword()))) {
-                    jPasswordField1.setBorder(new LineBorder(Color.green, 2));
+                if (ValidatoreCampi.isValidPassword(new String(passwordField.getPassword()))) {
+                    passwordField.setBorder(new LineBorder(Color.green, 2));
                 } else {
-                    jPasswordField1.setBorder(new LineBorder(Color.red, 2));
+                    passwordField.setBorder(new LineBorder(Color.red, 2));
                 }
             }
         });
 
 
-        jPasswordField2.setText("");
-        jPasswordField2.addFocusListener(new FocusListener() {
+        verificaPasswordField.setText("");
+        verificaPasswordField.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
             }
 
             @Override
             public void focusLost(FocusEvent e) {
-                if (new String(jPasswordField1.getPassword()).equals(new String(jPasswordField2.getPassword()))) {
-                    jPasswordField2.setBorder(new LineBorder(Color.green, 2));
+                if (new String(passwordField.getPassword()).equals(new String(verificaPasswordField.getPassword()))) {
+                    verificaPasswordField.setBorder(new LineBorder(Color.green, 2));
                 } else {
-                    jPasswordField2.setBorder(new LineBorder(Color.red, 2));
-                    jPasswordField2.setToolTipText("Le password devono coincidere");
+                    verificaPasswordField.setBorder(new LineBorder(Color.red, 2));
+                    verificaPasswordField.setToolTipText("Le password devono coincidere");
                 }
             }
         });
@@ -215,7 +211,7 @@ public class InserimentoDipendente extends javax.swing.JPanel {
                         + emailField.getText() + ","
                         + numeroCellulareField.getText() + ","
                         + codiceFiscaleField.getText() + ","
-                        + new String(jPasswordField1.getPassword());
+                        + new String(passwordField.getPassword());
 
                 new ControllerUtente().insertUtente(nuovoUtente);
 
@@ -242,14 +238,14 @@ public class InserimentoDipendente extends javax.swing.JPanel {
                                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                                                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                        .addComponent(labelNome, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                                                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                                                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                                                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                                                                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                                                                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                                                                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                                                                                .addComponent(labelEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                                                .addComponent(labelCognome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                                                .addComponent(labelCF, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                                                .addComponent(labelCellulare, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                                                .addComponent(labelPass, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                                                .addComponent(labelVPass, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                                                         .addGroup(layout.createSequentialGroup()
                                                                                                 .addGap(16, 16, 16))
@@ -261,8 +257,8 @@ public class InserimentoDipendente extends javax.swing.JPanel {
                                                                                                         .addComponent(nomeField, javax.swing.GroupLayout.Alignment.TRAILING)
                                                                                                         .addComponent(cognomeField, javax.swing.GroupLayout.Alignment.TRAILING)
                                                                                                         .addComponent(numeroCellulareField)
-                                                                                                        .addComponent(jPasswordField1)
-                                                                                                        .addComponent(jPasswordField2)))))
+                                                                                                        .addComponent(passwordField)
+                                                                                                        .addComponent(verificaPasswordField)))))
                                                                 )
                                                         )
                                                 )
@@ -275,32 +271,32 @@ public class InserimentoDipendente extends javax.swing.JPanel {
                         .addGroup(layout.createSequentialGroup()
                                 .addGap(30, 30, 30)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(labelNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(nomeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel2)
+                                        .addComponent(labelCognome)
                                         .addComponent(cognomeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(labelEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel4)
+                                        .addComponent(labelCF)
                                         .addComponent(codiceFiscaleField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel5)
+                                        .addComponent(labelCellulare)
                                         .addComponent(numeroCellulareField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel6)
-                                        .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(labelPass)
+                                        .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel7)
-                                        .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(labelVPass)
+                                        .addComponent(verificaPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jButton2)
@@ -326,10 +322,10 @@ public class InserimentoDipendente extends javax.swing.JPanel {
         if (((LineBorder) numeroCellulareField.getBorder()).getLineColor() != Color.green) {
             return false;
         }
-        if (((LineBorder) jPasswordField1.getBorder()).getLineColor() != Color.green) {
+        if (((LineBorder) passwordField.getBorder()).getLineColor() != Color.green) {
             return false;
         }
-        if (((LineBorder) jPasswordField2.getBorder()).getLineColor() != Color.green) {
+        if (((LineBorder) verificaPasswordField.getBorder()).getLineColor() != Color.green) {
             return false;
         }
 

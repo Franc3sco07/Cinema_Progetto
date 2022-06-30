@@ -23,10 +23,10 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem prenotazioniMenu;
     private javax.swing.JMenuItem profiloMenu;
     private javax.swing.JMenuItem gestioneBigliettiMenu;
-    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuBar menu;
     private javax.swing.JMenuItem visualizzaVendite;
     private javax.swing.JMenuItem visualizzaDipendenti;
-    private javax.swing.JMenuItem jMenuLogout;
+    private javax.swing.JMenuItem logout;
     private javax.swing.JMenuItem inserisciFilm;
     private javax.swing.JMenuItem accettazioneBiglietti;
 
@@ -45,19 +45,19 @@ public class GUI extends javax.swing.JFrame {
      * Metodo per generare il menu in base al tipo di utente connesso
      */
     public void showMenu() {
-        jMenuBar1 = new javax.swing.JMenuBar();
+        menu = new javax.swing.JMenuBar();
         profiloMenu = new javax.swing.JMenuItem();
-        jMenuLogout = new javax.swing.JMenuItem();
+        logout = new javax.swing.JMenuItem();
         filmMenu = new javax.swing.JMenuItem();
         filmMenu.setText("Film");
         filmMenu.addActionListener(evt -> new FilmState().doAction(Main.context));
-        jMenuBar1.add(filmMenu);
+        menu.add(filmMenu);
 
         if (Session.getSessioneCorrente().getUtenteConesso().getTipo().equals(TipiUtente.UTENTE.tipo)) {
             prenotazioniMenu = new javax.swing.JMenuItem();
             prenotazioniMenu.setText("Prenotazioni"); //visibile solo per gli utenti
             prenotazioniMenu.addActionListener(evt -> new PrenotazioniState().doAction(Main.context));
-            jMenuBar1.add(prenotazioniMenu);
+            menu.add(prenotazioniMenu);
         }
 
         if (Session.getSessioneCorrente().getUtenteConesso().getTipo().equals(TipiUtente.DIPENDENTE.tipo)) {
@@ -67,8 +67,8 @@ public class GUI extends javax.swing.JFrame {
             accettazioneBiglietti = new javax.swing.JMenuItem();
             accettazioneBiglietti.setText("Accettazione biglietti"); //visibile solo per i dipendenti
             accettazioneBiglietti.addActionListener(evt -> new AccettazioneBigliettiState().doAction(Main.context));
-            jMenuBar1.add(gestioneBigliettiMenu);
-            jMenuBar1.add(accettazioneBiglietti);
+            menu.add(gestioneBigliettiMenu);
+            menu.add(accettazioneBiglietti);
         }
 
         if (Session.getSessioneCorrente().getUtenteConesso().getTipo().equals(TipiUtente.ADMIN.tipo)) {
@@ -77,27 +77,27 @@ public class GUI extends javax.swing.JFrame {
             inserisciFilm = new javax.swing.JMenuItem();
             visualizzaVendite.setText("Visualizza vendite");
             visualizzaVendite.addActionListener(evt -> new VisualizzaVenditeState().doAction(Main.context));
-            jMenuBar1.add(visualizzaVendite);
+            menu.add(visualizzaVendite);
             visualizzaDipendenti.setText("Visualizza dipendenti");
             visualizzaDipendenti.addActionListener(evt -> new GestioneDipendentiState().doAction(Main.context));
-            jMenuBar1.add(visualizzaDipendenti);
+            menu.add(visualizzaDipendenti);
             inserisciFilm.setText("Inserimento Film");
             inserisciFilm.addActionListener(evt -> new InserimentoFilmState().doAction(Main.context));
-            jMenuBar1.add(inserisciFilm);
+            menu.add(inserisciFilm);
         }
 
         profiloMenu.setText("Profilo");
         profiloMenu.addActionListener(evt -> new VisualizzaDatiState().doAction(Main.context));
-        jMenuBar1.add(profiloMenu);
-        jMenuLogout.setText("Logout");
-        jMenuLogout.addActionListener(evt -> {
+        menu.add(profiloMenu);
+        logout.setText("Logout");
+        logout.addActionListener(evt -> {
             Main.frame.hideMenu();
             Session.getSessioneCorrente().logOut();
             new LoginState().doAction(Main.context);
         });
-        jMenuBar1.add(jMenuLogout);
-        jMenuBar1.setVisible(true);
-        setJMenuBar(jMenuBar1);
+        menu.add(logout);
+        menu.setVisible(true);
+        setJMenuBar(menu);
 
     }
 
@@ -105,7 +105,7 @@ public class GUI extends javax.swing.JFrame {
      * Metodo per eliminare il menu, e rimuoverlo dalla grafica
      */
     public void hideMenu() {
-        jMenuBar1 = null;
+        menu = null;
         this.setJMenuBar(null);
     }
 

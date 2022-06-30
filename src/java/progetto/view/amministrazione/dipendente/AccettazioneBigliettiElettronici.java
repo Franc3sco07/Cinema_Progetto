@@ -20,59 +20,59 @@ import java.util.Optional;
 
 public class AccettazioneBigliettiElettronici extends javax.swing.JPanel {
 
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton verifica;
+    private javax.swing.JButton annulla;
+    private javax.swing.JButton conferma;
+    private javax.swing.JLabel labelCodice;
     private javax.swing.JPanel pannelloCarte;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
+    private javax.swing.JTextField codiceField;
+    private javax.swing.JPanel panelloBiglietto;
+    private javax.swing.JPanel panelloVuoto;
 
     public AccettazioneBigliettiElettronici() {
         initComponents();
     }
 
     private void initComponents() {
-        jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        panelloBiglietto = new javax.swing.JPanel();
+        labelCodice = new javax.swing.JLabel();
+        codiceField = new javax.swing.JTextField();
+        verifica = new javax.swing.JButton();
+        annulla = new javax.swing.JButton();
+        conferma = new javax.swing.JButton();
         pannelloCarte = new javax.swing.JPanel(new CardLayout());
-        jPanel3 = new javax.swing.JPanel();
+        panelloVuoto = new javax.swing.JPanel();
 
-        jLabel1.setText("Inserisci codice");
-        jTextField1.setText("");
+        labelCodice.setText("Inserisci codice");
+        codiceField.setText("");
 
-        jButton1.setText("Verifica");
-        jButton1.addActionListener(evt -> {
-            Optional<Transazione> opTransazione = new ControllerTransazione().getTransazioneByIDPrenotazione(jTextField1.getText());
+        verifica.setText("Verifica");
+        verifica.addActionListener(evt -> {
+            Optional<Transazione> opTransazione = new ControllerTransazione().getTransazioneByIDPrenotazione(codiceField.getText());
             if (opTransazione.isPresent()) {
                 JOptionPane.showMessageDialog(null, "Il biglietto è stato già utilizzato");
                 return;
             }
-            Optional<Prenotazione> el = new ControllerPrenotazione().getPrenotazioneById(jTextField1.getText());
+            Optional<Prenotazione> el = new ControllerPrenotazione().getPrenotazioneById(codiceField.getText());
             if (el.isPresent()) {
                 Prenotazione biglietto = el.get();
                 if (pannelloCarte.getComponentCount() > 1) {
-                    pannelloCarte.remove(jPanel2);
+                    pannelloCarte.remove(panelloBiglietto);
                 }
 
-                jButton2.setEnabled(true);
-                jButton3.setEnabled(true);
+                annulla.setEnabled(true);
+                conferma.setEnabled(true);
 
                 CardLayout cl = (CardLayout) (pannelloCarte.getLayout());
                 try{
-                    jPanel2 = new BigliettoSingolo(biglietto);
+                    panelloBiglietto = new BigliettoSingolo(biglietto);
                 }catch (BigliettoInfoException e){
                     JOptionPane.showMessageDialog(null, "Il biglietto non valido");
                     return;
 
                 }
 
-                pannelloCarte.add(jPanel2);
+                pannelloCarte.add(panelloBiglietto);
 
                 cl.next(pannelloCarte);
 
@@ -82,19 +82,19 @@ public class AccettazioneBigliettiElettronici extends javax.swing.JPanel {
 
         });
 
-        jButton2.setText("Annulla");
-        jButton2.setEnabled(false);
-        jButton2.addActionListener(evt -> {
-            jButton2.setEnabled(false);
-            jButton3.setEnabled(false);
-            jTextField1.setText("");
-            pannelloCarte.remove(jPanel2);
+        annulla.setText("Annulla");
+        annulla.setEnabled(false);
+        annulla.addActionListener(evt -> {
+            annulla.setEnabled(false);
+            conferma.setEnabled(false);
+            codiceField.setText("");
+            pannelloCarte.remove(panelloBiglietto);
         });
 
-        jButton3.setText("Conferma");
-        jButton3.setEnabled(false);
-        jButton3.addActionListener(evt -> {
-            Optional<Prenotazione> el = new ControllerPrenotazione().getPrenotazioneById(jTextField1.getText());
+        conferma.setText("Conferma");
+        conferma.setEnabled(false);
+        conferma.addActionListener(evt -> {
+            Optional<Prenotazione> el = new ControllerPrenotazione().getPrenotazioneById(codiceField.getText());
             if (el.isPresent()) {
                 Prenotazione biglietto = el.get();
                 String transazione = biglietto.getId() + "," +
@@ -103,20 +103,20 @@ public class AccettazioneBigliettiElettronici extends javax.swing.JPanel {
                         biglietto.getPrezzo();
                 new ControllerTransazione().insertTransazione(transazione);
 
-                jButton2.setEnabled(false);
-                jButton3.setEnabled(false);
-                jTextField1.setText("");
-                pannelloCarte.remove(jPanel2);
+                annulla.setEnabled(false);
+                conferma.setEnabled(false);
+                codiceField.setText("");
+                pannelloCarte.remove(panelloBiglietto);
             }
 
         });
 
         pannelloCarte.setBorder(new LineBorder(Color.gray, 2));
-        pannelloCarte.add(jPanel3);
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel3);
+        pannelloCarte.add(panelloVuoto);
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(panelloVuoto);
 
 
-        jPanel3.setLayout(jPanel1Layout);
+        panelloVuoto.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -135,16 +135,16 @@ public class AccettazioneBigliettiElettronici extends javax.swing.JPanel {
                                 .addContainerGap()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                         .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(labelCodice, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(codiceField, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(39, 39, 39)
-                                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(verifica, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(26, 26, 26))
                                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(annulla, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(conferma, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(23, 23, 23))))
                         .addComponent(pannelloCarte, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -153,15 +153,15 @@ public class AccettazioneBigliettiElettronici extends javax.swing.JPanel {
                         .addGroup(layout.createSequentialGroup()
                                 .addGap(48, 48, 48)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jButton1))
+                                        .addComponent(labelCodice, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(codiceField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(verifica))
                                 .addGap(18, 18, 18)
                                 .addComponent(pannelloCarte, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jButton2)
-                                        .addComponent(jButton3))
+                                        .addComponent(annulla)
+                                        .addComponent(conferma))
                                 .addGap(22, 22, 22))
         );
     }

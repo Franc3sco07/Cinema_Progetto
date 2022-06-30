@@ -15,6 +15,7 @@ import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.util.Collection;
 import java.util.Date;
+import java.util.stream.Stream;
 
 /**
  * Classe VisualizzaPrenotazioni
@@ -22,7 +23,7 @@ import java.util.Date;
  * La classe funzionerà in maniera differente in base al tipo di utente connesso: utente o dipendente
  */
 public class VisualizzaPrenotazioni extends javax.swing.JPanel {
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane panelloScorrimento;
 
     public VisualizzaPrenotazioni() {
         initComponents();
@@ -47,18 +48,18 @@ public class VisualizzaPrenotazioni extends javax.swing.JPanel {
                 .map(s -> generazionePrenotazione(s))
                 .forEach(s -> prenotazioni.add(s));
 
-        jScrollPane1 = new javax.swing.JScrollPane(prenotazioni);
-        jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        panelloScorrimento = new javax.swing.JScrollPane(prenotazioni);
+        panelloScorrimento.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
+                        .addComponent(panelloScorrimento, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
+                        .addComponent(panelloScorrimento, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
         );
     }
 
@@ -68,27 +69,29 @@ public class VisualizzaPrenotazioni extends javax.swing.JPanel {
         String idUtente = Session.getSessioneCorrente().getUtenteConesso().getId();
         Collection<String> listaFilm = new ControllerPrenotazione().getIdFilmByIdUtenteInADay(idUtente, new Date());
         Collection<Film> filmDisponibili = new ControllerFilm().getAllFilmsByIdList(listaFilm);
-        int i = filmDisponibili.size();
         filmDisponibili.stream()
                 .map(s -> generazioneFilm(s))
                 .forEach(s -> panelloFilm.add(s));
-        for (; i < 4; i++) {
-            JPanel j = new FilmVuoto();
-            panelloFilm.add(j);
+
+        int i = 4 - filmDisponibili.size() ;
+        if (i>0){
+            Stream.generate(FilmVuoto::new)
+                    .limit(i)
+                    .forEach(s ->panelloFilm.add(s));
         }
 
-        jScrollPane1 = new javax.swing.JScrollPane(panelloFilm);
-        jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        panelloScorrimento = new javax.swing.JScrollPane(panelloFilm);
+        panelloScorrimento.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 760, Short.MAX_VALUE)
+                        .addComponent(panelloScorrimento, javax.swing.GroupLayout.DEFAULT_SIZE, 760, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
+                        .addComponent(panelloScorrimento, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
         );
     }
 

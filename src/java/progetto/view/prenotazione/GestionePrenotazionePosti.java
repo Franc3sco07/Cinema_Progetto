@@ -37,12 +37,12 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
     private String imgNome = "poltrona2.png";
     private Color selezionato = new Color(0, 125, 0);
     private Color cambiato = new Color(125, 125, 0);
-    private ImageIcon icon;
+    private ImageIcon poltronaIcon;
     private int[][] posti;
     private String proizioneId;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton prenota;
+    private javax.swing.JButton indietro;
+    private javax.swing.JPanel tmpPanelloPosti;
 
     public GestionePrenotazionePosti() {
 
@@ -51,9 +51,9 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
 
     private void initComponents() {
         //String proizioneId;
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        JPanel jPanel2 = new JPanel();
+        prenota = new javax.swing.JButton();
+        indietro = new javax.swing.JButton();
+        JPanel panelloPosti = new JPanel();
 
         if (Main.context.getState() instanceof ModificaPrenotazioneState) {
             String idPrenotazione = Session.getSessioneCorrente().getIdRiferimentoProiezione();
@@ -75,8 +75,8 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
 
         int righe = posti.length;
         int colonne = posti[0].length;
-        icon = GestioneFile.apriImmagine(imgNome);
-        Image image = icon.getImage();
+        poltronaIcon = GestioneFile.apriImmagine(imgNome);
+        Image image = poltronaIcon.getImage();
         int lunghezza_img = panel_lunghezza / (colonne);
         int altezza_img = panel_altezza / (righe);
 
@@ -112,9 +112,9 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
         }
         //fine
 
-        icon = new ImageIcon(newIcon);
-        jPanel1 = new javax.swing.JPanel(new GridLayout(righe, colonne));
-        jPanel1.setSize(lunghezza_finale, altezza_finale);
+        poltronaIcon = new ImageIcon(newIcon);
+        tmpPanelloPosti = new javax.swing.JPanel(new GridLayout(righe, colonne));
+        tmpPanelloPosti.setSize(lunghezza_finale, altezza_finale);
         JButton postoDaInserire;
         // Creazione della sala nel panello, usando la matrice dei posti.
         // 0= corridoio
@@ -123,8 +123,8 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
         // 3 = posto già prenotato dall' utente (solo modifica)
         for (int x = 0; x < righe; x++) {
             for (int y = 0; y < colonne; y++) {
-                postoDaInserire = new JButton(icon);
-                postoDaInserire.setSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
+                postoDaInserire = new JButton(poltronaIcon);
+                postoDaInserire.setSize(new Dimension(poltronaIcon.getIconWidth(), poltronaIcon.getIconHeight()));
                 postoDaInserire.setBorder(null);
                 if (posti[x][y] == 0) {
 
@@ -147,19 +147,19 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
                     postoDaInserire.addActionListener(this::gestoreBottonePostoLibero);
                 }
 
-                jPanel1.add(postoDaInserire);
+                tmpPanelloPosti.add(postoDaInserire);
             }
         }
 
         if (Main.context.getState() instanceof ModificaPrenotazioneState) {
-            jButton1.setText("Modifica");
-            jButton1.setToolTipText("Modifica la prenotazione prima di continuare");
+            prenota.setText("Modifica");
+            prenota.setToolTipText("Modifica la prenotazione prima di continuare");
         } else {
-            jButton1.setText("Prenota");
-            jButton1.setToolTipText("Seleziona un posto prima di continuare");
+            prenota.setText("Prenota");
+            prenota.setToolTipText("Seleziona un posto prima di continuare");
         }
-        jButton1.setEnabled(false);
-        jButton1.addActionListener(evt -> {
+        prenota.setEnabled(false);
+        prenota.addActionListener(evt -> {
             if (postiSelezionati.size() > 0) {
                 Optional<Proiezione> op2 = new ControllerProiezione().getProiezioneByID(proizioneId);
                 if (op2.isEmpty()) {
@@ -201,10 +201,7 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
                     } else {
                         throw new IllegalArgumentException();
                     }
-
-
                 } else {
-
                     String prenotazione = Session.getSessioneCorrente().getUtenteConesso().getId()
                             + "," + Session.getSessioneCorrente().getIdRiferimentoProiezione()
                             + "," + Session.getSessioneCorrente().getIdRiferimentoFilm()
@@ -236,9 +233,9 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
             }
         });
 
-        jButton2.setText("Indietro");
-        jButton2.setToolTipText("Ritorna alle proiezioni");
-        jButton2.addActionListener(evt -> {
+        indietro.setText("Indietro");
+        indietro.setToolTipText("Ritorna alle proiezioni");
+        indietro.addActionListener(evt -> {
             if (Main.context.getState() instanceof ModificaPrenotazioneState) {
                 if (Session.getSessioneCorrente().getUtenteConesso().getTipo().equals(TipiUtente.DIPENDENTE.tipo)) {
                     new PrenotazioneDipendeteState().doAction(Main.context);
@@ -250,31 +247,31 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
             }
         });
 
-        jPanel2.setSize(panel_lunghezza, panel_altezza);
-        jPanel2.add(jPanel1, CENTER_ALIGNMENT);
-        jPanel2.setVisible(true);
+        panelloPosti.setSize(panel_lunghezza, panel_altezza);
+        panelloPosti.add(tmpPanelloPosti, CENTER_ALIGNMENT);
+        panelloPosti.setVisible(true);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, panel_lunghezza, Short.MAX_VALUE)
+                        .addComponent(panelloPosti, javax.swing.GroupLayout.DEFAULT_SIZE, panel_lunghezza, Short.MAX_VALUE)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(indietro, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(prenota, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(27, 27, 27))
         );
 
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, panel_altezza, Short.MAX_VALUE)
+                                .addComponent(panelloPosti, javax.swing.GroupLayout.DEFAULT_SIZE, panel_altezza, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jButton2)
-                                        .addComponent(jButton1))
+                                        .addComponent(indietro)
+                                        .addComponent(prenota))
                                 .addContainerGap())
         );
     }
@@ -287,9 +284,9 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
             int numbers[][] = TraduttoreMatrice.stringToMatrice(name);
             posti[numbers[0][0]][numbers[0][1]] = 2;
 
-            if (!jButton1.isEnabled()) {
-                jButton1.setToolTipText(null);
-                jButton1.setEnabled(true);
+            if (!prenota.isEnabled()) {
+                prenota.setToolTipText(null);
+                prenota.setEnabled(true);
             }
 
             source.setBackground(selezionato);
@@ -304,8 +301,8 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
             source.setToolTipText("Seleziona posto " + source.getName().replaceAll(":", ","));
             if (postiSelezionati.size() < 1) {
 
-                jButton1.setToolTipText("Seleziona un posto prima di continuare");
-                jButton1.setEnabled(false);
+                prenota.setToolTipText("Seleziona un posto prima di continuare");
+                prenota.setEnabled(false);
             }
         }
     }
@@ -320,12 +317,12 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
             int numbers[][] = TraduttoreMatrice.stringToMatrice(name);
             posti[numbers[0][0]][numbers[0][1]] = 1;
             if (postiSelezionati.size() < 1) {
-                jButton1.setToolTipText("Seleziona un posto prima di continuare");
-                jButton1.setEnabled(false);
+                prenota.setToolTipText("Seleziona un posto prima di continuare");
+                prenota.setEnabled(false);
             }
-            if (!jButton1.isEnabled()) {
-                jButton1.setToolTipText(null);
-                jButton1.setEnabled(true);
+            if (!prenota.isEnabled()) {
+                prenota.setToolTipText(null);
+                prenota.setEnabled(true);
             }
             source.setBackground(cambiato);
         } else {
@@ -335,9 +332,9 @@ public class GestionePrenotazionePosti extends javax.swing.JPanel {
             int numbers[][] = TraduttoreMatrice.stringToMatrice(name);
             posti[numbers[0][0]][numbers[0][1]] = 2;
 
-            if (!jButton1.isEnabled()) {
-                jButton1.setToolTipText(null);
-                jButton1.setEnabled(true);
+            if (!prenota.isEnabled()) {
+                prenota.setToolTipText(null);
+                prenota.setEnabled(true);
             }
             source.setBackground(selezionato);
             source.setToolTipText("Annulla selezione");

@@ -22,11 +22,11 @@ import java.awt.event.FocusListener;
 
 public class ModificaPassword extends javax.swing.JPanel {
     private Utente utenteCorrente;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
+    private javax.swing.JButton indietro;
+    private javax.swing.JButton conferma;
+    private javax.swing.JLabel labelConferma;
+    private javax.swing.JLabel labelPassowrd;
+    private javax.swing.JLabel labelNuovaPassoword;
     private javax.swing.JPasswordField nuovaPassword;
     private javax.swing.JPasswordField passwordCorrente;
     private javax.swing.JPasswordField confermaPassword;
@@ -38,24 +38,24 @@ public class ModificaPassword extends javax.swing.JPanel {
 
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        indietro = new javax.swing.JButton();
+        conferma = new javax.swing.JButton();
         nuovaPassword = new javax.swing.JPasswordField();
         passwordCorrente = new javax.swing.JPasswordField();
         confermaPassword = new javax.swing.JPasswordField();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        labelConferma = new javax.swing.JLabel();
+        labelPassowrd = new javax.swing.JLabel();
+        labelNuovaPassoword = new javax.swing.JLabel();
 
-        jLabel4.setText("Conferma password");
-        jLabel5.setText("Inserisci password corrente");
-        jLabel6.setText("Inserisci nuova password");
+        labelConferma.setText("Conferma password");
+        labelPassowrd.setText("Inserisci password corrente");
+        labelNuovaPassoword.setText("Inserisci nuova password");
 
-        jButton1.setText("Indietro");
-        jButton1.addActionListener(evt -> new VisualizzaDatiState().doAction(Main.context));
+        indietro.setText("Indietro");
+        indietro.addActionListener(evt -> new VisualizzaDatiState().doAction(Main.context));
 
-        jButton2.setText("Conferma password");
-        jButton2.addActionListener(evt -> {
+        conferma.setText("Conferma password");
+        conferma.addActionListener(evt -> {
             if (utenteCorrente.getPassword().equals(new String(passwordCorrente.getPassword()))) {
                 if (((LineBorder) confermaPassword.getBorder()).getLineColor() == Color.green && ((LineBorder) nuovaPassword.getBorder()).getLineColor() == Color.green) {
                     utenteCorrente.setPassword(new String(nuovaPassword.getPassword()));
@@ -113,9 +113,9 @@ public class ModificaPassword extends javax.swing.JPanel {
                                                 .addContainerGap(34, Short.MAX_VALUE)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addComponent(jLabel6))
-                                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                .addComponent(labelConferma, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addComponent(labelNuovaPassoword))
+                                                        .addComponent(labelPassowrd, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                 .addGap(39, 39, 39)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addComponent(nuovaPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -123,9 +123,9 @@ public class ModificaPassword extends javax.swing.JPanel {
                                                         .addComponent(passwordCorrente, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                         .addGroup(layout.createSequentialGroup()
                                                 .addGap(89, 89, 89)
-                                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(indietro, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                .addComponent(conferma, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(151, 151, 151))
         );
         layout.setVerticalGroup(
@@ -133,20 +133,20 @@ public class ModificaPassword extends javax.swing.JPanel {
                         .addGroup(layout.createSequentialGroup()
                                 .addGap(57, 57, 57)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(labelPassowrd, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(passwordCorrente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(25, 25, 25)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(nuovaPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(labelNuovaPassoword, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(29, 29, 29)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(labelConferma, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(confermaPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jButton1)
-                                        .addComponent(jButton2))
+                                        .addComponent(indietro)
+                                        .addComponent(conferma))
                                 .addGap(117, 117, 117))
         );
     }

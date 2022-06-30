@@ -18,8 +18,8 @@ import java.util.Collection;
  */
 
 public class GestioneDipendenti extends javax.swing.JPanel {
-    private javax.swing.JButton jButton1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton inserisciDipedente;
+    private javax.swing.JScrollPane panelloScorrimento;
 
     public GestioneDipendenti() {
         initComponents();
@@ -35,29 +35,29 @@ public class GestioneDipendenti extends javax.swing.JPanel {
                 .map(s -> GenerazioneDipedente(s))
                 .forEach(s -> infoPannello.add(s));
 
-        jScrollPane1 = new javax.swing.JScrollPane(infoPannello);
-        jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        jButton1 = new javax.swing.JButton();
+        panelloScorrimento = new javax.swing.JScrollPane(infoPannello);
+        panelloScorrimento.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        inserisciDipedente = new javax.swing.JButton();
 
-        jButton1.setText("Inserisci dipendente");
-        jButton1.addActionListener(evt -> new InserimentoDipendenteState().doAction(Main.context));
+        inserisciDipedente.setText("Inserisci dipendente");
+        inserisciDipedente.addActionListener(evt -> new InserimentoDipendenteState().doAction(Main.context));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(panelloScorrimento, javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(53, 527, Short.MAX_VALUE)
-                                .addComponent(jButton1)
+                                .addComponent(inserisciDipedente)
                                 .addGap(29, 29, 29))
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(panelloScorrimento, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton1)
+                                .addComponent(inserisciDipedente)
                                 .addGap(19, 19, 19))
         );
     }

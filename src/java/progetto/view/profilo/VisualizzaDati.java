@@ -27,18 +27,18 @@ public class VisualizzaDati extends javax.swing.JPanel implements Cloneable {
     private javax.swing.JButton bottoneSalva;
     private javax.swing.JButton bottoneAnnulla;
     private javax.swing.JButton eliminaAccount;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton modifica;
     private javax.swing.JButton modificaPassword;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JTextField nomeTextField;
+    private javax.swing.JLabel labelNome;
+    private javax.swing.JLabel labelCognome;
+    private javax.swing.JLabel labelEmail;
+    private javax.swing.JLabel labelCellulare;
+    private javax.swing.JLabel labelCF;
+    private javax.swing.JTextField nomeField;
     private javax.swing.JTextField cognomeTextField;
-    private javax.swing.JTextField emailTextField;
-    private javax.swing.JTextField cellulareTextField;
-    private javax.swing.JTextField cfTextField;
+    private javax.swing.JTextField emailField;
+    private javax.swing.JTextField cellulareField;
+    private javax.swing.JTextField cfField;
 
     public VisualizzaDati() {
         utenteCorrente = Session.getSessioneCorrente().getUtenteConesso();
@@ -47,50 +47,49 @@ public class VisualizzaDati extends javax.swing.JPanel implements Cloneable {
 
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        nomeTextField = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        labelNome = new javax.swing.JLabel();
+        nomeField = new javax.swing.JTextField();
+        labelCognome = new javax.swing.JLabel();
+        labelEmail = new javax.swing.JLabel();
+        labelCellulare = new javax.swing.JLabel();
+        labelCF = new javax.swing.JLabel();
         cognomeTextField = new javax.swing.JTextField();
-        emailTextField = new javax.swing.JTextField();
-        cellulareTextField = new javax.swing.JTextField();
-        cfTextField = new javax.swing.JTextField();
+        emailField = new javax.swing.JTextField();
+        cellulareField = new javax.swing.JTextField();
+        cfField = new javax.swing.JTextField();
         bottoneSalva = new javax.swing.JButton();
         bottoneAnnulla = new javax.swing.JButton();
         eliminaAccount = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        modifica = new javax.swing.JButton();
         modificaPassword = new javax.swing.JButton();
 
-        jLabel1.setText("Nome");
-
-        nomeTextField.setText(utenteCorrente.getNome());
-        nomeTextField.setEditable(false);
-
-        jLabel2.setText("Cognome");
-        jLabel3.setText("e-mail");
-        jLabel4.setText("numero cellulare");
-        jLabel5.setText("codice fiscale");
+        labelNome.setText("Nome");
+        labelCognome.setText("Cognome");
+        labelEmail.setText("e-mail");
+        labelCellulare.setText("numero cellulare");
+        labelCF.setText("codice fiscale");
 
         cognomeTextField.setText(utenteCorrente.getCognome());
         cognomeTextField.setEditable(false);
+        nomeField.setText(utenteCorrente.getNome());
+        nomeField.setEditable(false);
 
-        emailTextField.setText(utenteCorrente.getEmail());
-        emailTextField.setEditable(false);
-        cellulareTextField.setText(utenteCorrente.getNumeroCellulare());
-        cellulareTextField.setEditable(false);
 
-        cfTextField.setText(utenteCorrente.getCodiceFiscale());
-        cfTextField.setEditable(false);
+        emailField.setText(utenteCorrente.getEmail());
+        emailField.setEditable(false);
+        cellulareField.setText(utenteCorrente.getNumeroCellulare());
+        cellulareField.setEditable(false);
+
+        cfField.setText(utenteCorrente.getCodiceFiscale());
+        cfField.setEditable(false);
 
         bottoneSalva.setText("Salva");
         bottoneSalva.addActionListener(evt -> {
-            utenteCorrente.setCodiceFiscale(cfTextField.getText());
+            utenteCorrente.setCodiceFiscale(cfField.getText());
             utenteCorrente.setCognome(cognomeTextField.getText());
-            utenteCorrente.setEmail(emailTextField.getText());
-            utenteCorrente.setNome(nomeTextField.getText());
-            utenteCorrente.setNumeroCellulare(cellulareTextField.getText());
+            utenteCorrente.setEmail(emailField.getText());
+            utenteCorrente.setNome(nomeField.getText());
+            utenteCorrente.setNumeroCellulare(cellulareField.getText());
 
 
             if (new ControllerUtente().modifyUtente(utenteCorrente).equals("ok")) {
@@ -110,75 +109,37 @@ public class VisualizzaDati extends javax.swing.JPanel implements Cloneable {
         eliminaAccount.setText("elimina account");
         eliminaAccount.addActionListener(evt -> {
             String opzioni[] = {"Si", "No"};
-            boolean eliminaAccount;
+            //boolean eliminaAccount;
             JPanel confermaEliminazione = new JPanel();
             JLabel testo = new JLabel("Sei sicuro di voler eliminare il tuo account");
             testo.setHorizontalAlignment(SwingConstants.CENTER);
             confermaEliminazione.add(testo);
             int res = JOptionPane.showOptionDialog(null, confermaEliminazione, "Conferma", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, opzioni, null);
 
-            if (res == 0) {
-                eliminaAccount = true;
-            } else {
-                eliminaAccount = false;
+            if (res != 0) {
+                return;
             }
-            if (eliminaAccount) {
-                Collection<Prenotazione> prenotazioni = new ControllerPrenotazione().getPrenotazioniByIDgeneratoreAfterDate(utenteCorrente.getId(), new Date());
-                if (prenotazioni.size() >= 1) {
-
+            Collection<Prenotazione> prenotazioni = new ControllerPrenotazione().getPrenotazioniByIDgeneratoreAfterDate(utenteCorrente.getId(), new Date());
+            if (prenotazioni.size() >= 1) {
                     testo.setText("Ci sono delle prenotazioni effettute, perderai tutte le prenotazioni, continuare?");
                     res = JOptionPane.showOptionDialog(null, confermaEliminazione, "Conferma", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, opzioni, null);
                     if (res == 0) {
-                        Prenotazione tmp;
-
-                        for (Iterator<Prenotazione> iterator = prenotazioni.iterator(); iterator.hasNext(); ) {
-                            tmp = iterator.next();
-                            Optional<Proiezione> op = new ControllerProiezione().getProiezioneByID(tmp.getIdProiezione());
-                            if (op.isEmpty()) {
-                                throw new IllegalArgumentException();
-                            }
-                            Proiezione proizioneModificata = op.get();
-                            int posti[][] = proizioneModificata.getPostiAttualiOccupati();
-                            int postiDaLiberare[][] = TraduttoreMatrice.stringToMatrice(tmp.getPostoAssegnato());
-                            for (int i = 0; i < postiDaLiberare.length; i++) {
-                                posti[postiDaLiberare[i][0]][postiDaLiberare[i][1]] = 1;
-                            }
-
-                            proizioneModificata.setPostiAttualiOccupati(posti);
-                            proizioneModificata.setPostiLiberi(proizioneModificata.getPostiLiberi() + postiDaLiberare.length);
-                            new ControllerProiezione().modifyProiezione(proizioneModificata);
-
-                            if (Session.getSessioneCorrente().getUtenteConesso().getTipo().equals(TipiUtente.DIPENDENTE.tipo)) {
-                                Optional<Transazione> opTransazione = new ControllerTransazione().getTransazioneByIDPrenotazione(tmp.getId());
-                                if (opTransazione.isPresent()) {
-                                    String idTransazione = opTransazione.get().getIdTransazione();
-                                    new ControllerTransazione().deleteTransazione(idTransazione);
-                                }
-
-                            }
-                        }
-                        prenotazioni.stream().forEach(x -> new ControllerPrenotazione().deletePrenotazione(x.getId()));
+                        prenotazioni.stream().forEach(s -> eliminaDatiPrenotazione(s));
                     } else {
-                        eliminaAccount = false;
-                    }
-                }
-
-            }
-
-            if (eliminaAccount) {
-                new ControllerUtente().deleteUtenteByID(utenteCorrente.getId());
-                JOptionPane.showMessageDialog(null, "Eliminazione del account completata, verrai disconesso");
-                new LoginState().doAction(Main.context);
-            }
+                        return;
+                    }}
+            new ControllerUtente().deleteUtenteByID(utenteCorrente.getId());
+            JOptionPane.showMessageDialog(null, "Eliminazione del account completata, verrai disconesso");
+            new LoginState().doAction(Main.context);
         });
 
-        jButton4.setText("Modifica");
-        jButton4.addActionListener(evt -> {
-            nomeTextField.setEditable(true);
+        modifica.setText("Modifica");
+        modifica.addActionListener(evt -> {
+            nomeField.setEditable(true);
             cognomeTextField.setEditable(true);
-            emailTextField.setEditable(true);
-            cfTextField.setEditable(true);
-            cellulareTextField.setEditable(true);
+            emailField.setEditable(true);
+            cfField.setEditable(true);
+            cellulareField.setEditable(true);
             bottoneAnnulla.setVisible(true);
             bottoneSalva.setVisible(true);
         });
@@ -205,7 +166,7 @@ public class VisualizzaDati extends javax.swing.JPanel implements Cloneable {
                                                         .addComponent(modificaPassword, 200, 200, 200)
                                                         .addGroup(layout.createSequentialGroup()
                                                                 .addGap(20, 20, 20)
-                                                                .addComponent(jButton4, 160, 160, 160)))
+                                                                .addComponent(modifica, 160, 160, 160)))
                                                 .addGap(200, 200, 200)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addGroup(layout.createSequentialGroup()
@@ -219,17 +180,17 @@ public class VisualizzaDati extends javax.swing.JPanel implements Cloneable {
                                                                 .addGap(40, 40, 40))))
                                         .addGroup(layout.createSequentialGroup()
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, Short.MAX_VALUE)
-                                                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                                                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                                                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                                                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
+                                                        .addComponent(labelNome, javax.swing.GroupLayout.PREFERRED_SIZE, 150, Short.MAX_VALUE)
+                                                        .addComponent(labelCellulare, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                                                        .addComponent(labelEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                                                        .addComponent(labelCognome, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                                                        .addComponent(labelCF, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(cfTextField, 400, 400, 400)
-                                                        .addComponent(cellulareTextField, 400, 400, 400)
+                                                        .addComponent(cfField, 400, 400, 400)
+                                                        .addComponent(cellulareField, 400, 400, 400)
                                                         .addComponent(cognomeTextField, 400, 400, 400)
-                                                        .addComponent(nomeTextField, 400, 400, 400)
-                                                        .addComponent(emailTextField, 400, 400, 400))
+                                                        .addComponent(nomeField, 400, 400, 400)
+                                                        .addComponent(emailField, 400, 400, 400))
                                         )))
         );
         layout.setVerticalGroup(
@@ -237,28 +198,28 @@ public class VisualizzaDati extends javax.swing.JPanel implements Cloneable {
                         .addGroup(layout.createSequentialGroup()
                                 .addGap(35, 35, 35)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel1)
-                                        .addComponent(nomeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(labelNome)
+                                        .addComponent(nomeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(16, 16, 16)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(cognomeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(labelCognome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel3)
-                                        .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(labelEmail)
+                                        .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(cellulareTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 29, Short.MAX_VALUE))
+                                        .addComponent(labelCellulare, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(cellulareField, javax.swing.GroupLayout.PREFERRED_SIZE, 29, Short.MAX_VALUE))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(cfTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(labelCF, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(cfField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(30, 30, 30)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(bottoneAnnulla)
-                                        .addComponent(jButton4)
+                                        .addComponent(modifica)
                                         .addComponent(bottoneSalva))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -271,5 +232,24 @@ public class VisualizzaDati extends javax.swing.JPanel implements Cloneable {
 
     private void restore() {
         Main.frame.aggiornaPannello(new VisualizzaDati());
+    }
+
+    private void eliminaDatiPrenotazione(Prenotazione pr ){
+            Optional<Proiezione> op = new ControllerProiezione().getProiezioneByID(pr.getIdProiezione());
+            if(op.isEmpty()){
+                return;
+            }
+            Proiezione proizioneModificata = op.get();
+            int posti[][] = proizioneModificata.getPostiAttualiOccupati();
+            int postiDaLiberare[][] = TraduttoreMatrice.stringToMatrice(pr.getPostoAssegnato());
+            for (int i = 0; i < postiDaLiberare.length; i++) {
+                posti[postiDaLiberare[i][0]][postiDaLiberare[i][1]] = 1;
+            }
+
+            proizioneModificata.setPostiAttualiOccupati(posti);
+            proizioneModificata.setPostiLiberi(proizioneModificata.getPostiLiberi() + postiDaLiberare.length);
+            new ControllerProiezione().modifyProiezione(proizioneModificata);
+            new ControllerPrenotazione().deletePrenotazione(pr.getId());
+
     }
 }

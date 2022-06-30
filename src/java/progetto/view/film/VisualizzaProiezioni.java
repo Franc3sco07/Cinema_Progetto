@@ -8,6 +8,7 @@ package progetto.view.film;
 import progetto.Controller.ControllerProiezione;
 import progetto.Main;
 import progetto.Session;
+import progetto.elementiGrafici.film.FilmVuoto;
 import progetto.elementiGrafici.proiezione.ProiezioneSingola;
 import progetto.elementiGrafici.proiezione.ProiezioneVuota;
 import progetto.model.Proiezione;
@@ -19,6 +20,7 @@ import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.util.Collection;
 import java.util.Date;
+import java.util.stream.Stream;
 
 /**
  * Classe VisualizzaProiezioni
@@ -26,8 +28,8 @@ import java.util.Date;
  */
 public class VisualizzaProiezioni extends javax.swing.JPanel {
 
-    private javax.swing.JButton jButton1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton indietro;
+    private javax.swing.JScrollPane panelloScorrimento;
 
     public VisualizzaProiezioni() {
         initComponents();
@@ -38,33 +40,36 @@ public class VisualizzaProiezioni extends javax.swing.JPanel {
         JPanel infoPannello = new JPanel();
         infoPannello.setLayout(new BoxLayout(infoPannello, BoxLayout.Y_AXIS));
         Date oggi = new Date();
-        Collection<Proiezione> listaProiezione;
+        Collection<Proiezione> listaProiezioni;
 
         if (!Session.getSessioneCorrente().getUtenteConesso().getTipo().equals(TipiUtente.DIPENDENTE.tipo)) {
 
-            listaProiezione = new ControllerProiezione().getAllProiezioneByIdFilmAfterDate(Session.getSessioneCorrente().getIdRiferimentoFilm(), oggi);
+            listaProiezioni = new ControllerProiezione().getAllProiezioneByIdFilmAfterDate(Session.getSessioneCorrente().getIdRiferimentoFilm(), oggi);
 
         } else {
 
-            listaProiezione = new ControllerProiezione().getProiezioneByIDFilmInADay(Session.getSessioneCorrente().getIdRiferimentoFilm(), oggi);
+            listaProiezioni = new ControllerProiezione().getProiezioneByIDFilmInADay(Session.getSessioneCorrente().getIdRiferimentoFilm(), oggi);
         }
 
 
-        listaProiezione.stream().sorted(Proiezione::compareTo)
+        listaProiezioni.stream().sorted(Proiezione::compareTo)
                 .map(x -> generatoreProiezioni(x))
                 .forEach(x -> infoPannello.add(x));
-        for (int i = listaProiezione.size(); i < 7; i++) {
-            JPanel j = new ProiezioneVuota();
-            infoPannello.add(j);
+        int i = 7 - listaProiezioni.size() ;
+        if (i>0){
+            Stream.generate(ProiezioneVuota::new)
+                    .limit(i)
+                    .forEach(s ->infoPannello.add(s));
         }
 
-        jScrollPane1 = new javax.swing.JScrollPane(infoPannello);
-        jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
-        jButton1 = new javax.swing.JButton();
-        jButton1.setText("Indietro");
-        jButton1.setToolTipText("Ritorna ai film");
-        jButton1.addActionListener(evt -> new FilmState().doAction(Main.context));
+        panelloScorrimento = new javax.swing.JScrollPane(infoPannello);
+        panelloScorrimento.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+        indietro = new javax.swing.JButton();
+        indietro.setText("Indietro");
+        indietro.setToolTipText("Ritorna ai film");
+        indietro.addActionListener(evt -> new FilmState().doAction(Main.context));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -73,10 +78,10 @@ public class VisualizzaProiezioni extends javax.swing.JPanel {
                         .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 741, Short.MAX_VALUE)
+                                        .addComponent(panelloScorrimento, javax.swing.GroupLayout.DEFAULT_SIZE, 741, Short.MAX_VALUE)
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                                 .addGap(0, 0, Short.MAX_VALUE)
-                                                .addComponent(jButton1)))
+                                                .addComponent(indietro)))
                                 .addContainerGap())
         );
 
@@ -84,9 +89,9 @@ public class VisualizzaProiezioni extends javax.swing.JPanel {
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
+                                .addComponent(panelloScorrimento, javax.swing.GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1)
+                                .addComponent(indietro)
                                 .addContainerGap())
         );
     }

@@ -13,6 +13,7 @@ import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.util.Collection;
 import java.util.Date;
+import java.util.stream.Stream;
 
 /**
  * Classe FilmView
@@ -41,18 +42,20 @@ public class FilmView extends javax.swing.JPanel {
             Collection<String> idFilm = new ControllerProiezione().getAllIdFilmAfterDate(oggi);
             filmDisponibili = new ControllerFilm().getAllFilmsByIdList(idFilm);
         }
-        Film tmpFilm;
         //generazione in grafica dei dei vari film
         filmDisponibili.stream()
                 .sorted(Film::compareTo)
                 .map(s -> generazioneFilm(s))
                 .forEach(s -> infoPannello.add(s));
 
-        int i = filmDisponibili.size();
-        for (; i < 4; i++) {
-            JPanel j = new FilmVuoto();
-            infoPannello.add(j);
+        int i = 4 - filmDisponibili.size() ;
+        if (i>0){
+            Stream.generate(FilmVuoto::new)
+                    .limit(i)
+                    .forEach(s ->infoPannello.add(s));
         }
+
+
 
         jScrollPane1 = new javax.swing.JScrollPane(infoPannello);
         jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);

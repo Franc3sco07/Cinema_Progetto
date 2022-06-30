@@ -16,7 +16,7 @@ import java.util.Date;
  * Gestione della prenotazione da parte del dipendente
  */
 public class PrenotazioniDipendente extends javax.swing.JPanel {
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane panelloScorrimento;
 
     public PrenotazioniDipendente() {
         initComponents();
@@ -33,18 +33,18 @@ public class PrenotazioniDipendente extends javax.swing.JPanel {
         listaPrenotazioni.stream()
                 .map(s -> generaPrenotazione(s))
                 .forEach(s -> prenotazioni.add(s));
-        jScrollPane1 = new javax.swing.JScrollPane(prenotazioni);
-        jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        panelloScorrimento = new javax.swing.JScrollPane(prenotazioni);
+        panelloScorrimento.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 790, Short.MAX_VALUE)
+                        .addComponent(panelloScorrimento, javax.swing.GroupLayout.DEFAULT_SIZE, 790, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
+                        .addComponent(panelloScorrimento, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
         );
     }
 

@@ -82,7 +82,7 @@ public class Prenotazione {
         return data;
     }
 
-    public int compareTo(Prenotazione daConfrontare) {       // da rivedere
+    public int compareTo(Prenotazione daConfrontare) {
         if (FunzionalitaDate.stessaData(this.data, daConfrontare.data)) {
             Integer thisId = Integer.parseInt(this.id);
             Integer daConfrontareId = Integer.parseInt(daConfrontare.getId());
