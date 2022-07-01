@@ -1,5 +1,1 @@
-packageSearchIndex = [{
-    "l": "All Packages",
-    "u": "allpackages-index.html"
-}, {"l": "progetto"}, {"l": "progetto.Controller"}, {"l": "progetto.database"}, {"l": "progetto.elementiGrafici"}, {"l": "progetto.functions"}, {"l": "progetto.model"}, {"l": "progetto.state"}, {"l": "progetto.view"}];
-updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"cinema"},{"l":"cinema.controller"},{"l":"cinema.database"},{"l":"cinema.eccezioni"},{"l":"cinema.elementiGrafici"},{"l":"cinema.elementiGrafici.film"},{"l":"cinema.elementiGrafici.proiezione"},{"l":"cinema.funzioni"},{"l":"cinema.model"},{"l":"cinema.state"},{"l":"cinema.state.accesso"},{"l":"cinema.state.amministrazione.admin"},{"l":"cinema.state.amministrazione.dipendente"},{"l":"cinema.state.film"},{"l":"cinema.state.prenotazione"},{"l":"cinema.state.profilo"},{"l":"cinema.view"},{"l":"cinema.view.accesso"},{"l":"cinema.view.amministrazione.admin"},{"l":"cinema.view.amministrazione.dipendente"},{"l":"cinema.view.film"},{"l":"cinema.view.prenotazione"},{"l":"cinema.view.profilo"}];updateSearchResults();
