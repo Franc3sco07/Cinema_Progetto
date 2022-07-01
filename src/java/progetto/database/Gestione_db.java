@@ -60,15 +60,15 @@ public class Gestione_db {
 
             Collection<String> dati = new ArrayList<>(file.lines().parallel().toList());
 
-            int MaxID = dati.parallelStream()
+            Optional<Integer> MaxId = dati.parallelStream()
                     .filter(s -> ValidatoreCampi.isNumeric(s.split(",")[0].trim()))
                     .map(s -> Integer.parseInt(s.split(",")[0].trim()))
-                    .max(Integer::compareTo).get();
-            dati.add((MaxID + 1) + "," + insertElement);
+                    .max(Integer::compareTo).or(()-> Optional.of(0));
+            dati.add((MaxId.get() + 1) + "," + insertElement);
 
             String mess = GestioneFile.writeFile(relativePath + tableName, dati);
             if (mess.equals("ok")) {
-                return "" + ++MaxID;
+                return "" + (MaxId.get().intValue() +1);
             }
             return mess;
 

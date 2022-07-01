@@ -22,7 +22,7 @@ public class ControllerPrenotazione {
      * Funzione che preso un id restituisce l'utente con l'id richiesto
      *
      * @param id id utente da cercare
-     * @return l'utente con l'id desiderato o null se non presente
+     * @return l'utente con l'id desiderato se presente
      */
     public Optional<Prenotazione> getPrenotazioneById(String id) {
         return Prenotazione.stringToPrenotazione(Gestione_db.getRow(tableName, id));

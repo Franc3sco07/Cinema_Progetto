@@ -43,7 +43,7 @@ public class ControllerFilm {
      * Funzione che dato un id di un film, restituisce il film corrispettivo
      *
      * @param IDfilm id del film che si vuole cercare
-     * @return il film richiesto
+     * @return il film richiesto se presente
      */
     public Optional<Film> getFilmByID(String IDfilm) {
         String stringaFilm = Gestione_db.getRow(tableName, IDfilm);

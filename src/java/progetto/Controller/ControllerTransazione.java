@@ -21,7 +21,7 @@ public class ControllerTransazione {
      * Funzione che preso a parametro un id di una prenotazione restituisce la transazione a essa collegata transazione
      *
      * @param idPrenotazione l'id della prenotazione di cui vogliamo sapere la transazione
-     * @return la transazione da noi cercata
+     * @return la transazione richiesta se presente
      */
     public Optional<Transazione> getTransazioneByIDPrenotazione(String idPrenotazione) {
         Optional<BufferedReader> optionalBufferedReader = Gestione_db.getTable(tableName);
@@ -68,7 +68,7 @@ public class ControllerTransazione {
      * Funzione che presa in input un id transazione, elimina la transazione con quell'id
      *
      * @param IDtransazione
-     * @return
+     * @return conferma
      */
     public String deleteTransazione(String IDtransazione) {
         return Gestione_db.deleteRow(IDtransazione, tableName);
@@ -88,7 +88,7 @@ public class ControllerTransazione {
      * Funzione utilizzata per gestire la modifica di una transazione
      *
      * @param transazioneModificata
-     * @return
+     * @return  conferma
      */
     public String modifyTransazione(Transazione transazioneModificata) {
         return Gestione_db.modifyRow(transazioneModificata.getIdTransazione(), tableName, transazioneModificata.toString());

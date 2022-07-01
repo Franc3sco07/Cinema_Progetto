@@ -22,7 +22,7 @@ public class ControllerProiezione {
      * Funzione che presa a paramento un id proiezione restituisca una proiezione
      *
      * @param IDProiezione id della proiezione che ci interessa
-     * @return la proiezione con l'id desiderato
+     * @return la proiezione con l'id desiderato se presente
      */
     public Optional<Proiezione> getProiezioneByID(String IDProiezione) {
         return Proiezione.stringToProiezione(Gestione_db.getRow(tableName, IDProiezione));

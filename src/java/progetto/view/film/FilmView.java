@@ -48,7 +48,7 @@ public class FilmView extends javax.swing.JPanel {
                 .map(s -> generazioneFilm(s))
                 .forEach(s -> infoPannello.add(s));
 
-        int i = 4 - filmDisponibili.size() ;
+        int i = 3 - filmDisponibili.size() ;
         if (i>0){
             Stream.generate(FilmVuoto::new)
                     .limit(i)

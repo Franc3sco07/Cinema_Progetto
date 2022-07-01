@@ -21,7 +21,7 @@ public class ControllerUtente {
      * Funzione che preso in input un id utente, restituisce l'utente con quell'id
      *
      * @param IDUtente
-     * @return
+     * @return l'utente se è presente
      */
     public Optional<Utente> getUtenteByID(String IDUtente) {
         String stringaUtente = Gestione_db.getRow(tableName, IDUtente);
@@ -33,7 +33,7 @@ public class ControllerUtente {
      *
      * @param email
      * @param password
-     * @return
+     * @return l'utente se le credenziali sono corrette
      */
     public Optional<Utente> login(String email, String password) {
         Optional<BufferedReader> optionalBufferedReader = Gestione_db.getTable(tableName);
@@ -66,7 +66,7 @@ public class ControllerUtente {
      * Funzione per eliminare un utente
      *
      * @param IDutente
-     * @return
+     * @return conferma
      */
     public String deleteUtenteByID(String IDutente) {
         return Gestione_db.deleteRow(IDutente, tableName);
@@ -76,7 +76,7 @@ public class ControllerUtente {
      * Funzione per modificare un utente
      *
      * @param utenteModificato
-     * @return
+     * @return conferma
      */
     public String modifyUtente(Utente utenteModificato) {
         return Gestione_db.modifyRow(utenteModificato.getId(), tableName, utenteModificato.toString());
@@ -86,7 +86,7 @@ public class ControllerUtente {
      * Funzione per verificare se un'email è già presente nel database
      *
      * @param email
-     * @return
+     * @return true se l'email non è presente, false se l'email è gia presente
      */
     public boolean checkEmail(String email) {
         Optional<BufferedReader> optionalBufferedReader = Gestione_db.getTable(tableName);
@@ -107,7 +107,7 @@ public class ControllerUtente {
      * Funzione che restituisce tutti gli amministratori e dipendenti, eccetto l'amministratore passato a parametro.
      *
      * @param idAdmin
-     * @return
+     * @return una collezione di utenti contenenti tutti gli admin e dipendenti
      */
     public Collection<Utente> getAllStaff(String idAdmin) {
         Optional<BufferedReader> optionalBufferedReader = Gestione_db.getTable(tableName);

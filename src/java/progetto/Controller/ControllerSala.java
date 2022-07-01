@@ -20,7 +20,7 @@ public class ControllerSala {
      * Funzione che preso in input un id sala restituisce un Sala
      *
      * @param IDsala id della sala che ci interessa
-     * @return la sala desiderata
+     * @return la sala desiderata se presente
      */
 
     public Optional<Sala> getSalaByID(String IDsala) {
