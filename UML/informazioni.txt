@@ -1,4 +1,4 @@
-Il csv (database) sarà suddiviso in questo modo:
+Il csv (database) verrà suddiviso nel seguente modo:
 
 --------------------------------------------------------------------------------------------
 Utente:
