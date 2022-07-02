@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="cxbANUG6k-n2ug4AA44Y" name="Page-1">
-        <mxGraphModel dx="2824" dy="1821" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="2528" dy="1700" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -399,9 +399,6 @@
                 </mxCell>
                 <mxCell id="284" value="+ toStringList( ) return List" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="242" vertex="1">
                     <mxGeometry y="183" width="320" height="20" as="geometry"/>
-                </mxCell>
-                <mxCell id="307" value="&lt;h1&gt;TableName:&lt;/h1&gt;&lt;p&gt;nome della tabella nel database (csv) in cui verrà fatta la query&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" parent="1" vertex="1">
-                    <mxGeometry x="-1240" y="-80" width="190" height="120" as="geometry"/>
                 </mxCell>
                 <mxCell id="311" value="&lt;h1&gt;Model&lt;/h1&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="-970" y="-640" width="110" height="50" as="geometry"/>
